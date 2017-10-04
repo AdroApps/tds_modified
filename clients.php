@@ -1,9 +1,9 @@
 <?php
 include_once "conn.php";
 include_once "header.php";
-if($_SESSION['role_id']=='1')
+if($_SESSION['role_id']==SUPERADMIN)
 $user_sql = "SELECT * FROM `user_info` WHERE `created_by` = '".$_SESSION['role_id']."' ";
-else	
+elseif($_SESSION['role_id']==AUDITOR)
 $user_sql = "SELECT * FROM `user_info` WHERE `created_by` = '".$_SESSION['user_id']."' ";
 $user_data = mysqli_query($conn , $user_sql);
 
