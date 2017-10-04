@@ -44,7 +44,7 @@ $user_data = mysqli_query($conn , $user_sql);
 						<input type="text" class ="form-control" id="name" name="name" required Placeholder="Enter name">
 						</div>
 						
-						<input type="submit" name="submit" value="submit" class="btn btn-md btnbg btn-success">
+						<input type="submit" name="submit" value="submit" class="btn btn-md btnbg btn-success newbtn">
 
 					</form>
 </div>
@@ -143,8 +143,8 @@ $user_data = mysqli_query($conn , $user_sql);
 						<input type="text" class ="form-control" id="edit-pname" name="name" required Placeholder="Enter name">
 						</div>
 						
-						<input type="button" name="submit" value="submit" id="edit-submit" class="btn btn-md btn-success btnbg">
-						<input type="button" class="btn btn-md btn-default btnbg" name="cancel" value="Cancel" data-dismiss="modal">
+						<input type="button" name="submit" value="submit" id="edit-submit" class="btn btn-md btn-success btnbg newbtn">
+						<input type="button" class="btn btn-md btn-default btnbg newbtn" name="cancel" value="Cancel" data-dismiss="modal">
             
 					</form>
 </div>
@@ -158,7 +158,7 @@ $user_data = mysqli_query($conn , $user_sql);
 <script>
 $( document ).ready(function() {
 
-	$('#buttonplace').html('<button type="New" class="btn btn-xs btnbg btncls btn-default" data-toggle="modal" data-target="#myModal">New Auditor</button>');
+	$('#buttonplace').html('<button type="New" class="btn btn-xs btnbg btncls btn-default" data-toggle="modal" data-target="#myModal">New Client</button>');
 
 });
  function setStatus(val,id){

@@ -211,7 +211,7 @@ background:white!important;
 	padding-bottom:0!important;
 }
 .table-fixed thead {
-  width: 99%;
+  width: 100%;
 }
 .table-fixed tbody {
 height: 445px;

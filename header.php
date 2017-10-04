@@ -1,6 +1,12 @@
 <?php
 include_once "conn.php";
-
+define ('SUPERADMIN' , '1');
+define ('AUDITOR' , '2');
+define ('CLIENT' , '3');
+define ('AUTHOR' , '4');
+define ('AGENT' , '5');
+define('STATUS_SUCCESS','1');
+define('STATUS_FAILURE','0');
 function active($currect_page){
   $url_array =  explode('/', $_SERVER['REQUEST_URI']) ;
   $url = end($url_array);  
@@ -58,16 +64,16 @@ var url = "http://localhost/tds_mod/api/";
 <div class="navbar navbar-inverse navbar-static-top" role="navigation">	
 
 	<ul class="nav navbar-nav navbar-nav-material">
-				<?php if($_SESSION['role_id']==1){?>
+				<?php if($_SESSION['role_id']==SUPERADMIN){?>
 					<li class="<?php active('users.php');?>"><a href="users.php"><i class="icon-puzzle4 position-left"></i> USERS</a></li>
 				<?php }?>
-					<?php if($_SESSION['role_id']==2){?>
-					<li class="<?php active('usertable.php');?>"><a href="usertable.php"><i class="icon-puzzle4 position-left"></i>Clients</a></li>
+					<?php if($_SESSION['role_id']==AUDITOR){?>
+					<li class="<?php active('clients.php');?>"><a href="clients.php"><i class="icon-puzzle4 position-left"></i>Clients</a></li>
 				<li class="<?php active('adminaddemployee.php');?>"><a href="adminaddemployee.php"><i class="icon-puzzle4 position-left"></i>Employees</a></li>
 				
 				<li class="<?php active('internal_user.php');?>"><a href="internal_user.php"><i class="icon-puzzle4 position-left"></i>INTERNAL USERS</a></li>
 				<?php }?>
-				<?php if($_SESSION['role_id']==3){?>
+				<?php if($_SESSION['role_id']==CLIENT){?>
 					<li class="<?php active('usertable.php');?>"><a href="usertable.php"><i class="icon-puzzle4 position-left"></i>Clients</a></li>
 				<li class="<?php active('adminaddemployee.php');?>"><a href="adminaddemployee.php"><i class="icon-puzzle4 position-left"></i>Employees</a></li>
 				
