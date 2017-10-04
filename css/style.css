@@ -1,0 +1,227 @@
+/*table responsive*/
+body {
+  padding-top: 50px;
+}
+/*
+.navbar {
+  height: 50px;
+  padding: 0 15px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 1;
+}
+
+.navbar a {
+  color: white;
+  line-height: 3em;
+}*/
+/*
+.table-area {
+  position: relative;
+  z-index: 0;
+  margin-top: 50px;
+}
+
+table.responsive-table {
+  display: table;
+  /* required for table-layout to be used (not normally necessary; included for completeness) */
+   /*  table-layout: fixed;
+this keeps your columns with fixed with exactly the right width */
+  /* width: 100%;
+  table must have width set for fixed layout to work as expected 
+  height: 100%;
+}
+
+table.responsive-table thead {
+  position: fixed;
+  top: 50px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 50px;
+  line-height: 3em;
+  background: #eee;
+  table-layout: fixed;
+  display: table;
+}
+
+table.responsive-table th {
+  background: #eee;
+}
+
+table.responsive-table td {
+  line-height: 2em;
+}
+
+table.responsive-table tr > td,
+table.responsive-table th {
+  text-align: left;
+}
+.btn.btn-xs.btn-default{
+	margin-left: 95%;
+    margin-bottom: 8px;
+    background-color: white;
+ }
+.btn.btn-sm.btn-default{
+	background-color: white;
+	color:black;
+ }
+.navbar-default .navbar-nav > .active > a:after{
+		margin-bottom : 6px;
+}*/
+
+.btn.btn-xs.btn-default{
+ margin-bottom: 8px;
+    background-color: white;
+    margin-top: 5px;
+    float: right;
+    background: lightgrey;
+ }
+.btn.btn-sm.btn-default{
+ background-color: white;
+ color:black;
+ }
+.navbar-default .navbar-nav > .active > a:after{
+  margin-bottom : 6px;
+}
+.newtable{min-height: 460px!important;overflow-y: scroll;overflow-x: hidden!important;}
+.noscroll{overflow-x: hidden!important;}
+.newpanel{margin: 4px 2%;margin-top:2%;}
+.newpanel h3{padding-top:1%}
+.btncls,.btncls:hover{
+       background-color: #273246!important;
+    right: 0px;
+    top: 35%;
+    border-radius: 5px!important;
+    right: 2%;
+    background: #273246;
+    color: white!important;
+    text-transform: uppercase!important;
+    margin-top: -3%!important;
+    padding: 4px 18px!important;
+}
+.btnbg,.btnbg:hover, .btn-md,.btn-md:hover{
+    border-color: #273246!important;
+	color: white!important;
+}
+span.glyphicon,span.glyphicon:hover,span.glyphicon:focus{    border-color: white!important;
+    color: #273246!important;
+    background-color: white!important;
+    font-size: 20px;
+    margin-top: -13px;background:none!important;
+}	
+.newbtn{border-color: #273246!important;background: #273246!important;
+	color: white!important;
+}
+a.btnbg {
+  color:#f5f5f5;
+  text-decoration: none;
+}
+a.btnbg:hover,
+a:focus.btnbg {
+  color:#f5f5f5;
+  text-decoration: none;
+}
+.dataTables_filter ,.dataTables_length{
+display: none!important; 
+}
+#user_data th{
+padding-left: 10px!important;
+    padding-right: 0px!important;    width: 9%!important;
+}
+.sorting, .sorting_asc, .sorting_desc {
+    background : none;
+}
+table.dataTable thead .sorting, 
+table.dataTable thead .sorting_asc, 
+table.dataTable thead .sorting_desc {
+    background : none;
+}.DataTables_sort_icon { display:none;}
+  .dataTable > thead > tr > th[class*="sort"]::after{display: none}table.dataTable thead .sorting:after,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_desc:after {
+    display: none!important;
+}.dataTable > thead > tr > th[class*=sort]:after{
+    display:none;
+}
+.dataTable > thead > tr > th[class*=sort]:before{
+    display:none;
+}
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus,#insert{
+	color:white!important;
+	background:#273246!important;
+}
+.pagination{ margin-top: 8%!important;
+}
+#user_data_info{
+    color: #273246!important;
+    font-weight: bold;
+    margin-left: 4%;
+    margin-top: 5%;
+}
+th{text-transform:uppercase;color: #273246!important;padding:12px 8px!important;text-align:center!important;}
+#user_data tr{text-align:center!important;padding:12px 8px!important;}
+.newt{
+padding:0px!important;
+}
+.navbar-default {
+    background-color: #273246!important;
+    border-color: #273246!important;
+}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus{
+color:white!important;
+font-size: 14px;
+    text-transform: uppercase;
+
+}
+.navbar-default .navbar-nav > .active > a:after {
+    background-color: white!important;
+}
+.navbar-inverse .navbar-nav > .active > a:after {
+     background-color: #273246!important;
+}
+.navbar-default .navbar-nav > .active > a:after {
+    margin-bottom: 1px!important;
+}
+body{
+background:#eeeded;
+}
+.navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus,.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus,.navbar-inverse .navbar-nav > li > a{
+	color: #273246!important;
+}
+.navbar-static-top{
+color: #273246!important;
+background-color: white!important;
+}
+.navbar-fixed-top{
+ background-color: #273246!important;
+ color: white!important;
+}
+.navbar-brand{
+	    margin-left: 12px!important;
+    color: white!important;
+    font-size: 17px;
+    text-transform: uppercase;
+}
+.navbar-inverse > .navbar-nav > li > a:not(.collapsed),.navbar-inverse .navbar-collapse{
+background:white!important;
+}.table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td
+{
+	padding-bottom:0!important;
+}
+.table-fixed thead {
+  width: 99%;
+}
+.table-fixed tbody {
+height: 445px;
+    overflow-y: auto;
+    width: 100%;
+}
+.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
+  display: block;
+}
+.table-fixed tbody td, .table-fixed thead > tr> th {
+  float: left;
+  border-bottom-width: 0;
+}
