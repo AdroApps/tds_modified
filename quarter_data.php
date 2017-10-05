@@ -3,89 +3,20 @@
 <?php
 include_once "conn.php";
 include_once "header.php";
-$id = $_SESSION['id'];
-
-
-
-if(isset($_POST['submit'])) {
-	$qsql = "SELECT * FROM `clienttable` WHERE `quarter`='".$_POST['quarter']."'  and year='".$_POST['year']."' and organization='".$_SESSION['org']."'";
-    $qdata= mysqli_query($conn , $qsql);
-if( mysqli_num_rows($qdata)<=0){
-	
-	$organization = $_POST['organization'];
-	$tan = $_POST['tan'];
-	$year = $_POST['year'];
-	$quarter = $_POST['quarter'];
-	$status = $_POST['status'];
-	$pname= $_POST['personname'];
-	$mail = $_POST['email'];
-	$number = $_POST['phonenumber'];
-	$service = $_POST['service'];
-	$date = date("Y/m/d");
-	$sql = "INSERT INTO `clienttable`(`organization` , `tan` , `year` , `quarter` , `status` ,
-	  `pname` , `email` , `number` , `service` ,`date`) VALUES ('".$organization."' , '".$tan."' ,
-	   '".$year."' , '".$quarter."' , '".$status."' , '".$pname."' , '".$mail."' , '".$number."' ,
-	    '".$service."' , '".$date."' )";
-	
-	$data = mysqli_query($conn,$sql);
-	
-	if($data)  {
-		
-	header('location :clienttable.php') ;
-	}	
-	else {
-		echo "not moved".mysqli_error($conn);
-	}
-}
-else{
-echo '<script language="javascript">';
-echo 'alert("Same year and same Quarter Information Exists")';
-echo '</script>';
-
-}
-}
-
-$sql2 = "SELECT * FROM `usercreate` WHERE `email` = '".$_SESSION['e']."' ";
-$data2 = mysqli_query($conn , $sql2);
-
-$sql1 = "SELECT * FROM `clienttable` WHERE `email`='".$_SESSION['e']."' ";
-
-$data1 = mysqli_query($conn,$sql1);
-
-	while($row = mysqli_fetch_assoc($data2)) {
-		$organization  = $row['organization'];
-		$mail = $row['email'];
-		$password = $row['password'];
-		$pname = $row['pname'];
-		$number  = $row['number'];
-		$tan = $row['tan'];
-		$city = $row['city'];
-		$area = $row['area'];
-		$service = $row['service'];
-}
 ?>
-
-<!--page header-->
-	
-<!--page header-->
 <!--Client Table-->
 <div class="panel panel-flat panelflat newpanel">
-<div class="table-responsive pre-scrollable " style="min-height:506px;" >
-     
- <table class="table table-hover table-condensed" id="target">
+<div class="table-responsive" >
+	<table class="table table-fixed">
+	<thead>
 	<tr>
 				
-				<th width="14%">Organization Name</th>
-				<th width="7%">Tan</th>
-				<th width="11%">Financial Year</th>
-				<th width="8%">Quarter</th>
-				<th width="7%">Status</th>
-				<th width="16%">Authorised Person Name</th>
-				<th width="15%">Email</th>
-				<th width="9%">PhoneNumber</th>
-				<th width="10%">Date</th>
-				<th width="5%">Edit</th>
-				<th width="5%">Delete</th>
+				<th class="col-xs-2">Financial Year</th>
+				<th class="col-xs-2">Quarter</th>
+				<th class="col-xs-2">Status</th>
+				<th class="col-xs-2">Date</th>
+				<th class="col-xs-2">Edit</th>
+				<th class="col-xs-2">Delete</th>
 			</tr>	
 <?php if( mysqli_num_rows($data1)<=0){
 	
@@ -96,31 +27,18 @@ $data1 = mysqli_query($conn,$sql1);
 			<?php	while($row = mysqli_fetch_array($data1)){
 				
 					echo "<tr align='center' id=".$row[0].">
-					
-					<td width='17%' class='edit-org'><a href='clientdetails.php?clientdetails=$row[0]'>".$row[1]."</a></td>";
+					<td class='edit-year col-xs-2'>".$row[3]."</td>";
 					echo
-					"<td width='10%' class='edit-tan'>".$row[2]."</td>";
+					"<td class='edit-quarter col-xs-2'>".$row[4]."</td>";
 					echo
-					"<td width='13%' class='edit-year'>".$row[3]."</td>";
-					echo
-					"<td width='8%' class='edit-quarter'>".$row[4]."</td>";
-					echo
-					"<td width='12%'>".$row[5]."</td>";
-					echo
-					"<td width='12%' class='edit-pname'>".$row[6]."</td>";
-					echo
-					"<td width='15%' class='edit-mail'>".$row[7]."</td>";
-					echo
-					"<td width='9%' class='edit-number'>".$row[8]."</td>";
-					echo
-					"<td width='10%'>".$row[9]."</td>";
+					"<td class='col-xs-2'>".$row[5]."</td>";
 					echo"
-					<td width='5%'>
+					<td class='col-xs-2'>
 						<a  data-toggle='modal' data-target='#myEditModal' class='edit_category btn btn-xs btnbg'>
 							<span class='glyphicon glyphicon-edit'></span>
 						</a>
 					</td>
-					<td width='5%'>
+					<td class='col-xs-2'>
 						<a id='$row[0]' class='btn btn-xs btnbg remove-item'>
 							<span class='glyphicon glyphicon-trash'></span>
 						</a>
@@ -149,24 +67,26 @@ $data1 = mysqli_query($conn,$sql1);
         <h4 class="modal-title">NEW ENTRY</h4>
       </div>
       <div class="modal-body">
-        <form action="" method="POST">
-
-		<div class="form-group">
-				<input type="text" class="form-control" id="org" name="organization" value = "<?php echo $organization; ?>" Placeholder="Enter Organization Name" required>
-			</div>
-			<div class="form-group">
-				<input type="text" class ="form-control" id="tan" name="tan" value = "<?php echo $tan; ?>"  Placeholder="Enter Tan" required>
-			</div>
-			<div class="form-group">
+        <form action="" method="POST" id="quarterdata">
+			<div class="form-group col-md-6">
 				<select id="year" name="year" class="form-control" required>
 					<option>Select Financial Year</option>
 					<option>2017-2018</option>
-					<option>2016-2017</option>
-					<option>2015-2016</option>
-					<option>2014-2015</option>
+					<option>2018-2019</option>
+					<option>2019-2020</option>
+					<option>2020-2021</option>
+					<option>2021-2022</option>
+					<option>2022-2023</option>
+					<option>2023-2024</option>
+					<option>2024-2025</option>
+					<option>2025-2026</option>
+					<option>2026-2027</option>
+					<option>2027-2028</option>
+					<option>2028-2029</option>
+					<option>2029-2030</option>
 				</select>
 			</div>
-			<div class="form-group">
+			<div class="form-group col-md-6">
 				<select  id="quarter" name="quarter" class="form-control" required>
 					<option>Select Quarter</option>
 					<option>Q1</option>
@@ -175,25 +95,10 @@ $data1 = mysqli_query($conn,$sql1);
 					<option>Q4</option>
 				</select>
 			</div>
-			<div class="form-group">
-				<input type="text" class="form-control" id="pname" name="personname" value="<?php echo $pname;?>" Placeholder="Enter Authorised Person Name" required>
-			</div>
-			<div class="form-group">
-				<input type="text" class="form-control" id="mail" name="email" value="<?php echo $mail;?>" Placeholder="Enter Your Email" required>
-			</div>
-			<div class="form-group">
-				<input type="text" class="form-control" id="number" name="phonenumber" value="<?php echo $number;?>" Placeholder="Enter Your Phonenumber" required>
-			</div>
-			<div class="form-group">
-				<input type="number" class="form-control" id="service" name="service" value="<?php echo $service;?>" Placeholder="Enter Service Charges" required>
-			</div>
-			<div class="form-group">
-			<input type="submit" name="submit" value="submit" class="btn btn-md btn-primary btnbg">
 			
-			<input type="button" class="btn btn-md btn-default btnbg" name="cancel" value="Cancel" data-dismiss="modal">
-             </div> 
-			<div class="form-group">
-			</div>
+			<input type="submit" name="submit" value="submit" class="btn btn-md btn-primary btnbg newbtn">
+			
+			<input type="button" class="btn btn-md btn-default btnbg newbtn" name="cancel" value="Cancel" data-dismiss="modal">
 		</form>
 </div>
 	<!--/modal content-->
@@ -215,22 +120,25 @@ $data1 = mysqli_query($conn,$sql1);
       <div class="modal-body">
         <form action="" method="POST">
 <input type="hidden" id="edit-id"/>
-		<div class="form-group">
-				<input type="text" class="form-control" id="edit-org" name="organization" value = "<?php echo $organization; ?>" Placeholder="Enter Organization Name" required>
-			</div>
-			<div class="form-group">
-				<input type="text" class ="form-control" id="edit-tan" name="tan"  Placeholder="Enter Tan" required>
-			</div>
-			<div class="form-group">
+			<div class="form-group col-md-6">
 				<select id="edit-year" name="year" class="form-control"required>
-					<option>----Financial Year----</option>
+					<option>Select Financial Year</option>
 					<option>2017-2018</option>
-					<option>2016-2017</option>
-					<option>2015-2016</option>
-					<option>2014-2015</option>
+					<option>2018-2019</option>
+					<option>2019-2020</option>
+					<option>2020-2021</option>
+					<option>2021-2022</option>
+					<option>2022-2023</option>
+					<option>2023-2024</option>
+					<option>2024-2025</option>
+					<option>2025-2026</option>
+					<option>2026-2027</option>
+					<option>2027-2028</option>
+					<option>2028-2029</option>
+					<option>2029-2030</option>
 				</select>
 			</div>
-			<div class="form-group">
+			<div class="form-group col-md-6">
 				<select  id="edit-quarter" name="quarter" class="form-control">
 					<option>--------Quarter---------</option>
 					<option>Q1</option>
@@ -239,22 +147,11 @@ $data1 = mysqli_query($conn,$sql1);
 					<option>Q4</option>
 				</select>
 			</div>
-			<div class="form-group">
-				<input type="text" class="form-control" id="edit-pname" name="personname" value="<?php echo $pname;?>" Placeholder="Enter Authorised Person Name" required>
-			</div>
-			<div class="form-group">
-				<input type="text" class="form-control" id="edit-mail" name="email" value="<?php echo $mail;?>" Placeholder="Enter Your Email" required>
-			</div>
-			<div class="form-group">
-				<input type="text" class="form-control" id="edit-number" name="phonenumber" value="<?php echo $number;?>" Placeholder="Enter Your Phonenumber" maxlength="10" required>
-			</div>
-			<div class="form-group">
-			<input type="button" name="submit" value="submit" id="edit-submit" class="btn btn-md btn-primary btnbg">
+			<input type="button" name="submit" value="submit" id="edit-submit" class="btn btn-md btn-primary btnbg newbtn">
 			
-			<input type="button" class="btn btn-md btn-default btnbg" name="cancel" value="Cancel" data-dismiss="modal">
+			<input type="button" class="btn btn-md btn-default btnbg newbtn" name="cancel" value="Cancel" data-dismiss="modal">
              </div> 
-			<div class="form-group">
-			</div>
+			
 		</form>
 </div>
 
@@ -271,21 +168,36 @@ $( document ).ready(function() {
 	$('#buttonplace').html('<button type="New" class="btn btn-xs btncls  btn-default" data-toggle="modal" data-target="#myModal">New</button>');
     console.log( "ready!" );
 });
+$( "#quarterdata" ).submit(function( event ) {
+	
+  event.preventDefault();
+    var year=$('#year').val();
+       var quarter= $('#quarter').val();
+	 else{
+	
+			$.ajax({
+        dataType: 'json',
+        type:'POST',
+        url: url+'getQuarterData.php',
+        data:{year:year,quarter:quarter,type:'insert'}
+    }).done(function(data){       
+        alert('Record Updated Successfully.');
+		$('#myModal').modal('hide');
+		location.reload();
+	
+
+       });
+}
+	   });
 $("body").on("click","#edit-submit",function(){ 
 		var year=$('#edit-year').val();
-       var number= $('#edit-number').val();
-		 var mail=$('#edit-mail').val();
-        var pname=$('#edit-pname').val();
-		var id=$('#edit-id').val();
-        var tan=$('#edit-tan').val();
-		
-        var quarter=$('#edit-quarter').val();
-
+       var quarter= $('#edit-quarter').val();
+		 var id=$('#edit-id').val();
 		$.ajax({
         dataType: 'json',
         type:'POST',
-        url: url+'cedit.php',
-        data:{id:id,pname:pname,tan:tan,quarter:quarter,year:year,no:number,mail:mail}
+        url: url+'getQuarterData.php',
+        data:{id:id,quarter:quarter,year:year,type:'update'}
     }).done(function(data){       
         alert('Record Updated Successfully.');
 		$('#myEditModal').modal('hide');
@@ -296,22 +208,11 @@ $("body").on("click","#edit-submit",function(){
  $("body").on("click",".edit_category",function(){
        $tr = $(this).closest('tr');
 	   var id=$tr.attr('id');
-	   var org =  $('.edit-org', $tr).text();
-	   var tan = $('.edit-tan' , $tr).text();
-	   var quarter =  $('.edit-quarter', $tr).text();
-	   var pname = $('.edit-pname' , $tr).text();
-	   var mail =  $('.edit-mail', $tr).text();
-	   var number = $('.edit-number' , $tr).text();
 	   var year =  $('.edit-year', $tr).text();
-
+	   var quarter =  $('.edit-quarter', $tr).text();
+	   
 		$('#edit-id').val(id);
         $('#edit-year').val(year);
-        $('#edit-number').val(number);
-		 $('#edit-mail').val(mail);
-        $('#edit-pname').val(pname);
-		 $('#edit-org').val(org);
-        $('#edit-tan').val(tan);
-		 $('#edit-org').val(org);
         $('#edit-quarter').val(quarter);
 	  });
 $("body").on("click",".remove-item",function(){
@@ -323,7 +224,7 @@ $("body").on("click",".remove-item",function(){
     $.ajax({
         dataType: 'json',
         type:'POST',
-        url: url+'cdelete.php',
+        url: url+'getQuarterData.php',
         data:{id:id}
     }).done(function(data){
         c_obj.remove();
@@ -353,17 +254,5 @@ $("body").on("click",".remove-item",function(){
     });
 
 	});
-$( document ).ready(function() {
-    console.log( "ready!" );
-
-$( ".newtable" ).scroll(function() {
-	console.log('success');
- /* $('#target tr:first').css('position','sticky');
-  $('#target tr').css('z-index','-1');
-  $('#target tr:first').css('height','25px');
-  $('#target tr:first').css('z-index','9999');
-$('#target tr:first').css('width','95%');*/
-});
-});
 
 </script>
