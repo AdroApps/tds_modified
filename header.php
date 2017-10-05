@@ -19,7 +19,7 @@ function active($currect_page){
 <html>
 <head>
 <script>
-var url = "http://localhost/tds_mod/api/";
+var url = "http://localhost/tds_modified/api/";
 </script>
 <style>body {
   padding-top: 50px;
@@ -69,15 +69,13 @@ var url = "http://localhost/tds_mod/api/";
 				<?php }?>
 					<?php if($_SESSION['role_id']==AUDITOR){?>
 					<li class="<?php active('clients.php');?>"><a href="clients.php"><i class="icon-puzzle4 position-left"></i>Clients</a></li>
-				<li class="<?php active('adminaddemployee.php');?>"><a href="adminaddemployee.php"><i class="icon-puzzle4 position-left"></i>Employees</a></li>
+				<li class="<?php active('client_employees.php');?>"><a href="client_employees.php"><i class="icon-puzzle4 position-left"></i>Employees</a></li>
 				
-				<li class="<?php active('internal_user.php');?>"><a href="internal_user.php"><i class="icon-puzzle4 position-left"></i>INTERNAL USERS</a></li>
+				<li class="<?php active('internal_users.php');?>"><a href="internal_users.php"><i class="icon-puzzle4 position-left"></i>INTERNAL USERS</a></li>
 				<?php }?>
 				<?php if($_SESSION['role_id']==CLIENT){?>
-					<li class="<?php active('usertable.php');?>"><a href="usertable.php"><i class="icon-puzzle4 position-left"></i>Clients</a></li>
+					<li class="<?php active('quarter_data.php');?>"><a href="quarter_data.php"><i class="icon-puzzle4 position-left"></i>TDS</a></li>
 				<li class="<?php active('adminaddemployee.php');?>"><a href="adminaddemployee.php"><i class="icon-puzzle4 position-left"></i>Employees</a></li>
-				
-				<li class="<?php active('internal_user.php');?>"><a href="internal_user.php"><i class="icon-puzzle4 position-left"></i>INTERNAL USERS</a></li>
 				<?php }?>
 				
 			</ul>

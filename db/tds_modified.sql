@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 04, 2017 at 07:13 AM
+-- Generation Time: Oct 05, 2017 at 06:21 AM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -64,9 +64,16 @@ CREATE TABLE `client_info` (
   `client_name` varchar(255) NOT NULL,
   `city` varchar(255) NOT NULL,
   `area` varchar(255) NOT NULL,
-  `service_changes` varchar(255) NOT NULL,
+  `service_charges` varchar(255) NOT NULL,
   `created_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `client_info`
+--
+
+INSERT INTO `client_info` (`client_info_id`, `client_id`, `auditor_id`, `tan`, `client_name`, `city`, `area`, `service_charges`, `created_date`) VALUES
+(3, 48, 24, '1248451515', 'TCS', 'Hyderabadi', 'Vidyanagar', '650', '2017-10-05 06:12:36');
 
 -- --------------------------------------------------------
 
@@ -180,8 +187,9 @@ INSERT INTO `user_info` (`userid`, `username`, `password`, `emailId`, `phone_num
 (1, 'superadmin', '186cf774c97b60a1c106ef718d10970a6a06e06bef89553d9ae65d938a886eae', 'superadmin@gmail.com', 1234567890, '', 1, 0, '2017-10-02 13:11:06', 1),
 (21, 'sruthi', 'f806dda5b31703a5e05a5f27ea0f5d168ccb16de3fde30db761aa2e39cff0e2e', 'sruthii@gmail.com', 1234567890, 'sruthi', 2, 1, '2017-10-03 02:53:40', 1),
 (23, 'srsa', 'cc8844298c08e2fb7ba75080b9fad6fbd23d63bf3534c713e87ad87cee8f5b57', 'sr@gmail.com', 2147483647, 'sr', 2, 1, '2017-10-04 12:34:53', 1),
-(24, 'test', '3de740d12dc67b5b1db699424c130847782ce422cdaa4e7c33a5de0ad9de5f66', 'test@gmail.com', 1298979787, 'test', 2, 1, '2017-10-04 12:53:26', 1),
-(25, 'test1', '1b4f0e9851971998e732078544c96b36c3d01cedf7caa332359d6f1d83567014', 'test1@gmail.com', 2147483647, 'sruthi', 2, 1, '2017-10-04 12:54:54', 1);
+(24, 'test', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08', 'test@gmail.com', 1298979787, 'test', 2, 1, '2017-10-04 12:53:26', 1),
+(25, 'test1', '1b4f0e9851971998e732078544c96b36c3d01cedf7caa332359d6f1d83567014', 'test1@gmail.com', 2147483647, 'sruthi', 2, 1, '2017-10-04 12:54:54', 1),
+(48, 'tcs', '06b5472c16feae4ceaadcf836ff6fc198328b7d8a1ebf2b4c93f68003b2e0500', 'tcs@gmail.com', 1234567891, 'TCS', 3, 24, '2017-10-05 06:00:10', 1);
 
 --
 -- Indexes for dumped tables
@@ -260,7 +268,7 @@ ALTER TABLE `client_employees`
 -- AUTO_INCREMENT for table `client_info`
 --
 ALTER TABLE `client_info`
-  MODIFY `client_info_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `client_info_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `notifications`
 --
@@ -280,7 +288,7 @@ ALTER TABLE `tds_info`
 -- AUTO_INCREMENT for table `user_info`
 --
 ALTER TABLE `user_info`
-  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 --
 -- Constraints for dumped tables
 --

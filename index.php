@@ -35,6 +35,8 @@ if(isset($_POST['sub'])){
 			   header('Location:users.php');
 		   if($_SESSION['role_id']==AUDITOR)
 			   header('Location:clients.php');
+		   if($_SESSION['role_id']==CLIENT)
+			   header('Location:quarter_data.php');
 			
 		}
 		else{

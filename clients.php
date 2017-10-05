@@ -4,7 +4,9 @@ include_once "header.php";
 if($_SESSION['role_id']==SUPERADMIN)
 $user_sql = "SELECT * FROM `user_info` WHERE `created_by` = '".$_SESSION['role_id']."' ";
 elseif($_SESSION['role_id']==AUDITOR)
-$user_sql = "SELECT * FROM `user_info` WHERE `created_by` = '".$_SESSION['user_id']."' ";
+$user_sql = "SELECT u.*,c.* FROM user_info u, client_info c WHERE u.userid= c.client_id and u.created_by = '".$_SESSION['user_id']."' ";
+
+//echo $user_sql;exit;
 $user_data = mysqli_query($conn , $user_sql);
 
 
@@ -26,24 +28,35 @@ $user_data = mysqli_query($conn , $user_sql);
         <h4 class="modal-title">NEW ENTRY</h4>
       </div>
       <div class="modal-body">
-        <form action ="" method="POST" id="userinfo">
-						<div class="form-group">
+        <form action ="" method="POST" id="clientinfo">
+			            <div class="form-group  col-md-6">
 						<input type = "text" class="form-control" id ="username" name="username" required placeholder = "Enter User Name">
 						</div>
-						<div class="form-group">
+						<div class="form-group  col-md-6">
 						<input type = "email" class="form-control" id ="email" name="email" required placeholder = "Enter Email">
 						</div>
-						<div class="form-group">
+						<div class="form-group  col-md-6">
 						<input type = "password" class="form-control" id ="password" name="password" required placeholder = "Enter Password">
 						</div>
-						
-						<div class="form-group">
+						<div class="form-group col-md-6">
+						<input type = "text" class="form-control" id ="clientname" name="clientname" required placeholder = "Enter Client Name">
+						</div>
+						<div class="form-group col-md-6">
 						<input type = "text" class="form-control" id ="number" pattern="\d*" required maxlength="10" name="phonenumber" placeholder = "Enter Phonenumber">
 						</div>
-						<div class="form-group">
-						<input type="text" class ="form-control" id="name" name="name" required Placeholder="Enter name">
+						<div class="form-group col-md-6">
+						<input type = "text" class="form-control" id ="tan" name="tan" required pattern="\d*" required maxlength="10" placeholder = "Enter Tan Number">
 						</div>
-						
+						<div class="form-group col-md-6">
+						<input type = "text" class="form-control" id ="city" name="city" required placeholder = "Enter City">
+						</div>
+						<div class="form-group col-md-6">
+						<input type = "text" class="form-control" id ="area" name="area" required placeholder = "Enter Area">
+						</div>
+						<div class="form-group col-md-6">
+						<input type = "text" class="form-control" id ="service_charges" name="service_charges" required placeholder = "Enter Service Charges">
+						</div>
+						 <div class="clearfix"></div>
 						<input type="submit" name="submit" value="submit" class="btn btn-md btnbg btn-success newbtn">
 
 					</form>
@@ -59,10 +72,12 @@ $user_data = mysqli_query($conn , $user_sql);
 		<thead>
 			<tr>
 				
-				<th  class="col-xs-2"> Name</th>
-				<th  class="col-xs-2">Email</th>
+				<th  class="col-xs-2">Client Name</th>
+				<th  class="col-xs-1">Email Id</th>
 				<th  class="col-xs-2">Phone Number</th>
-				<th  class="col-xs-2">Status</th>				
+				<th  class="col-xs-1">Tan</th>
+				<th  class="col-xs-1">city</th>
+				<th  class="col-xs-1">Status</th>				
 				<th  class="col-xs-2">Date</th>
 				<th class="col-xs-1">Edit</th>
 				<th class="col-xs-1">Delete</th>
@@ -73,19 +88,26 @@ $user_data = mysqli_query($conn , $user_sql);
 			<?php
 			
 			while($row=mysqli_fetch_array($user_data)){
-
 				echo "<tr id=".$row[0]." align='center'>
-				<td class='edit-orgname col-xs-2'>".$row[1]."</a></td>";
+				<td class='edit-orgname col-xs-2'>".$row[14]."</a></td>";
 				echo
-				"<td class='edit-mail col-xs-2'>".$row[3]."</td>";
+				"<td class='edit-mail col-xs-1'>".$row[3]."</td>";
 				echo "<input type='hidden' value='$row[1]' class='edit-uname$row[0]'/>";
+					echo "<input type='hidden' value='$row[16]' class='edit-area$row[0]'/>";
+					echo "<input type='hidden' value='$row[17]' class='edit-service$row[0]'/>";
 				echo
 				"<td class='edit-number col-xs-2'>".$row[4]."</td>";
+				echo
+				"<td class='edit-tan col-xs-1'>".$row[13]."</td>";
+				echo
+				"<td class='edit-city col-xs-1'>".$row[15]."</td>";
+				//echo
+				//"<td class='edit-area col-xs-1'>".$row[16]."</td>";
 				if($row[9]=='1')
-				echo "<td class='edit-pname col-xs-2'><input id='checkbox1' type='checkbox' checked='checked' value='".$row[9]."' onChange='setStatus(0,$row[0])'/></td>";
+				echo "<td class='edit-pname col-xs-1'><input id='checkbox1' type='checkbox' checked='checked' value='".$row[9]."' onChange='setStatus(0,$row[0])'/></td>";
 			else
 				
-				echo "<td class='edit-pname col-xs-2'><input id='checkbox1' class='$row[0]' type='checkbox' value='".$row[9]."'  onChange='setStatus(1,$row[0])'/></td>";
+				echo "<td class='edit-pname col-xs-1'><input id='checkbox1' class='$row[0]' type='checkbox' value='".$row[9]."'  onChange='setStatus(1,$row[0])'/></td>";
 				echo
 				"<td class='edit-date col-xs-2'>".$row[8]."</td>";
 				
@@ -126,22 +148,34 @@ $user_data = mysqli_query($conn , $user_sql);
       <div class="modal-body">
         <form action ="" method="POST">
 		<input type="hidden" id="edit-id"/>
-						<div class="form-group">
+						 <div class="form-group  col-md-6">
 						<input type = "text" class="form-control" id ="edit-uname" name="username" required placeholder = "Enter User Name">
 						</div>
-						<div class="form-group">
-						<input type = "email" class="form-control" id ="edit-email" name="email" required placeholder = "Enter Email">
+						<div class="form-group  col-md-6">
+						<input type = "email" class="form-control" id ="edit-mail" name="email" required placeholder = "Enter Email">
 						</div>
-						<div class="form-group">
+						<div class="form-group  col-md-6">
 						<input type = "password" class="form-control" id ="edit-password" name="password" required placeholder = "Enter Password">
 						</div>
-						
-						<div class="form-group">
+						<div class="form-group col-md-6">
+						<input type = "text" class="form-control" id ="edit-orgname" name="clientname" required placeholder = "Enter Client Name">
+						</div>
+						<div class="form-group col-md-6">
 						<input type = "text" class="form-control" id ="edit-number" pattern="\d*" required maxlength="10" name="phonenumber" placeholder = "Enter Phonenumber">
 						</div>
-						<div class="form-group">
-						<input type="text" class ="form-control" id="edit-pname" name="name" required Placeholder="Enter name">
+						<div class="form-group col-md-6">
+						<input type = "text" class="form-control" id ="edit-tan" name="tan" required pattern="\d*" required maxlength="10" placeholder = "Enter Tan Number">
 						</div>
+						<div class="form-group col-md-6">
+						<input type = "text" class="form-control" id ="edit-city" name="city" required placeholder = "Enter City">
+						</div>
+						<div class="form-group col-md-6">
+						<input type = "text" class="form-control" id ="edit-area" name="area" required placeholder = "Enter Area">
+						</div>
+						<div class="form-group col-md-6">
+						<input type = "text" class="form-control" id ="edit-service" name="service_charges" required placeholder = "Enter Service Charges">
+						</div>
+						 <div class="clearfix"></div>
 						
 						<input type="button" name="submit" value="submit" id="edit-submit" class="btn btn-md btn-success btnbg newbtn">
 						<input type="button" class="btn btn-md btn-default btnbg newbtn" name="cancel" value="Cancel" data-dismiss="modal">
@@ -176,8 +210,8 @@ function checkMail(mailid,pno,uname){
 $.ajax({
         dataType: 'json',
         type:'POST',
-        url: url+'getUserData.php',
-        data:{type:'verify',email:mailid,username:uname,phone_no:pno},
+        url: url+'getClientData.php',
+       data:{type:'verify',email:mailid,username:uname,phone_no:pno},
 		success: function(data) {
                 console.log(data);  // this is currently returning FALSE
                                     // Which is totally correct!
@@ -185,25 +219,28 @@ $.ajax({
 		    msg=true;
        else
 		    msg=false;
-		sessionStorage.msg = msg;
+		sessionStorage.cmsg = msg;
 
 
             }
     });
-	var umsg=sessionStorage.getItem("msg")
+	var umsg=sessionStorage.getItem("cmsg")
 	return umsg;
 }
-$( "#userinfo" ).submit(function( event ) {
+$( "#clientinfo" ).submit(function( event ) {
 	
   event.preventDefault();
-  var name=$('#username').val();
+    var uname=$('#username').val();
        var mail= $('#email').val();
 		 var password=$('#password').val();
-        var pname=$('#name').val();
-        var number=$('#number').val();
+       var name=$('#clientname').val();
+       var number= $('#number').val();
+		 var tan=$('#tan').val();
+        var city=$('#city').val();
+        var area=$('#area').val();
+        var service_charges=$('#service_charges').val();
 		
-        var chkMail=checkMail(mail,number,name);
-
+       var chkMail=checkMail(mail,number,uname);
 		if(!chkMail){
 		
 		
@@ -215,8 +252,8 @@ $( "#userinfo" ).submit(function( event ) {
 			$.ajax({
         dataType: 'json',
         type:'POST',
-        url: url+'getUserData.php',
-        data:{username:name,email:mail,password:password,name:pname,phonenumber:number,type:'insert'}
+        url: url+'getClientData.php',
+        data:{email:mail,username:uname,password:password,clientname:name,phonenumber:number,tan:tan,city:city,area:area,service_charges:service_charges,type:'insert'}
     }).done(function(data){       
         alert('Record Updated Successfully.');
 		$('#myModal').modal('hide');
@@ -228,18 +265,22 @@ $( "#userinfo" ).submit(function( event ) {
 	   });
 $("body").on("click","#edit-submit",function(){
 		var id=$('#edit-id').val();
-		var orgname=$('#edit-uname').val();
-       var mail= $('#edit-email').val();
+		var uname=$('#edit-uname').val();
+		var orgname=$('#edit-orgname').val();
+       var mail= $('#edit-mail').val();
 		 var password=$('#edit-password').val();
-        var pname=$('#edit-pname').val();
         var number=$('#edit-number').val();
+		var tan=$('#edit-tan').val();
+		var area=$('#edit-area').val();
+		var service=$('#edit-service').val();
+		var city=$('#edit-city').val();
 		
 
 		$.ajax({
         dataType: 'json',
         type:'POST',
-        url: url+'getUserData.php',
-        data:{id:id,uname:orgname,mail:mail,password:password,pname:pname,number:number,type:'update'}
+        url: url+'getClientData.php',
+        data:{id:id,uname:uname,mail:mail,password:password,city:city,area:area,service:service,orgname:orgname,tan:tan,number:number,type:'update'}
     }).done(function(data){       
         alert('Record Updated Successfully.');
 		$('#myUserModal').modal('hide');
@@ -253,16 +294,25 @@ $("body").on("click","#edit-submit",function(){
 	   
 	   var id=$tr.attr('id');
 	   var uname =  $('.edit-uname'+id).val();
+	   var service= $('.edit-service'+id).val();
+	   
+	   var area= $('.edit-area'+id).val();
 	   var mail = $('.edit-mail' , $tr).text();
 	   var password =  $('.edit-password', $tr).text();
 	   var name = $('.edit-orgname' , $tr).text();
 	   var number =  $('.edit-number', $tr).text();
-
+       var tan= $('.edit-tan', $tr).text();
+	   var city= $('.edit-city', $tr).text();
 		$('#edit-id').val(id);
         $('#edit-uname').val(uname);
-        $('#edit-email').val(mail);
-        $('#edit-pname').val(name);
+        $('#edit-mail').val(mail);
+        $('#edit-orgname').val(name);
 		 $('#edit-number').val(number);
+		 $('#edit-area').val(area);
+		 $('#edit-city').val(city);
+		 $('#edit-tan').val(tan);
+		  $('#edit-service').val(service);
+		 
 	  });
 $("body").on("click",".remove-item",function(){
     var id = $(this).attr('id');
@@ -273,7 +323,7 @@ $("body").on("click",".remove-item",function(){
     $.ajax({
         dataType: 'json',
         type:'POST',
-        url: url+'getUserData.php',
+        url: url+'getClientData.php',
         data:{id:id,type:'delete'}
     }).done(function(data){
         c_obj.remove();
