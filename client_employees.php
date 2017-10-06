@@ -112,7 +112,7 @@ $sql1 = "SELECT * FROM `client_employees` WHERE client_id='".$_SESSION['user_id'
 				<input type="text" class ="form-control" id="edit-panno" name="panno" maxlength="10" Placeholder="Enter Pan Number">
 			</div>
 			<div class="form-group">
-				<input type="text" class ="form-control" id="edit-addhar" name="addhar" maxlength="16" Placeholder="Enter Adhar Number">
+				<input type="text" class ="form-control" id="edit-addhar" name="addhar" maxlength="12" Placeholder="Enter Adhar Number">
 			</div>
 			<div class="form-group">
 				<input type="text" class="form-control" id="edit-name" name="ename" Placeholder="Enter Employee FullName">
@@ -213,7 +213,7 @@ event.preventDefault();
 if(panno.length<10){
 	alert('Invalid Pan card Number');
 }
-else if(addhar.length<16){
+else if(addhar.length<12){
 	alert('Invalid Aadhar Number');
 }
 else if(!chkStatus){
@@ -244,7 +244,7 @@ $("body").on("click","#edit-submit",function(){
 if(panno.length<10){
 	alert('Invalid Pan card Number');
 }
-else if(addhar.length<16){
+else if(addhar.length<12){
 	alert('Invalid Aadhar Number');
 }
 else if(!chkStatus){

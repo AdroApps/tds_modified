@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 05, 2017 at 06:21 AM
+-- Generation Time: Oct 06, 2017 at 06:50 AM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -49,6 +49,14 @@ CREATE TABLE `client_employees` (
   `emp_name` varchar(255) NOT NULL,
   `created_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `client_employees`
+--
+
+INSERT INTO `client_employees` (`emp_id`, `client_id`, `pan`, `aadhar`, `emp_name`, `created_date`) VALUES
+(3, 48, 'dg5df4sdss', 'dfsdrdfsd4dgfdgd', 'dfdsf', '2017-10-06 06:47:02'),
+(4, 48, 'dg5df4sdsd', 'dfsdrdfdd4dgfdgd', 'sd', '2017-10-06 06:47:18');
 
 -- --------------------------------------------------------
 
@@ -110,6 +118,7 @@ CREATE TABLE `quarter_info` (
   `client_id` int(11) NOT NULL,
   `financial_year` varchar(255) NOT NULL,
   `quarter` varchar(255) NOT NULL,
+  `authorised_person_name` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL,
   `total_amount` int(11) NOT NULL,
   `created_date` datetime NOT NULL
@@ -263,7 +272,7 @@ ALTER TABLE `agent_info`
 -- AUTO_INCREMENT for table `client_employees`
 --
 ALTER TABLE `client_employees`
-  MODIFY `emp_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `emp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `client_info`
 --
@@ -274,6 +283,11 @@ ALTER TABLE `client_info`
 --
 ALTER TABLE `notifications`
   MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `quarter_info`
+--
+ALTER TABLE `quarter_info`
+  MODIFY `quarter_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `roles`
 --
