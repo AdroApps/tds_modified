@@ -2,13 +2,12 @@
 include_once "../conn.php";
 
 if($_POST['type']=='insert') {
-	$ename = $_POST['ename'];
-	$pan = $_POST['pan'];
-	$adhar = $_POST['adhar'];
+	$ename = $_POST['name'];
+	$pan = $_POST['panno'];
+	$adhar = $_POST['addhar'];
 	$date = date("Y/m/d h:i:s");
 
-	$sql = "INSERT INTO `client_employees`(`pan` , `aadhar` ,`emp_name`,`created_date`) VALUES ('".$ename."' , '".$pan."' , '".$adhar."','".$_SESSION['user_id']."')";  
-
+	$sql = "INSERT INTO `client_employees`(`emp_id`,`client_id`,`pan` , `aadhar` ,`emp_name`,`created_date`) VALUES ('','".$_SESSION['user_id']."','".$pan."' , '".$adhar."' , '".$ename."','".$date."')";  
 	$data  = mysqli_query($conn,$sql);
 	
 		  if($data) {
@@ -19,9 +18,12 @@ if($_POST['type']=='insert') {
    }
    
 }
-/*else if($_POST['type']=='verify'){
-	
-	$chkquery="SELECT username from user_info where username='".$_POST['username']."' OR emailId='".$_POST['email']."' OR  phone_number='".$_POST['phone_no']."'" ;
+else if($_POST['type']=='verify'){
+	if($_POST['id'])	
+	$chkquery="SELECT emp_id from client_employees where emp_id!=".$_POST['id']." AND (emp_name='".$_POST['name']."' OR pan='".$_POST['panno']."' OR  aadhar='".$_POST['addhar']."')" ;
+	else
+		$chkquery="SELECT emp_id from client_employees where emp_name='".$_POST['name']."' OR pan='".$_POST['panno']."' OR  aadhar='".$_POST['addhar']."'" ;
+
 	$checkdata = mysqli_query($conn,$chkquery);
   if (mysqli_num_rows($checkdata) != 0)
   {
@@ -32,16 +34,15 @@ if($_POST['type']=='insert') {
   {
    $status='success';
   }
-}*/
+}
 else if($_POST['type']=='update'){
 	$id = $_POST['id'];
 
 	
 	$newename = $_POST['name'];
-	$newpan = $_POST['pan'];
-	$newadhar = $_POST['adhar'];
-	$sql1 = "UPDATE `client_employees` SET  `pan`='".$newpan."' ,`adhar`='".$newadhar."' , `emp_name`='".$newename."' ,  WHERE `emp_id` = '".$id."' ";
-
+	$newpan = $_POST['panno'];
+	$newadhar = $_POST['addhar'];
+	$sql1 = "UPDATE `client_employees` SET  `pan`='".$newpan."' ,`aadhar`='".$newadhar."' , `emp_name`='".$newename."'   WHERE `emp_id` = '".$id."' ";
    $query1 = mysqli_query($conn ,$sql1); 
    if($query1) {
     $status='success';
@@ -61,7 +62,7 @@ else if($_POST['type']=='delete'){
    else {
      $status='failure';
    }
-  
+}
 else if($_POST['type']=='setstatus'){
 	$id=$_POST['id'];
 	$sql1 = "UPDATE `user_info` SET `status`='".$_POST['val']."' WHERE `userid` = '".$id."' ";

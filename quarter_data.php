@@ -3,6 +3,9 @@
 <?php
 include_once "conn.php";
 include_once "header.php";
+$sql1 = "SELECT c.*,q.* FROM `quarter_info` WHERE c.client_id=q.client_id and c.client_id='".$_SESSION['user_id']."' ORDER BY q.quarter_id DESC ";
+$data1 = mysqli_query($conn, $sql1);
+
 ?>
 <!--Client Table-->
 <div class="panel panel-flat panelflat newpanel">
@@ -95,7 +98,12 @@ include_once "header.php";
 					<option>Q4</option>
 				</select>
 			</div>
-			
+			<div class="form-group col-md-6">				
+				<input type="text" id="autpname"   class="form-control" name="autpname" placeholder="Authorised Name"/>
+			</div>
+			<div class="form-group col-md-6">
+				<input type="text" id="service"  class="form-control" name="service" placeholder="Service Charge"/>
+			</div>
 			<input type="submit" name="submit" value="submit" class="btn btn-md btn-primary btnbg newbtn">
 			
 			<input type="button" class="btn btn-md btn-default btnbg newbtn" name="cancel" value="Cancel" data-dismiss="modal">
@@ -165,7 +173,7 @@ include_once "header.php";
 
 						
 $( document ).ready(function() {
-	$('#buttonplace').html('<button type="New" class="btn btn-xs btncls  btn-default" data-toggle="modal" data-target="#myModal">New</button>');
+	$('#buttonplace').html('<button type="New" class="btn btn-xs btncls  btn-default" data-toggle="modal" data-target="#myModal">New Quarter Info</button>');
     console.log( "ready!" );
 });
 $( "#quarterdata" ).submit(function( event ) {
@@ -173,7 +181,6 @@ $( "#quarterdata" ).submit(function( event ) {
   event.preventDefault();
     var year=$('#year').val();
        var quarter= $('#quarter').val();
-	 else{
 	
 			$.ajax({
         dataType: 'json',
@@ -187,7 +194,7 @@ $( "#quarterdata" ).submit(function( event ) {
 	
 
        });
-}
+
 	   });
 $("body").on("click","#edit-submit",function(){ 
 		var year=$('#edit-year').val();

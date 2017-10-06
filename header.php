@@ -75,7 +75,7 @@ var url = "http://localhost/tds_modified/api/";
 				<?php }?>
 				<?php if($_SESSION['role_id']==CLIENT){?>
 					<li class="<?php active('quarter_data.php');?>"><a href="quarter_data.php"><i class="icon-puzzle4 position-left"></i>TDS</a></li>
-				<li class="<?php active('adminaddemployee.php');?>"><a href="adminaddemployee.php"><i class="icon-puzzle4 position-left"></i>Employees</a></li>
+				<li class="<?php active('client_employees.php');?>"><a href="client_employees.php"><i class="icon-puzzle4 position-left"></i>Employees</a></li>
 				<?php }?>
 				
 			</ul>
