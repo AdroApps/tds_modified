@@ -75,7 +75,7 @@ $user_data = mysqli_query($conn , $user_sql);
 			while($row=mysqli_fetch_array($user_data)){
 
 				echo "<tr id=".$row[0]." align='center'>
-				<td class='edit-orgname col-xs-2'>".$row[1]."</a></td>";
+				<td class='edit-orgname col-xs-2'><a href='auditor_users.php?auditor=$row[0]'>".$row[1]."</a></td>";
 				echo
 				"<td class='edit-mail col-xs-2'>".$row[3]."</td>";
 				echo "<input type='hidden' value='$row[1]' class='edit-uname$row[0]'/>";
