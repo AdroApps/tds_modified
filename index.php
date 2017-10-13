@@ -33,9 +33,9 @@ if(isset($_POST['sub'])){
 
 			if($_SESSION['role_id']==SUPERADMIN)
 			   header('Location:users.php');
-		   if($_SESSION['role_id']==AUDITOR)
+		    if($_SESSION['role_id']==AUDITOR)
 			   header('Location:clients.php');
-		   if($_SESSION['role_id']==CLIENT)
+		    if($_SESSION['role_id']==CLIENT)
 			   header('Location:quarter_data.php');
 			
 		}
@@ -74,7 +74,7 @@ if(isset($_POST['sub'])){
 	<div class="container">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
-            <div class="login-panel panel panel-default" style="margin-top:50%">
+            <div class="login-panel panel panel-default" style="margin-top:25%">
                 <div class="panel-heading">
                     <center><h3 class="panel-title"><b>LOGIN</b></h3></center>
                 </div>

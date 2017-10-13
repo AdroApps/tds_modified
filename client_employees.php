@@ -1,6 +1,9 @@
 <?php
 include_once "conn.php";
 include_once "header.php";
+if($_SESSION['role_id']==AUDITOR)
+$sql1 = "SELECT * FROM `client_employees` WHERE client_id='".$_SESSION['user_id']."' ORDER BY emp_id DESC ";
+else
 $sql1 = "SELECT * FROM `client_employees` WHERE client_id='".$_SESSION['user_id']."' ORDER BY emp_id DESC ";
  $data1 = mysqli_query($conn, $sql1);
 ?>
@@ -15,10 +18,11 @@ $sql1 = "SELECT * FROM `client_employees` WHERE client_id='".$_SESSION['user_id'
 
 				<th  class="col-xs-2">Employee Name</th>
 				<th  class="col-xs-2">Pan Number</th>
-				<th  class="col-xs-2">Adhar Number</th>
+				<th  class="col-xs-2">Adhar Number</th>				
+				<th  class="col-xs-2">Status</th>
 				<th  class="col-xs-2">Date</th>
-				<th  class="col-xs-2">Edit</th>
-				<th  class="col-xs-2">Delete</th>
+				<th  class="col-xs-1">Edit</th>
+				<th  class="col-xs-1">Delete</th>
 				
 			</tr>
 		</thead>
@@ -28,23 +32,27 @@ $sql1 = "SELECT * FROM `client_employees` WHERE client_id='".$_SESSION['user_id'
 				
  
 					while($row = mysqli_fetch_array($data1)){
-					
 					echo "<tr id=".$row[0]." align='center'>
 					<td class='edit-name col-xs-2'>".$row[4]."</td>";
 					echo "<td  class='edit-panno col-xs-2'>".$row[2]."</td>";
 					
 					echo
 					"<td class='edit-addhar col-xs-2'>".$row[3]."</td>";
+					if($row[5]=='1')
+				echo "<td class='edit-pname col-xs-2'><input id='checkbox1'  type='checkbox' checked='checked' value='".$row[5]."' onChange='setStatus(0,$row[0])'/></td>";
+			else
+				
+				echo "<td class='edit-pname col-xs-2'><input id='checkbox1'  class='$row[0]' type='checkbox' value='".$row[5]."'  onChange='setStatus(1,$row[0])'/></td>";
 					echo
-					"<td class='edit-date col-xs-2'>".$row[5]."</td>";
+					"<td class='edit-date col-xs-2'>".$row[6]."</td>";
 					
 					echo"
-					 <td class=' col-xs-2'>
+					 <td class=' col-xs-1'>
 						<a data-toggle='modal' data-target='#myEmployeeModal' class='edit_addemployee btn btn-xs btnbg'>
 							<span class='glyphicon glyphicon-edit'></span>
 						</a>
 					</td>
-					<td class='col-xs-2'>
+					<td class='col-xs-1'>
 						<a id='$row[0]' class='btn btn-xs btnbg remove-item'>
 							<span class='glyphicon glyphicon-trash'></span>
 						</a>

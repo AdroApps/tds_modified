@@ -127,8 +127,8 @@ a:focus.btnbg {
 display: none!important; 
 }
 #user_data th{
-padding-left: 10px!important;
-    padding-right: 0px!important;    width: 9%!important;
+padding-left: 0px!important;
+    padding-right: 0px!important;    
 }
 .sorting, .sorting_asc, .sorting_desc {
     background : none;
@@ -213,6 +213,11 @@ background:white!important;
 .table-fixed thead {
   width: 100%;
 }
+.table-fixed1  tbody {
+height: 245px!important;
+    overflow-y: auto;
+    width: 100%;
+}
 .table-fixed tbody {
 height: 445px;
     overflow-y: auto;
@@ -224,4 +229,52 @@ height: 445px;
 .table-fixed tbody td, .table-fixed thead > tr> th {
   float: left;
   border-bottom-width: 0;
+}
+.nores{
+width:100%;
+float:right;
+}
+input[type="file"]::-webkit-file-upload-button {
+    background: white;
+    border: none;
+    font-size: 14px;
+    color: #273246!important;
+    border-radius: 2px;
+    padding: 9px;
+}
+/*
+.tdat {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+.tdat td {
+  color: #273246!important;
+    text-align: left;
+    padding: 8px;
+}
+.tdat td{
+  
+    text-align: left;
+    padding: 8px;
+}
+.tdat tr{padding-top:3%;}
+
+*/
+.month {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 15px;
+    font-weight: bold;
+    color: #273246!important;
+}
+.tot{
+border-radius:5px;
+border:solid 1px #273246!important;
+color:#273246!important;
+font-weight:bold;
+width:85px;
+}.amt {
+    font-size: 15px;
+    text-align: right;
 }

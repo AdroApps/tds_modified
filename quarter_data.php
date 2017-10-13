@@ -3,10 +3,15 @@
 <?php
 include_once "conn.php";
 include_once "header.php";
-$sql1 = "SELECT c.*,q.* FROM `quarter_info` q, `client_info` c WHERE c.client_id=q.client_id and c.client_id='".$_SESSION['user_id']."' ORDER BY q.quarter_id DESC ";
-$data1 = mysqli_query($conn, $sql1);
+if(isset($_GET['clientid']))
+	$client_id=$_GET['clientid'];
 
-$service="SELECT service_charges from client_info where client_id=".$_SESSION['user_id'];
+else	
+	$client_id=$_SESSION['user_id'];
+
+$sql1 = "SELECT c.*,q.* FROM `quarter_info` q, `client_info` c WHERE c.client_id=q.client_id and c.client_id='".$client_id."' ORDER BY q.quarter_id DESC ";
+$data1 = mysqli_query($conn, $sql1);
+$service="SELECT service_charges from client_info where client_id=".$client_id;
 $sdata=mysqli_fetch_assoc (mysqli_query($conn, $service));
 $service_charge=$sdata['service_charges'];
 
@@ -18,9 +23,11 @@ $service_charge=$sdata['service_charges'];
 	<thead>
 	<tr>
 					<th class="col-xs-2">Organisation Name</th>
+					
+				<th class="col-xs-1">Tan</th>
 				<th class="col-xs-2">Financial Year</th>
 				<th class="col-xs-1">Quarter</th>
-				<th class="col-xs-2">Authorised Person Name</th>
+				<th class="col-xs-1">Authorised</th>
 				<th class="col-xs-1">Status</th>
 				<th class="col-xs-2">Date</th>
 				<th class="col-xs-1">Edit</th>
@@ -28,17 +35,20 @@ $service_charge=$sdata['service_charges'];
 			</tr>	
 <?php if( mysqli_num_rows($data1)<=0){
 	
-	echo "<tr align='center' class='nores'><td >No Results Found<td></tr>";
+	echo "<tr align='center'><td  class='nores'>No Results Found</td></tr>";
 }
 				?><tbody>
 			
 			<?php	while($row = mysqli_fetch_array($data1)){
 					echo "<tr align='center' id=".$row[9].">
+					
 					<td class='edit-orgname col-xs-2'><a href='tds_data.php?qid=$row[9]'>".$row[4]."</a></td>
-					<td class='edit-year col-xs-2'>".$row[11]."</td>";
+					<td class='edit-tan col-xs-1'>".$row[3]."</td>
+					<td class='edit-year col-xs-2'>".$row[11]."</td>
+					";
 					echo
 					"<td class='edit-quarter col-xs-1'>".$row[12]."</td>
-					<td class='edit-apname col-xs-2'>".$row[13]."</td>";
+					<td class='edit-apname col-xs-1'>".$row[13]."</td>";
 					echo
 					"<td class='edit-status col-xs-1'>".$row[14]."</td>";
 					echo

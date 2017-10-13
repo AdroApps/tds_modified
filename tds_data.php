@@ -1,35 +1,32 @@
 <?php
 include_once "conn.php";
 include_once "header.php";
-//session_set();
-$id = $_GET['qid'];
-$_SESSION['qid'] = $_GET['qid'];
-$sql = "SELECT * From `clienttable` WHERE `id` = '".$id."' ";
-$data= mysqli_query($conn,$sql);
+$qsql = "SELECT c.client_id,c.tan,u.phone_number,c.service_charges,c.client_name,q.quarter,q.status,q.authorised_person_name,q.financial_year,c.client_id,u.emailId from user_info u,client_info c,quarter_info q where c.client_id=u.userid and c.client_id=q.client_id and q.quarter_id=".$_GET['qid'];
+$qdata= mysqli_query($conn,$qsql);
 
-while($row = mysqli_fetch_assoc($data)) {
+while($row = mysqli_fetch_assoc($qdata)) {
 	//print_r($row);
-	$id = $row['id'];
-	$organization = $row['organization'];
+	$id = $row['client_id'];
+	$organization = $row['client_name'];
 	$tan = $row['tan'];
-	$year = $row['year'];
+	$year = $row['financial_year'];
 	$quarter = $row['quarter'];
 	$status = $row['status'];
-	$pname = $row['pname'];
-	$mail = $row['email'];
-	$number = $row['number'];
-	$service = $row['service'];//.mysqli_error($conn);
+	$pname = $row['authorised_person_name'];
+	$mail = $row['emailId'];
+	$number = $row['phone_number'];
+	$service = $row['service_charges'];//.mysqli_error($conn);
 	
 }
 $tdsamount1tot = "";
 $tdsamount2tot = "";
 $tdsamount3tot = "";
 
-$sql1 = "SELECT * FROM `clienttable` WHERE `quarter` = '".$quarter."' AND `organization` = '".$organization."'  ";
+$sql1 = "SELECT * FROM `quarter_info` WHERE `quarter_id` = '".$_GET['qid']."'";
 
 $data1= mysqli_query($conn,$sql1);
 $data2= mysqli_query($conn,$sql1);
-$sql_data = "SELECT * FROM `employeetable` WHERE `qid` = '".$id."'  ";
+$sql_data = "SELECT * FROM `tds_info` WHERE `quarter_id` = '".$_GET['qid']."'  ";
 $sql_res= mysqli_query($conn,$sql_data);
 while($row = mysqli_fetch_array($sql_res)) {
 	$tdsamount1tot += $row['tdsamount1'];
@@ -65,14 +62,6 @@ while($row = mysqli_fetch_array($sql_res)) {
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
 	
-<?php
-
-$sql4 = "SELECT * FROM `fileuploads` WHERE userid=".$_SESSION['user_id']." AND qid=".$_GET['qid']." ORDER BY date DESC";
-$data4 = mysqli_query($conn, $sql4);
-			
-
-	?>
-
 		<!-- Client details -->
 	<div class="panel panel-flat panelflat newpanel">
 			<table class="table table-hover table-condensed" >
@@ -106,87 +95,81 @@ $data4 = mysqli_query($conn, $sql4);
 			</table>	
 			<!-- /client details -->
 			
-			<!-----Quarter Table---->
+			<!-----Quarter Table--
 					
+<table class="tdat">
+  
+  <tr>
+  
+   <td class="col-md-4 pull-right"><?php echo "$month1";?></td>
+   <td class="col-md-4"></td>
+   <td class="col-md-4">Total TDS amount : <?php echo "$tdsamount1tot";?></td>
+  </tr>
+    <tr>
+  
+   <td class="col-md-4 pull-right"><?php echo "$month2";?></td>
+     <td class="col-md-4"></td>
+   <td class="col-md-4">Total TDS amount : <?php echo "$tdsamount2tot";?></td>
+  </tr>
+    <tr>
+  
+   <td class="col-md-4 pull-right"><?php echo "$month3";?></td>
+     <td class="col-md-4"></td>
+   <td class="col-md-4">Total TDS amount : <?php echo "$tdsamount3tot";?></td>
+  </tr>
+</table>-->
 			<table class= "table table condensed">
 				<h3 style = "margin-left:15px">Quarter - <?php echo "$quarter";?></h3>
 				<tr>
-					<th><?php echo "$month1";?></th>
-					<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-					<td>Total TDS amount : <?php echo "$tdsamount1tot";?></td>
+					<td class="col-md-4 month"><?php echo "$month1";?></td>
+					
+					<td class="col-md-5 col-md-offset-3 amt">Total TDS amount:&nbsp;<input type="textbox" class="tot" disabled value=" <?php echo "$tdsamount1tot";?>"/></td>
 				</tr>
 				<tr>
-					<th><?php echo "$month2";?></th><td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-					<td>Total TDS amount  :  <?php echo "$tdsamount2tot";?></td>
+					<td class="col-md-4 month"><?php echo "$month2";?></td>
+					<td class="col-md-5 col-md-offset-3 amt">Total TDS amount:&nbsp;<input type="textbox" class="tot"  disabled value=" <?php echo "$tdsamount2tot";?>"/></td>
 				</tr>
 				
 				<tr>
-					<th><?php echo "$month3";?></th><td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-					<td>Total TDS amount  :  <?php echo "$tdsamount3tot";?></td>
+					<td class="col-md-4 month"><?php echo "$month3";?></td>
+					<td class="col-md-5 col-md-offset-3 amt">Total TDS amount:&nbsp;<input type="textbox" class="tot"  disabled value=" <?php echo "$tdsamount3tot";?>"/></td>
 				</tr>
 				<tr>
-					<th></th><td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-					<td>Service Charges : <?php echo "$service";?></td>
+					<td class="col-md-4 "></td>
+					<td class="col-md-5 col-md-offset-3 amt">&nbsp;&nbsp;&nbsp;Service Charges:&nbsp;<input type="textbox" class="tot"  disabled value=" <?php echo "$service";?>"/></td>
 				</tr>
 				<tr>
-					<th></th><td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-					<td>Grand Total : <?php echo "<b>$totaltdsamount</b>";?></td>
+					<td class="col-md-4 "></td>
+					<td class="col-md-5 col-md-offset-3 amt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Grand Total:&nbsp;<input type="textbox" class="tot"  disabled value=" <?php echo "$totaltdsamount";?>"/></td>
 				</tr>
 			
 			</table>
+			
 	</div>
 	<!-----Quarter Table---->
 			
 		<!--Employee table-->
-	
-	<center>
+
 	<!--div class="col-lg-12">
 	<div class ="panel panel-flat" style="margin-top:5px"> 
 		<div class="table-responsive pre-scrollable" style="max-height:506px"-->
-<div class="panel panel-flat panelflat newpanel">
-	<div  id="add"  class="btn btn-sm btn-default btnbg" style="text-align:right;">Add New Employee</div>
-	<div class="table-responsive pre-scrollable noscroll">
-     
-<table class="table table-hover table-condensed" id="user_data">
+<div class="panel panel-flat panelflat newpanel" >
+<div class="table-responsive" >
+	<table class="table table-fixed table-fixed1" id="user_data">
  <thead>
              <tr align="center">
-                <th>Employee Fullname</th>
-				<th width="5%">Pan Number</th>
-				<th width="5%">Month 1</th>
-				<th width="4%">salary</th>
-				<th width="6%">TDS amount</th>
-				<th width="5%">Month 2</th>
-				<th width="4%">salary</th>
-				<th width="6%">TDS amount</th>
-				<th width="5%">Month 3</th>
-				<th width="4%">salary</th>
-				<th width="6%">TDS amount</th>		
-                <th>Delete</th>
+                <th class="col-xs-1">Employee name</th>
+				<th class="col-xs-1">Pan </th>
+				<th class="col-xs-1">Month</th>
+				<th class="col-xs-1">salary</th>
+				<th class="col-xs-1">TDS amt</th>
+				<th class="col-xs-1">Month</th>
+				<th class="col-xs-1">salary</th>
+				<th class="col-xs-1">TDS amt</th>
+				<th class="col-xs-1">Month</th>
+				<th class="col-xs-1">salary</th>
+				<th class="col-xs-1">TDS amt</th>		
+                <th class="col-xs-1">Delete</th>
              </tr>
      </thead>
 
@@ -195,7 +178,8 @@ $data4 = mysqli_query($conn, $sql4);
 </div>
 <!--/Employee table-->
 <?php
-$psql="select pan,employeename from employeetable where userid=".$_SESSION['user_id'];
+/*
+$psql="select pan,employeename from employee_info where client_id=".$_SESSION['user_id'];
 
 $pan_res = mysqli_query($conn, $psql);
 $panos=array();
@@ -210,42 +194,43 @@ foreach ($panos as $key => $value)
     $object->$key = $value;
 }
 $object = json_decode(json_encode($array), FALSE);
-
+*/
 ?>
 <input type="hidden" id="pannos" value='<?php echo json_encode($panos);?>'/>
 
 <!-----Attach File form and Table--->
 	<div class="col-lg-12">
-		<form action="" method="post" id="file-upload" name="file-upload" enctype="multipart/form-data">
-			<center><div style="position:relative">
-                            <a class="btn btn-sm btn-default" href="javascript:;" style="margin-bottom:30px">
+		<center><form action="" method="post" id="file-upload" name="file-upload" enctype="multipart/form-data">
+			<div style="position:relative;margin-top:2%;">
+                            <a class="btn btn-sm btn-default newbtn" href="javascript:;" style="margin-bottom:30px;">
                                 <input type="file" name="file_url" >
                             </a>
                             &nbsp;<span class="label label-info" id="img"></span>
-                            <input type="submit"   class="btn btn-sm btn-default btnbg" style=" margin-top: -30px;margin-left: 11px" name="filesubmit" value="Submit">
-             </div>
+                            <input type="submit"   class="btn btn-sm btn-default newbtn" style=" margin-top: -30px;margin-left: 11px" name="filesubmit" value="Submit">
+                      </div>
             				
 		</form>
-	<div class="panel panel-flat panelflat newpanel">
-					<!--
-	<table class="table table-hover table-condensed newt">
-	
-				<thead>
-					<tr align="center">
-						<th>Name</th>
-						<th>View</th>
-						<th >Download</th>
-						<th >Date</th>
-						<th >Delete</th>
+		</center>
+<div class="panel panel-flat panelflat newpanel" >
+<div class="table-responsive" >
+	<table class="table table-fixed " >
+	<thead>
+	<tr align="center">
+						<th class="col-xs-2">Name</th>
+						<th class="col-xs-3">View</th>
+						<th class="col-xs-3">Download</th>
+						<th class="col-xs-2">Date</th>
+						<th class="col-xs-2">Delete</th>
 					</tr>
-				</thead>
-			</table>-->
-			<div class="table-responsive pre-scrollable noscroll">
-     
- <table class="table table-hover table-condensed">
+	</thead>
+				<tbody style="height:200px;">
+				
+			<?php
 
-				<tbody>
-			
+$filesql = "SELECT * FROM `file_uploads_info` WHERE user_id=".$_SESSION['user_id']." AND quarter_id=".$_GET['qid']." ORDER BY created_date DESC";
+$filedata = mysqli_query($conn, $filesql);
+	?>
+	
 				<?php
 				 $currentPath = $_SERVER['PHP_SELF']; 
 
@@ -259,27 +244,25 @@ $object = json_decode(json_encode($array), FALSE);
 				 $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https'?'https':'http';
 
 				 // return: http://localhost/myproject/
-				  $url=$protocol.'://'.$hostName.$pathInfo['dirname']."/fileuploads/";
-
-				while($roww = mysqli_fetch_array($data4)){
-				 
+				  $url=$protocol.'://'.$hostName.$pathInfo['dirname']."/api/fileuploads/";
+if( mysqli_num_rows($filedata)<=0){
+	
+	echo "<tr align='center'><td  class='nores'>No Results Found</td></tr>";
+}
+			
+				while($roww = mysqli_fetch_array($filedata)){
+				
 				 ?>
-				 	<tr align="center">
-						<th>Name</th>
-						<th>View</th>
-						<th >Download</th>
-						<th >Date</th>
-						<th >Delete</th>
-					</tr>
+				 	
 				 <tr align="center" >
-				 <td ><?php echo $roww[2]?></td>
+				 <td class="col-xs-2"><?php echo $roww[1]?></td>
 				 
-				 <td ><a href="<?php echo $url.$roww[2];?>" target="_blank">View</a></td>
+				 <td class="col-xs-3"><a href="<?php echo $url.$roww[1];?>" target="_blank">View</a></td>
 				 
-				 <td ><a href="<?php echo $url.$roww[2];?>" download>Download</a></td>
+				 <td class="col-xs-3"><a href="<?php echo $url.$roww[1];?>" download>Download</a></td>
 				 <?php echo
-				 "<td>".$roww[3]."</td>";
-				 echo "<td  >
+				 "<td class='col-xs-2'>".$roww[3]."</td>";
+				 echo "<td  class='col-xs-2'>
 						<a class='btn btn-xs btnbg remove-image' id='$roww[0],$roww[2]' >
 							<span class='glyphicon glyphicon-trash'></span>
 						</a>
@@ -300,6 +283,7 @@ $object = json_decode(json_encode($array), FALSE);
 <script type="text/javascript" language="javascript" >
  $(document).ready(function(){
 
+	  var qid=$('#qid').val();
 //s.appendTo('body');
   fetch_data();
 
@@ -310,7 +294,7 @@ $object = json_decode(json_encode($array), FALSE);
     "serverSide" : true,
     "order" : [],
     "ajax" : {
-     url:"fetch.php",
+     url:"api/getTdsData.php?type=fetch&qid="+qid,
      type:"POST"
     }
    });
@@ -321,7 +305,7 @@ $object = json_decode(json_encode($array), FALSE);
   function update_data(id, column_name, value)
   {
    $.ajax({
-    url:"update.php",
+    url:"api/getTdsData.php?type=update&qid="+qid,
     method:"POST",
     data:{id:id, column_name:column_name, value:value},
     success:function(data)
@@ -471,7 +455,7 @@ $(document).on('change','#panid',function(){
     $.ajax({
         dataType: 'json',
         type:'POST',
-        url: url+'fileupload.php',
+        url: url+'tdsFileUpload.php',
         data:{id:id,type:'delete'},
     }).done(function(data){
         c_obj.remove();
@@ -483,13 +467,15 @@ $(document).on('change','#panid',function(){
 });
  $('#file-upload').submit( function(e) {
     e.preventDefault();
+	alert(32);
 
     var data = new FormData(this); // <-- 'this' is your form element
     
 		$.ajax({
         type:'POST',
-        url: url+'fileupload.php',        
+        url: url+'tdsFileUpload.php',        
 		data: data,
+		dataType:'json',
             cache: false,
             contentType: false,
             processData: false,

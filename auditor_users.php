@@ -29,6 +29,11 @@ $user_data = mysqli_query($conn , $user_sql);
 			
 		</thead>
 		<tbody>
+			<?php 
+			if( mysqli_num_rows($user_data)<=0)
+	           echo "<tr align='center'><td class='nores'>No Results Found</td></tr>";
+	          
+				?>
 			<?php
 			
 			while($row=mysqli_fetch_array($user_data)){
@@ -41,10 +46,10 @@ $user_data = mysqli_query($conn , $user_sql);
 				echo
 				"<td class='edit-number col-xs-3'>".$row[4]."</td>";
 				if($row[9]=='1')
-				echo "<td class='edit-pname col-xs-2'><input id='checkbox1' type='checkbox' checked='checked' value='".$row[9]."' onChange='setStatus(0,$row[0])'/></td>";
+				echo "<td class='edit-pname col-xs-2'><input id='checkbox1' disabled type='checkbox' checked='checked' value='".$row[9]."' /></td>";
 			else
 				
-				echo "<td class='edit-pname col-xs-2'><input id='checkbox1' class='$row[0]' type='checkbox' value='".$row[9]."'  onChange='setStatus(1,$row[0])'/></td>";
+				echo "<td class='edit-pname col-xs-2'><input id='checkbox1' disabled class='$row[0]' type='checkbox' value='".$row[9]."' /></td>";
 				echo
 				"<td class='edit-date col-xs-3'>".$row[8]."</td>";
 				
