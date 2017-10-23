@@ -14,16 +14,29 @@ $data1 = mysqli_query($conn, $sql1);
 $service="SELECT service_charges from client_info where client_id=".$client_id;
 $sdata=mysqli_fetch_assoc (mysqli_query($conn, $service));
 $service_charge=$sdata['service_charges'];
-
+if($_SESSION['role_id']==AUTHOR || $_SESSION['role_id']==AUDITOR)
+	$style='none';
+else
+	$style='block';
 ?>
 <!--Client Table-->
 <div class="panel panel-flat panelflat newpanel">
+ <div class="panel-heading">Quarter Information<div id="buttonplace" style="display:<?php echo $style;?>" class="pull-right col-xs-6"></div>
+ </div>
 <div class="table-responsive" >
 	<table class="table table-fixed">
 	<thead>
-	<tr>
-					<th class="col-xs-2">Organisation Name</th>
-					
+	        <tr>
+			<?php if($_SESSION['role_id']==AUTHOR || $_SESSION['role_id']==AUDITOR){?>
+				<th class="col-xs-2">Organisation Name</th>					
+				<th class="col-xs-2">Tan</th>
+				<th class="col-xs-2">Financial Year</th>
+				<th class="col-xs-1">Quarter</th>
+				<th class="col-xs-1">Authorised</th>
+				<th class="col-xs-2">Status</th>
+				<th class="col-xs-2">Date</th>
+			<?php }else{?>
+			<th class="col-xs-2">Organisation Name</th>					
 				<th class="col-xs-1">Tan</th>
 				<th class="col-xs-2">Financial Year</th>
 				<th class="col-xs-1">Quarter</th>
@@ -32,6 +45,7 @@ $service_charge=$sdata['service_charges'];
 				<th class="col-xs-2">Date</th>
 				<th class="col-xs-1">Edit</th>
 				<th class="col-xs-1">Delete</th>
+			<?php }?>
 			</tr>	
 <?php if( mysqli_num_rows($data1)<=0){
 	
@@ -40,19 +54,36 @@ $service_charge=$sdata['service_charges'];
 				?><tbody>
 			
 			<?php	while($row = mysqli_fetch_array($data1)){
-					echo "<tr align='center' id=".$row[9].">
-					
-					<td class='edit-orgname col-xs-2'><a href='tds_data.php?qid=$row[9]'>".$row[4]."</a></td>
-					<td class='edit-tan col-xs-1'>".$row[3]."</td>
-					<td class='edit-year col-xs-2'>".$row[11]."</td>
+					echo "<tr style='min-height: 45px;' align='center' id=".$row[10].">";
+					if($_SESSION['role_id']==AUTHOR || $_SESSION['role_id']==AUDITOR){
+						echo "<td class='edit-orgname col-xs-2'><a href='tds_data.php?qid=$row[10]'>".$row[4]."</a></td>
+					<td class='edit-tan col-xs-2'>".$row[3]."</td>
+					<td class='edit-year col-xs-2'>".$row[12]."</td>
 					";
 					echo
-					"<td class='edit-quarter col-xs-1'>".$row[12]."</td>
-					<td class='edit-apname col-xs-1'>".$row[13]."</td>";
+					"<td class='edit-quarter col-xs-1'>".$row[13]."</td>
+					<td class='edit-apname col-xs-1'>".$row[14]."</td>";
 					echo
-					"<td class='edit-status col-xs-1'>".$row[14]."</td>";
+					"<td class='edit-status col-xs-2'>".$row[15]."</td>";
 					echo
-					"<td class='edit-date col-xs-2'>".$row[16]."</td>";
+					"<td class='edit-date col-xs-2'>".$row[17]."</td>";
+									
+					}
+					else{
+					echo "<td class='edit-orgname col-xs-2'><a href='tds_data.php?qid=$row[10]'>".$row[4]."</a></td>
+					<td class='edit-tan col-xs-1'>".$row[3]."</td>
+					<td class='edit-year col-xs-2'>".$row[12]."</td>
+					";
+					echo
+					"<td class='edit-quarter col-xs-1'>".$row[13]."</td>
+					<td class='edit-apname col-xs-1'>".$row[14]."</td>";
+					echo
+					"<td class='edit-status col-xs-1'>".$row[15]."</td>";
+					echo
+					"<td class='edit-date col-xs-2'>".$row[17]."</td>";
+					
+					
+						
 					echo"
 					<td class='col-xs-1'>
 						<a  data-toggle='modal' data-target='#myEditModal' class='edit_category btn btn-xs btnbg'>
@@ -60,12 +91,12 @@ $service_charge=$sdata['service_charges'];
 						</a>
 					</td>
 					<td class='col-xs-1'>
-						<a id='$row[9]' class='btn btn-xs btnbg remove-item'>
+						<a id='$row[10]' class='btn btn-xs btnbg remove-item'>
 							<span class='glyphicon glyphicon-trash'></span>
 						</a>
-					</td>
-					
-					 </tr>";
+					</td>";
+					}
+					 echo "</tr>";
 					
 				}
 				?>
@@ -197,7 +228,7 @@ $service_charge=$sdata['service_charges'];
 
 						
 $( document ).ready(function() {
-	$('#buttonplace').html('<button type="New" class="btn btn-xs btncls  btn-default" data-toggle="modal" data-target="#myModal">New Quarter Info</button>');
+	$('#buttonplace').html(' <i class="icon-folder-plus position-left"  data-toggle="modal" data-target="#myModal"></i>');
     console.log( "ready!" );
 });
 function chkDetails(year,quarter){
@@ -280,7 +311,7 @@ $("body").on("click",".remove-item",function(){
     var id = $(this).attr('id');
     var c_obj = $(this).parent().parent();
 	console.log(c_obj);
-   var r = confirm("Are you sure you want to delete this?");
+   var r = confirm("Are you sure you want to delete this. Deleting this will remove tds information for this quarter?");
     if (r == true) {
     $.ajax({
         dataType: 'json',

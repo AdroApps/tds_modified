@@ -5,6 +5,8 @@ if($_SESSION['role_id']==SUPERADMIN)
 $user_sql = "SELECT * FROM `user_info` WHERE `created_by` = '".$_SESSION['role_id']."' ";
 elseif($_SESSION['role_id']==AUDITOR)
 $user_sql = "SELECT u.*,c.* FROM user_info u, client_info c WHERE u.userid= c.client_id and u.created_by = '".$_SESSION['user_id']."' ";
+elseif($_SESSION['role_id']==AUTHOR)
+$user_sql = "SELECT u.*,c.* FROM user_info u, client_info c WHERE u.userid= c.client_id and c.assigned_to = '".$_SESSION['user_id']."' ";
 
 //echo $user_sql;exit;
 $user_data = mysqli_query($conn , $user_sql);
@@ -56,6 +58,21 @@ $user_data = mysqli_query($conn , $user_sql);
 						<div class="form-group col-md-6">
 						<input type = "text" class="form-control" id ="service_charges" name="service_charges" required placeholder = "Enter Service Charges">
 						</div>
+							<div class="form-group col-md-6">
+				<?php
+$select="select u.name,u.userid from user_info u where u.role_id='".AUTHOR."' and u.created_by='".$_SESSION['user_id']."'"; 
+$sres = mysqli_query($conn, $select);
+?>
+
+<select class="form-control" name="assi" id="assi"/>
+<option value="">Select Client</option>
+<?php 
+while($row=mysqli_fetch_array($sres))
+{ ?>
+<option value="<?php echo $row['userid']; ?>"><?php echo $row['name']; ?></option>
+<?php } ?>
+</select>
+			</div>
 						 <div class="clearfix"></div>
 						<input type="submit" name="submit" value="submit" class="btn btn-md btnbg btn-success newbtn">
 
@@ -67,10 +84,11 @@ $user_data = mysqli_query($conn , $user_sql);
 </div>
 <!---modal-->
 <div class="panel panel-flat panelflat newpanel">
+ <div class="panel-heading">Clients Information<div id="buttonplace" class="pull-right col-xs-6"></div></div>
 <div class="table-responsive" >
 	<table class="table table-fixed">
 		<thead>
-			<tr>
+			<tr class="col-xs-12">
 				
 				<th  class="col-xs-2">Client Name</th>
 				<th  class="col-xs-1">Email Id</th>
@@ -78,7 +96,8 @@ $user_data = mysqli_query($conn , $user_sql);
 				<th  class="col-xs-1">Tan</th>
 				<th  class="col-xs-1">city</th>
 				<th  class="col-xs-1">Status</th>				
-				<th  class="col-xs-2">Date</th>
+				<th  class="col-xs-1">Date</th>
+				<th  class="col-xs-1">Employees</th>
 				<th class="col-xs-1">Edit</th>
 				<th class="col-xs-1">Delete</th>
 			</tr>
@@ -88,19 +107,20 @@ $user_data = mysqli_query($conn , $user_sql);
 			<?php
 			
 			while($row=mysqli_fetch_array($user_data)){
-				echo "<tr id=".$row[0]." align='center'>
+				echo "<tr  class='col-xs-12' id=".$row[0]." align='center'>
 				<td class='edit-orgname col-xs-2'><a href='quarter_data.php?clientid=$row[0]'>".$row[14]."</a></td>";
 				echo
 				"<td class='edit-mail col-xs-1'>".$row[3]."</td>";
 				echo "<input type='hidden' value='$row[1]' class='edit-uname$row[0]'/>";
-					echo "<input type='hidden' value='$row[16]' class='edit-area$row[0]'/>";
-					echo "<input type='hidden' value='$row[17]' class='edit-service$row[0]'/>";
+					echo "<input type='hidden' value='$row[17]' class='edit-area$row[0]'/>";
+					echo "<input type='hidden' value='$row[18]' class='edit-service$row[0]'/>";
+					echo "<input type='hidden' value='$row[15]' class='edit-assign$row[0]'/>";
 				echo
 				"<td class='edit-number col-xs-2'>".$row[4]."</td>";
 				echo
 				"<td class='edit-tan col-xs-1'>".$row[13]."</td>";
 				echo
-				"<td class='edit-city col-xs-1'>".$row[15]."</td>";
+				"<td class='edit-city col-xs-1'>".$row[16]."</td>";
 				//echo
 				//"<td class='edit-area col-xs-1'>".$row[16]."</td>";
 				if($row[9]=='1')
@@ -109,10 +129,15 @@ $user_data = mysqli_query($conn , $user_sql);
 				
 				echo "<td class='edit-pname col-xs-1'><input id='checkbox1' class='$row[0]' type='checkbox' value='".$row[9]."'  onChange='setStatus(1,$row[0])'/></td>";
 				echo
-				"<td class='edit-date col-xs-2'>".$row[8]."</td>";
+				"<td class='edit-date col-xs-1'>".$row[8]."</td>";
 				
 				
 				echo"
+				<td class='col-xs-1'>
+						<a href='client_employees.php?client_id=$row[0]' class='btn btn-xs btnbg '>
+							<span class='glyphicon glyphicon-briefcase'></span>
+						</a>
+					</td>
 				<td class='col-xs-1'>
 						<a  data-toggle='modal' data-target='#myUserModal' class='edit_user btn btn-xs btnbg'>
 							<span class='glyphicon glyphicon-edit'></span>
@@ -175,6 +200,21 @@ $user_data = mysqli_query($conn , $user_sql);
 						<div class="form-group col-md-6">
 						<input type = "text" class="form-control" id ="edit-service" name="service_charges" required placeholder = "Enter Service Charges">
 						</div>
+						<div class="form-group col-md-6">
+				<?php
+$select="select u.name,u.userid from user_info u where u.role_id='".AUTHOR."' and u.created_by='".$_SESSION['user_id']."'"; 
+$sres = mysqli_query($conn, $select);
+?>
+
+<select class="form-control" name="edit-assi" id="edit-assi"/>
+<option value="">Select Client</option>
+<?php 
+while($row=mysqli_fetch_array($sres))
+{ ?>
+<option value="<?php echo $row['userid']; ?>"><?php echo $row['name']; ?></option>
+<?php } ?>
+</select>
+			</div>
 						 <div class="clearfix"></div>
 						
 						<input type="button" name="submit" value="submit" id="edit-submit" class="btn btn-md btn-success btnbg newbtn">
@@ -192,7 +232,7 @@ $user_data = mysqli_query($conn , $user_sql);
 <script>
 $( document ).ready(function() {
 
-	$('#buttonplace').html('<button type="New" class="btn btn-xs btnbg btncls btn-default" data-toggle="modal" data-target="#myModal">New Client</button>');
+	$('#buttonplace').html('<i class="icon-user-plus position-left" data-toggle="modal" data-target="#myModal"></i>');
 
 });
  function setStatus(val,id){
@@ -239,7 +279,7 @@ $( "#clientinfo" ).submit(function( event ) {
         var city=$('#city').val();
         var area=$('#area').val();
         var service_charges=$('#service_charges').val();
-		
+		var assign=$('#assi').val();
        var chkMail=checkMail(mail,number,uname);
 		if(!chkMail){
 		
@@ -253,11 +293,11 @@ $( "#clientinfo" ).submit(function( event ) {
         dataType: 'json',
         type:'POST',
         url: url+'getClientData.php',
-        data:{email:mail,username:uname,password:password,clientname:name,phonenumber:number,tan:tan,city:city,area:area,service_charges:service_charges,type:'insert'}
+        data:{assign:assign,email:mail,username:uname,password:password,clientname:name,phonenumber:number,tan:tan,city:city,area:area,service_charges:service_charges,type:'insert'}
     }).done(function(data){       
-        alert('Record Updated Successfully.');
+        alert('Record Inserted Successfully.');
+
 		$('#myModal').modal('hide');
-		location.reload();
 	
 
        });
@@ -274,17 +314,17 @@ $("body").on("click","#edit-submit",function(){
 		var area=$('#edit-area').val();
 		var service=$('#edit-service').val();
 		var city=$('#edit-city').val();
-		
+		var assi=$('#edit-assi').val();
 
 		$.ajax({
         dataType: 'json',
         type:'POST',
         url: url+'getClientData.php',
-        data:{id:id,uname:uname,mail:mail,password:password,city:city,area:area,service:service,orgname:orgname,tan:tan,number:number,type:'update'}
+        data:{id:id,uname:uname,mail:mail,password:password,city:city,area:area,service:service,orgname:orgname,tan:tan,number:number,assign:assi,type:'update'}
     }).done(function(data){       
         alert('Record Updated Successfully.');
 		$('#myUserModal').modal('hide');
-		location.reload();
+		
        
     });
 	
@@ -295,7 +335,7 @@ $("body").on("click","#edit-submit",function(){
 	   var id=$tr.attr('id');
 	   var uname =  $('.edit-uname'+id).val();
 	   var service= $('.edit-service'+id).val();
-	   
+	   var assi=$('.edit-assign'+id).val();
 	   var area= $('.edit-area'+id).val();
 	   var mail = $('.edit-mail' , $tr).text();
 	   var password =  $('.edit-password', $tr).text();
@@ -312,7 +352,8 @@ $("body").on("click","#edit-submit",function(){
 		 $('#edit-city').val(city);
 		 $('#edit-tan').val(tan);
 		  $('#edit-service').val(service);
-		 
+		//  $('#assi option[value='+assi+']').attr('selected','selected');
+		$("#edit-assi").val(assi);
 	  });
 $("body").on("click",".remove-item",function(){
     var id = $(this).attr('id');

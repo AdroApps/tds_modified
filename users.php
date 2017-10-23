@@ -44,7 +44,7 @@ $user_data = mysqli_query($conn , $user_sql);
 						<input type="text" class ="form-control" id="name" name="name" required Placeholder="Enter name">
 						</div>
 						
-						<input type="submit" name="submit" value="submit" class="btn btn-md btnbg btn-success">
+						<input type="submit" name="submit" value="submit" class="btn btn-md newbtn btnbg btn-success">
 
 					</form>
 </div>
@@ -54,6 +54,8 @@ $user_data = mysqli_query($conn , $user_sql);
 </div>
 <!---modal-->
 <div class="panel panel-flat panelflat newpanel">
+
+ <div class="panel-heading">Users Information<div id="buttonplace" class="pull-right col-xs-6"></div></div>
 <div class="table-responsive" >
 	<table class="table table-fixed">
 		<thead>
@@ -148,7 +150,7 @@ $user_data = mysqli_query($conn , $user_sql);
 						<input type="text" class ="form-control" id="edit-pname" name="name" required Placeholder="Enter name">
 						</div>
 						
-						<input type="button" name="submit" value="submit" id="edit-submit" class="btn btn-md btn-success newbtn">
+						<input type="button" name="submit" value="submit" id="edit-submit" class="btn btn-md btn-success newbtn btnbg">
 						<input type="button" class="btn btn-md btn-default newbtn" name="cancel" value="Cancel" data-dismiss="modal">
             
 					</form>
@@ -163,7 +165,7 @@ $user_data = mysqli_query($conn , $user_sql);
 <script>
 $( document ).ready(function() {
 
-	$('#buttonplace').html('<button type="New" class="btn btn-xs btnbg btncls btn-default" data-toggle="modal" data-target="#myModal">New Auditor</button>');
+	$('#buttonplace').html('<i class="icon-user-plus position-left" data-toggle="modal" data-target="#myModal"></i>');
 
 });
  function setStatus(val,id){

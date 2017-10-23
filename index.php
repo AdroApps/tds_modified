@@ -27,13 +27,14 @@ if(isset($_POST['sub'])){
 			$password=$client_row['password'];
 			$_SESSION['role_id'] = $client_row['role_id'];		
 			$_SESSION['user_id'] = $client_row['userid'];
+			$_SESSION['name'] = $client_row['name'];
 			$_SESSION['org']=$client_row['organization'];
 		}
 		if($email == $mail && $password == $pwd && $status==STATUS_SUCCESS) {
 
 			if($_SESSION['role_id']==SUPERADMIN)
 			   header('Location:users.php');
-		    if($_SESSION['role_id']==AUDITOR)
+		    if($_SESSION['role_id']==AUDITOR || $_SESSION['role_id']==AUTHOR)
 			   header('Location:clients.php');
 		    if($_SESSION['role_id']==CLIENT)
 			   header('Location:quarter_data.php');
@@ -78,7 +79,7 @@ if(isset($_POST['sub'])){
                 <div class="panel-heading">
                     <center><h3 class="panel-title"><b>LOGIN</b></h3></center>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body login">
                     <form action="" method="POST">
 						<fieldset>
                             <div class="form-group">

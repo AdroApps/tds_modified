@@ -7,6 +7,7 @@ $sql3 = "DELETE FROM file_uploads_info WHERE file_id=".$values[0];
 			$data3 = mysqli_query($conn, $sql3);
 			 unlink($dir.$values[1]);
 }
+print_r($_FILES);
 
 	$date = date("Y/m/d h:i:s");
     //$email = $_POST['email'];

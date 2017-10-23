@@ -67,6 +67,9 @@ else if($_POST['type']=='update'){
 	$sql = "DELETE FROM `quarter_info` WHERE `quarter_id` = '".$id."'";
 	
 	$data = mysqli_query($conn, $sql);
+	$tsql = "DELETE FROM `tds_info` WHERE `quarter_id` = '".$id."'";
+	
+	$tdata = mysqli_query($conn, $tsql);
 	
 	if($data) {
 			$status= "success";

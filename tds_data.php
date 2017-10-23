@@ -3,7 +3,8 @@ include_once "conn.php";
 include_once "header.php";
 $qsql = "SELECT c.client_id,c.tan,u.phone_number,c.service_charges,c.client_name,q.quarter,q.status,q.authorised_person_name,q.financial_year,c.client_id,u.emailId from user_info u,client_info c,quarter_info q where c.client_id=u.userid and c.client_id=q.client_id and q.quarter_id=".$_GET['qid'];
 $qdata= mysqli_query($conn,$qsql);
-
+	$SQL = "select c.emp_name,c.pan,c.aadhar,t.month1,t.salary1,t.tdsamount1,t.month2,t.salary2,t.tdsamount2,t.month3,t.salary3,t.tdsamount3 from client_employees c,tds_info t,quarter_info q where c.emp_id=t.emp_id and t.quarter_id=q.quarter_id and q.quarter_id=".$_GET['qid'];
+	echo $SQL;
 while($row = mysqli_fetch_assoc($qdata)) {
 	//print_r($row);
 	$id = $row['client_id'];
@@ -15,8 +16,7 @@ while($row = mysqli_fetch_assoc($qdata)) {
 	$pname = $row['authorised_person_name'];
 	$mail = $row['emailId'];
 	$number = $row['phone_number'];
-	$service = $row['service_charges'];//.mysqli_error($conn);
-	
+	$service = $row['service_charges'];	
 }
 $tdsamount1tot = "";
 $tdsamount2tot = "";
@@ -52,20 +52,41 @@ while($row = mysqli_fetch_array($sql_res)) {
 		$month3 = "December";
     }
 	$totaltdsamount = $tdsamount1tot + $tdsamount2tot + $tdsamount3tot+$service;
+	if($_SESSION['role_id']==AUTHOR || $_SESSION['role_id']==AUDITOR)
+	$style='none';
+else
+	$style='block';
+if($_SESSION['role_id']==AUTHOR || $_SESSION['role_id']==AUDITOR){
 	
 ?>  
-<input type="hidden" id="quarter_id" value="<?php echo $quarter;?>"/>
+<style>
+.newtd{   
+   height: 40px!important;
+}
+</style>
+<?php }else{?>
+
+<style>
+.newtd{    padding: 13px!important;
+    line-height: 17px!important;
+}
+</style>
+<?php }?>
+<input type="hidden" id="quarter_id" value="<?php echo $_GET['qid'];?>"/>
+
+<input type="hidden" id="quarter" value="<?php echo $quarter;?>"/>
+<input type="hidden" id="roleid" value="<?php echo $_SESSION['role_id'];?>"/>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
- 
   <script src="js/jquery.dataTables.min.js"></script>
   <script src="js/dataTables.bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
 	
 		<!-- Client details -->
-	<div class="panel panel-flat panelflat newpanel">
-			<table class="table table-hover table-condensed" >
-					<h3 style = "margin-left:15px">Organization TDS Information</h3>
+		<div class="panel panel-default newpanel">
+    <div class="panel-heading">Organization TDS Information</div>
+    <div class="panel-body">
+	<table class="table table-hover table-condensed" >
 						<thead>
 							<tr align="center">
 								<th>Organization</th>
@@ -75,90 +96,82 @@ while($row = mysqli_fetch_array($sql_res)) {
 								<th>status</th>
 								<th>Person Name</th>
 								<th>Email</th>
-								<th>Phone Number</th>
-					
+								<th>Phone Number</th>					
 							</tr>
 						</thead>
 						<tbody>
 							<tr align="center">
-								<td><?php echo "$organization";?></td>
+								<td id="org"><?php echo "$organization";?></td>
 								<td><?php echo "$tan";?></td>
 								<td><?php echo "$year";?></td>
 								<td><?php echo "$quarter";?></td>
-								<td><?php echo "$status";?></td>
+								<td>
+								
+										<?php if($_SESSION['role_id']!=CLIENT){?>
+								<div class="form-group">
+				<select  id="status" name="status" class="form-control statuschange">
+				        <option <?php echo ($status == '') ? "selected='selected'" : ''; ?>>Select Status</option>
+						<option <?php echo (trim($status) == 'Completed') ? "selected='selected'": ''; ?>>Completed</option>
+						<option <?php echo (trim($status) == 'Processing') ? "selected='selected'": ''; ?>">Processing</option>
+						
+                     
+
+				</select>
+			</div>
+										<?php }else { echo $status; } ?>
+								</td>
 								<td><?php echo "$pname";?></td>
 								<td><?php echo "$mail";?></td>
-								<td><?php echo "$number";?></td>
-								
+								<td><?php echo "$number";?></td>								
 							</tr>
 						</tbody>
 			</table>	
-			<!-- /client details -->
-			
-			<!-----Quarter Table--
-					
-<table class="tdat">
-  
-  <tr>
-  
-   <td class="col-md-4 pull-right"><?php echo "$month1";?></td>
-   <td class="col-md-4"></td>
-   <td class="col-md-4">Total TDS amount : <?php echo "$tdsamount1tot";?></td>
-  </tr>
-    <tr>
-  
-   <td class="col-md-4 pull-right"><?php echo "$month2";?></td>
-     <td class="col-md-4"></td>
-   <td class="col-md-4">Total TDS amount : <?php echo "$tdsamount2tot";?></td>
-  </tr>
-    <tr>
-  
-   <td class="col-md-4 pull-right"><?php echo "$month3";?></td>
-     <td class="col-md-4"></td>
-   <td class="col-md-4">Total TDS amount : <?php echo "$tdsamount3tot";?></td>
-  </tr>
-</table>-->
-			<table class= "table table condensed">
-				<h3 style = "margin-left:15px">Quarter - <?php echo "$quarter";?></h3>
+	</div>
+</div>
+
+				<div class="panel panel-default newpanel">
+				<div class="panel-heading">Quarter - <?php echo "$quarter";?></div>
+				<div class="panel-body">
+			<table class= "table table condensed quarteri" border="0">
 				<tr>
-					<td class="col-md-4 month"><?php echo "$month1";?></td>
+					<td class="col-md-8 pull-right month"><?php echo "$month1";?></td>
 					
-					<td class="col-md-5 col-md-offset-3 amt">Total TDS amount:&nbsp;<input type="textbox" class="tot" disabled value=" <?php echo "$tdsamount1tot";?>"/></td>
+					<td class="col-md-4 col-md-offset-3 amt"> TDS amount:&nbsp;<input type="textbox" id="tot1" class="tot" disabled value="<?php echo "$tdsamount1tot";?>"/></td>
 				</tr>
 				<tr>
-					<td class="col-md-4 month"><?php echo "$month2";?></td>
-					<td class="col-md-5 col-md-offset-3 amt">Total TDS amount:&nbsp;<input type="textbox" class="tot"  disabled value=" <?php echo "$tdsamount2tot";?>"/></td>
+					<td class="col-md-8 pull-right  month"><?php echo "$month2";?></td>
+					<td class="col-md-4 col-md-offset-3 amt">TDS amount:&nbsp;<input type="textbox" id="tot2"  class="tot" disabled value=" <?php echo "$tdsamount2tot";?>"/></td>
 				</tr>
 				
 				<tr>
-					<td class="col-md-4 month"><?php echo "$month3";?></td>
-					<td class="col-md-5 col-md-offset-3 amt">Total TDS amount:&nbsp;<input type="textbox" class="tot"  disabled value=" <?php echo "$tdsamount3tot";?>"/></td>
+					<td class="col-md-8 pull-right  month"><?php echo "$month3";?></td>
+					<td class="col-md-4 col-md-offset-3 amt"> TDS amount:&nbsp;<input type="textbox" id="tot3" class="tot"  disabled value=" <?php echo "$tdsamount3tot";?>"/></td>
 				</tr>
 				<tr>
-					<td class="col-md-4 "></td>
-					<td class="col-md-5 col-md-offset-3 amt">&nbsp;&nbsp;&nbsp;Service Charges:&nbsp;<input type="textbox" class="tot"  disabled value=" <?php echo "$service";?>"/></td>
+					<td class="col-md-8 "></td>
+					<td class="col-md-4 col-md-offset-3 amt">&nbsp;&nbsp;&nbsp;Service Charges:&nbsp;<input type="textbox" class="tot"  disabled value=" <?php echo "$service";?>"/></td>
 				</tr>
 				<tr>
-					<td class="col-md-4 "></td>
-					<td class="col-md-5 col-md-offset-3 amt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Grand Total:&nbsp;<input type="textbox" class="tot"  disabled value=" <?php echo "$totaltdsamount";?>"/></td>
+					<td class="col-md-8 "></td>
+					<td class="col-md-4 col-md-offset-3 amt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Grand Total:&nbsp;<input type="textbox" id="total"  class="tot" disabled value=" <?php echo "$totaltdsamount";?>"/></td>
 				</tr>
 			
 			</table>
 			
 	</div>
-	<!-----Quarter Table---->
-			
-		<!--Employee table-->
-
-	<!--div class="col-lg-12">
-	<div class ="panel panel-flat" style="margin-top:5px"> 
-		<div class="table-responsive pre-scrollable" style="max-height:506px"-->
+</div>
 <div class="panel panel-flat panelflat newpanel" >
+ <div class="panel-heading">Employee Information<div id="tdsemplace" style="text-align: right;" class="pull-right col-xs-6"></div></div>
 <div class="table-responsive" >
 	<table class="table table-fixed table-fixed1" id="user_data">
  <thead>
              <tr align="center">
-                <th class="col-xs-1">Employee name</th>
+			 <?php  if($_SESSION['role_id']!=CLIENT){
+echo '  <th class="col-xs-2">Employee name</th>';
+			 }else{
+				 ?>
+			 <th class="col-xs-1">Employee name</th>
+			 <?php }?>
 				<th class="col-xs-1">Pan </th>
 				<th class="col-xs-1">Month</th>
 				<th class="col-xs-1">salary</th>
@@ -169,59 +182,42 @@ while($row = mysqli_fetch_array($sql_res)) {
 				<th class="col-xs-1">Month</th>
 				<th class="col-xs-1">salary</th>
 				<th class="col-xs-1">TDS amt</th>		
-                <th class="col-xs-1">Delete</th>
-             </tr>
+<?php if($_SESSION['role_id']==3){
+echo '<th class="col-xs-1">Delete</th>
+             </tr>';}?>               
+			  
      </thead>
 
 	</table>
 </div>
 </div>
 <!--/Employee table-->
-<?php
-/*
-$psql="select pan,employeename from employee_info where client_id=".$_SESSION['user_id'];
 
-$pan_res = mysqli_query($conn, $psql);
-$panos=array();
-while($row = mysqli_fetch_array($pan_res)) {
-$panos[$row['employeename']]=$row['pan'];
-//	array_push($panos, $row['pan']);
-	//$pannos=implode(',',$panos);
-}$object = new stdClass();
-
-foreach ($panos as $key => $value)
-{
-    $object->$key = $value;
-}
-$object = json_decode(json_encode($array), FALSE);
-*/
-?>
 <input type="hidden" id="pannos" value='<?php echo json_encode($panos);?>'/>
 
 <!-----Attach File form and Table--->
 	<div class="col-lg-12">
-		<center><form action="" method="post" id="file-upload" name="file-upload" enctype="multipart/form-data">
-			<div style="position:relative;margin-top:2%;">
-                            <a class="btn btn-sm btn-default newbtn" href="javascript:;" style="margin-bottom:30px;">
-                                <input type="file" name="file_url" >
-                            </a>
-                            &nbsp;<span class="label label-info" id="img"></span>
-                            <input type="submit"   class="btn btn-sm btn-default newbtn" style=" margin-top: -30px;margin-left: 11px" name="filesubmit" value="Submit">
-                      </div>
-            				
-		</form>
-		</center>
 <div class="panel panel-flat panelflat newpanel" >
+
+ <div class="panel-heading">File Information<div style="display:<?php echo $style;?>" id="buttonplace" class="pull-right col-xs-6"><form action="" method="post" id="file-upload" name="file-upload" enctype="multipart/form-data"><input type="file" id="file" name="file_url" style="height:0;width:0;"/> </form> <i id="upload" class="icon-upload position-left" ></i></div></div>
 <div class="table-responsive" >
 	<table class="table table-fixed " >
 	<thead>
-	<tr align="center">
+
+		  <tr align="center">	<?php if($_SESSION['role_id']!=CLIENT){?>
+						<th class="col-xs-3">Name</th>
+						<th class="col-xs-3">View</th>
+						<th class="col-xs-3">Download</th>
+						<th class="col-xs-3">Date</th>
+	<?php }else{ ?>
+	           
 						<th class="col-xs-2">Name</th>
 						<th class="col-xs-3">View</th>
 						<th class="col-xs-3">Download</th>
 						<th class="col-xs-2">Date</th>
 						<th class="col-xs-2">Delete</th>
-					</tr>
+					
+		<?php }?></tr>
 	</thead>
 				<tbody style="height:200px;">
 				
@@ -282,7 +278,43 @@ if( mysqli_num_rows($filedata)<=0){
 
 <script type="text/javascript" language="javascript" >
  $(document).ready(function(){
+	 var load=0;
+	  var roleid=$('#roleid').val();
+	  var qid=$('#quarter_id').val(); var quarter=$('#quarter').val();
+	  var org=$('#org').text();
+	  if(roleid!=3){
+	  $('#tdsemplace').html('<form action="'+url+'tdsEmployeeExport.php?qid='+qid+'&quarter='+quarter+'&org='+org+'"  id="export" method="post" name="export_excel"><div class="control-group"><div class="controls"><button style="margin-top: -8px;" type="submit"  name="export" class="btn btn-primary button-loading newbtn" data-loading-text="Loading..."><i  class="icon-download position-left" ></i></button>	</div>	</div></form>');}
+	  // Monitor your selects for change by classname
+    $('.statuschange').on('change', function() { 
 
+         // Save the place increment and value of the select
+              var value = $(this).val();
+
+	         var userid= $("#userid").val();
+             var recid = $("#quarter_id").val();
+
+         // Send this data to a script somewhere via AJAX
+         $.ajax({
+             method: "POST",
+             url: "api/getTdsData.php",
+             data: { 
+               userid:userid,
+			   recid:recid,
+               value: value,
+			   type:'status'
+             }
+          })
+          .done(function( msg ) {
+              alert( "Data Saved");
+			  location.reload();
+          });
+    });
+ $("#upload").click(function(){
+   $('#file').click();
+ });
+ $('#file').change(function() {
+  $('#file-upload').submit();
+});
 	  var qid=$('#qid').val();
 //s.appendTo('body');
   fetch_data();
@@ -300,8 +332,29 @@ if( mysqli_num_rows($filedata)<=0){
    });
    
   $("#user_data").css("width","100%");
+   if(load>0)
+	   checktds(qid);
+  load++;
   }
-  
+  function checktds(id){
+	  
+   $.ajax({
+    url:"api/getTdsData.php",
+    method:"POST",
+    data:{type:'divup',id:id},
+    success:function(data)
+    {
+     data=JSON.parse(data);
+	 
+	 console.log(data.month1);
+	$('#tot1').val(data['month1']);
+	$('#tot2').val(data['month2']);
+	$('#tot3').val(data['month3']);
+	$('#total').val(data['total']);
+	
+    }
+   });
+  }
   function update_data(id, column_name, value)
   {
    $.ajax({
@@ -344,7 +397,7 @@ var s = $('<select />').attr('id','panid').attr('class','form-control');
 //temp = pannos.split(",");
 console.log(s);
 	  var month1,month2,month3;
-	  var quarter=$('#quarter_id').val();
+	  var quarter=$('#quarter').val();
 	  if(quarter == "Q1") {
 		month1 = "January";
 		month2 = "Febuary";
@@ -362,6 +415,10 @@ console.log(s);
 		month2 = "November";
 		month3 = "December";
     }
+	
+var roleid=$('#roleid').val();
+
+if(roleid==3){
    var html = '<tr>';
    html += '<td width="5%" contenteditable id="data1"></td>';
    html += '<td width="5%" contenteditable id="data2"></td>';
@@ -377,6 +434,23 @@ console.log(s);
    html += '<td><button type="button" name="insert" id="insert" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-pencil"></span></button></td>';
    html += '<td></td>';
    html += '</tr>';
+}else{
+    var html = '<tr>';
+   html += '<td width="5%"  id="data1"></td>';
+   html += '<td width="5%"  id="data2"></td>';
+    html += '<td width="5%"  id="data3">'+month1+'</td>';
+   html += '<td width="5%"  id="data4"></td>';
+    html += '<td  width="5%"  id="data5"></td>';
+   html += '<td width="5%"  id="data6">'+month2+'</td>';
+    html += '<td width="5%"  id="data7"></td>';
+   html += '<td width="5%"  id="data8"></td>';
+    html += '<td width="5%"  id="data9">'+month3+'</td>';
+   html += '<td width="5%"  id="data10"></td>';
+    html += '<td width="5%"  id="data11"></td>';
+  
+   html += '<td></td>';
+   html += '</tr>';
+}
    $('#user_data tbody').prepend(html);
    $('#data2').append(s);
   });
@@ -430,9 +504,9 @@ $(document).on('change','#panid',function(){
    if(confirm("Are you sure you want to remove this?"))
    {
     $.ajax({
-     url:"delete.php",
+     url:"api/getTdsData.php",
      method:"POST",
-     data:{id:id},
+     data:{id:id,type:'delete'},
      success:function(data){
       $('#alert_message').html('<div class="alert alert-success">'+data+'</div>');
       $('#user_data').DataTable().destroy();
@@ -445,8 +519,7 @@ $(document).on('change','#panid',function(){
    }
   });
   $("#user_data").css("width","100%");
- });
- $("body").on("click",".remove-image",function(){
+   $("body").on("click",".remove-image",function(){
     var id = $(this).attr('id');
     var c_obj = $(this).parent().parent();
 	console.log(c_obj);
@@ -465,26 +538,32 @@ $(document).on('change','#panid',function(){
  }
 
 });
- $('#file-upload').submit( function(e) {
-    e.preventDefault();
-	alert(32);
+document.getElementById('file-upload').onchange = function () {
+upload();
+};
 
-    var data = new FormData(this); // <-- 'this' is your form element
-    
-		$.ajax({
-        type:'POST',
-        url: url+'tdsFileUpload.php',        
-		data: data,
-		dataType:'json',
-            cache: false,
-            contentType: false,
-            processData: false,
-      }).done(function(data){       
-        alert('File uploaded Successfully.');
-		location.reload();
-    });
-
-	});
+var roleid=$('#roleid').val();
+if(roleid!=3){ $("th[aria-controls^='user_data']:first").removeClass('col-xs-1');
+	 $("th[aria-controls^='user_data']:first").addClass('col-xs-2');
+}
+ });
+function upload() {
+    var upload = document.getElementById('file');
+    var image = upload.files[0];
+    $.ajax({
+      url:url+'tdsFileUpload.php', 
+      type: "POST",
+      data: new FormData($('#file-upload')[0]),
+      contentType:false,
+      cache: false,
+      processData:false,
+      success:function (msg) {
+		  
+		 alert('File uploaded Successfully.');
+	  }
+      });
+};
+	
 </script>
 
 

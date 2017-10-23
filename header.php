@@ -44,61 +44,58 @@ var url = "http://localhost/tds_modified/api/";
 	<script type="text/javascript" src="js/core/libraries/jquery.min.js"></script>
 	<script type="text/javascript" src="js/core/libraries/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/plugins/ui/drilldown.js"></script>
+	
 	<!-- /core JS files -->
 	
 
 
   
-  </head><body><div class="navbar navbar-inverse navbar-fixed-top" role="navigation">	
-	<div class="navbar-header">
-        <div class="navbar-header"><a class="navbar-brand" href="#">ADRO</a></div>
-		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+  </head><body><div class="navbar navbar-inverse navbar-fixed-top" style="top:0;position:fixed;" role="navigation">	
+	<div class="navbar-header col-md-10 col-sm-10 col-xs-12">
+        <div class="navbar-header col-md-8 col-xs-6"><a class="navbar-brand" href="#">ADRO</a></div>
+		<button type="button" class="pull-right col-xs-4 navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 		<span class="sr-only">Toggle navigation</span>
 		<span class="icon-bar"></span>
 		<span class="icon-bar"></span>
 		<span class="icon-bar"></span>
 		</button>
 	</div>
+	<div class="col-md-2 col-xs-2 col-xs-12">
+	
+        <div class="navbar-header"><a class="navbar-brand" href="#">Welcome <?php echo $_SESSION['name'];?></a></div>
+	
+	</div>
 	
 </div>
-<div class="navbar navbar-inverse navbar-static-top" role="navigation">	
+<div class="navbar navbar-inverse navbar-static-top" style="position:fixed;width:100%;" role="navigation">	
 
 	<ul class="nav navbar-nav navbar-nav-material">
 				<?php if($_SESSION['role_id']==SUPERADMIN){?>
-					<li class="<?php active('users.php');?>"><a href="users.php"><i class="icon-puzzle4 position-left"></i> USERS</a></li>
+					<li class="<?php active('users.php');?>"><a href="users.php"><i class="icon-users position-left"></i> USERS</a></li>
 				<?php }?>
 					<?php if($_SESSION['role_id']==AUDITOR){?>
-					<li class="<?php active('clients.php');?>"><a href="clients.php"><i class="icon-puzzle4 position-left"></i>Clients</a></li>
-				<li class="<?php active('client_employees.php');?>"><a href="client_employees.php"><i class="icon-puzzle4 position-left"></i>Employees</a></li>
+					<li class="<?php active('clients.php');?>"><a href="clients.php"><i class="icon-user-tie position-left"></i>Clients</a></li>
 				
-				<li class="<?php active('internal_users.php');?>"><a href="internal_users.php"><i class="icon-puzzle4 position-left"></i>INTERNAL USERS</a></li>
+				<li class="<?php active('internal_users.php');?>"><a href="internal_users.php"><i class="icon-users position-left"></i>INTERNAL USERS</a></li>
 				<?php }?>
 				<?php if($_SESSION['role_id']==CLIENT){?>
-					<li class="<?php active('quarter_data.php');?>"><a href="quarter_data.php"><i class="icon-puzzle4 position-left"></i>TDS</a></li>
-				<li class="<?php active('client_employees.php');?>"><a href="client_employees.php"><i class="icon-puzzle4 position-left"></i>Employees</a></li>
+					<li class="<?php active('quarter_data.php');?>"><a href="quarter_data.php"><i class="icon-profile position-left"></i>TDS</a></li>
+				<li class="<?php active('client_employees.php');?>"><a href="client_employees.php"><i class="icon-briefcase position-left"></i>Employees</a></li>
 				<?php }?>
-				
+				<?php if($_SESSION['role_id']==AUTHOR){?>
+					<li class="<?php active('clients.php');?>"><a href="clients.php"><i class="icon-user-tie position-left"></i>Clients</a></li>
+				<?php }?>
 			</ul>
 	<div class="collapse navbar-collapse">
-		
-<!--client menu-->
-
-			
-			<!--page header<li><a href="#">Link</a></li>
-			<li><a href="#">Link</a></li>-->
-						
-
-
 		<ul class="nav navbar-nav pull-right">
 			
-			<li><a href="#"><div id="buttonplace"></div></a></li>
 			<li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu <b class="caret"></b></a>
               <ul class="dropdown-menu">
                <li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>
 						<li><a href="#"><span class="badge badge-warning pull-right"></span> <i class="icon-comment-discussion"></i> Notifications</a></li>
 						<li class="divider"></li>
-						<li><a href="change_password.php"><i class="icon-cog5"></i> Change Password</a></li>
+						<li><a href="change_password.php"><i class="icon-key"></i> Change Password</a></li>
 						<li><a href="logout.php"><i class="icon-switch2"></i> Logout</a></li>
               </ul>
             </li>
@@ -108,7 +105,56 @@ var url = "http://localhost/tds_modified/api/";
 </div>
 
 
+<script>
 
+var ALERT_TITLE = "Info!";
+var ALERT_BUTTON_TEXT = "Ok";
+
+if(document.getElementById) {
+	window.alert = function(txt) {
+		createCustomAlert(txt);
+	}
+}
+
+function createCustomAlert(txt) {
+	d = document;
+
+	if(d.getElementById("modalContainer")) return;
+
+	mObj = d.getElementsByTagName("body")[0].appendChild(d.createElement("div"));
+	mObj.id = "modalContainer";
+	mObj.style.height = d.documentElement.scrollHeight + "px";
+	
+	alertObj = mObj.appendChild(d.createElement("div"));
+	alertObj.id = "alertBox";
+	if(d.all && !window.opera) alertObj.style.top = document.documentElement.scrollTop + "px";
+	alertObj.style.left = (d.documentElement.scrollWidth - alertObj.offsetWidth)/2 + "px";
+	alertObj.style.visiblity="visible";
+
+	h1 = alertObj.appendChild(d.createElement("h1"));
+	h1.appendChild(d.createTextNode(ALERT_TITLE));
+
+	msg = alertObj.appendChild(d.createElement("p"));
+	//msg.appendChild(d.createTextNode(txt));
+	msg.innerHTML = txt;
+
+	btn = alertObj.appendChild(d.createElement("a"));
+	btn.id = "closeBtn";
+	btn.appendChild(d.createTextNode(ALERT_BUTTON_TEXT));
+	btn.href = "#";
+	btn.focus();
+	btn.onclick = function() { removeCustomAlert();location.reload();return false; }
+
+	alertObj.style.display = "block";
+	
+}
+
+function removeCustomAlert() {
+	document.getElementsByTagName("body")[0].removeChild(document.getElementById("modalContainer"));
+}
+function ful(){
+alert('Alert this pages');
+}</script>
 </body>
 </html>
 	 

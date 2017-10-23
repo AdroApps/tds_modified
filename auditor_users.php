@@ -15,6 +15,7 @@ $user_data = mysqli_query($conn , $user_sql);
 <!--page header-->
 
 <div class="panel panel-flat panelflat newpanel">
+ <div class="panel-heading">Clients Information </div>
 <div class="table-responsive" >
 	<table class="table table-fixed">
 		<thead>

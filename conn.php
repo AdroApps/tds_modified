@@ -10,7 +10,13 @@ define ('DB_PASSWORD' , '');
 
 define ('DB_NAME' , 'tds_modified');
 
-
+define ('SUPERADMIN' , '1');
+define ('AUDITOR' , '2');
+define ('CLIENT' , '3');
+define ('AUTHOR' , '4');
+define ('AGENT' , '5');
+define('STATUS_SUCCESS','1');
+define('STATUS_FAILURE','0');
 $conn = mysqli_connect(DB_HOST, DB_UNAME, DB_PASSWORD, DB_NAME);
 
 $_SESSION['LAST_ACTIVITY'] = time();
