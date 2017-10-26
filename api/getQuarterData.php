@@ -34,7 +34,7 @@ if($_POST['type']=='insert') {
 	$getqdata=mysqli_fetch_assoc (mysqli_query($conn, $getqid));
     $qid=$getqdata['quarter_id'];
 	while($row=mysqli_fetch_assoc($edata)){
-	$tdsql="INSERT INTO `tds_info` (`tds_id`, `client_id`, `emp_id`, `quarter_id`, `salary1`, `month1`, `tdsamount1`, `salary2`, `month2`, `tdsamount2`, `salary3`, `month3`, `tdsamount3`, `created_date`) VALUES('','".$_SESSION['user_id']."','".$row['emp_id']."','$qid','','".$month1."','','','".$month2."','','','".$month3."','','','$date')";
+	$tdsql="INSERT INTO `tds_info` (`tds_id`, `client_id`, `emp_id`, `quarter_id`, `salary1`, `month1`, `tdsamount1`, `salary2`, `month2`, `tdsamount2`, `salary3`, `month3`, `tdsamount3`,`total_amount`, `created_date`) VALUES('','".$_SESSION['user_id']."','".$row['emp_id']."','$qid','','".$month1."','','','".$month2."','','','".$month3."','','','$date')";
 	$tdsdata=mysqli_query($conn,$tdsql);
 	}
 	if($data) {

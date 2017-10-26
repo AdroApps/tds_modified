@@ -57,8 +57,8 @@ else
 <div class="panel panel-flat newpanel">
 <div class="table-responsive pre-scrollable" style="min-height:506px">
 			
- <div class="panel-heading">Users Information  <div id="buttonplace" class="pull-right col-xs-6"></div></div>		
-	<table class="table table-fixed">
+ <div class="panel-heading">Users Information <input id="myInput" type="text" placeholder="Search.."> <div id="buttonplace" class="pull-right col-xs-6"></div></div>		
+	<table class="table table-fixed" id="myTable">
 		<thead>
 			<tr>
 				
@@ -145,6 +145,12 @@ else
 <!---modal--->
 <script>
 $( document ).ready(function() {
+	 $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").each(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
 	var roleid=$('#roleid').val();
 	if(roleid!=1)
 		$('#buttonplace').html('<i class="icon-user-plus position-left" data-toggle="modal" data-target="#myuserModal"></i>');

@@ -500,3 +500,7 @@ code span {
     margin-right: 36px;
     top: -24px;
 }
+#myInput{
+float:right;    padding: 0 10px;color:#273246!important;
+font-weight:bold;
+}

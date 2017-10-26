@@ -55,9 +55,9 @@ $user_data = mysqli_query($conn , $user_sql);
 <!---modal-->
 <div class="panel panel-flat panelflat newpanel">
 
- <div class="panel-heading">Users Information<div id="buttonplace" class="pull-right col-xs-6"></div></div>
+ <div class="panel-heading">Users Information <input id="myInput" type="text" placeholder="Search.."><div id="buttonplace" class="pull-right col-xs-6"></div></div>
 <div class="table-responsive" >
-	<table class="table table-fixed">
+	<table class="table table-fixed" id="myTable">
 		<thead>
 			<tr>
 				
@@ -169,7 +169,12 @@ $user_data = mysqli_query($conn , $user_sql);
 
 <script>
 $( document ).ready(function() {
-
+	 $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").each(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
 	$('#buttonplace').html('<i class="icon-user-plus position-left" data-toggle="modal" data-target="#myModal"></i>');
 
 });
