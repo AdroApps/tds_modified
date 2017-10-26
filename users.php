@@ -61,10 +61,11 @@ $user_data = mysqli_query($conn , $user_sql);
 		<thead>
 			<tr>
 				
-				<th  class="col-xs-2"> Name</th>
+				<th  class="col-xs-1"> Name</th>
 				<th  class="col-xs-2">Email</th>
 				<th  class="col-xs-2">Phone Number</th>
-				<th  class="col-xs-2">Status</th>				
+				<th  class="col-xs-2">Internal Users</th>
+				<th  class="col-xs-1">Status</th>				
 				<th  class="col-xs-2">Date</th>
 				<th class="col-xs-1">Edit</th>
 				<th class="col-xs-1">Delete</th>
@@ -82,19 +83,23 @@ $user_data = mysqli_query($conn , $user_sql);
 			while($row=mysqli_fetch_array($user_data)){
 
 				echo "<tr id=".$row[0]." align='center'>
-				<td class='edit-orgname col-xs-2'><a href='auditor_users.php?auditor=$row[0]'>".$row[1]."</a></td>";
+				<td class='edit-orgname col-xs-1'><a href='auditor_users.php?auditor=$row[0]'>".$row[1]."</a></td>";
 				echo
 				"<td class='edit-mail col-xs-2'>".$row[3]."</td>";
 				echo "<input type='hidden' value='$row[1]' class='edit-uname$row[0]'/>";
 				echo
 				"<td class='edit-number col-xs-2'>".$row[4]."</td>";
+				
+						echo "<td class='col-xs-2'>	<a href='internal_users.php?auditor_id=$row[0]' class='btn btn-xs btnbg '>
+							<span class='glyphicon glyphicon-briefcase'></span>
+						</a></td>";
 				if($row[9]=='1')
-				echo "<td class='edit-pname col-xs-2'><input id='checkbox1' type='checkbox' checked='checked' value='".$row[9]."' onChange='setStatus(0,$row[0])'/></td>";
+				echo "<td class='edit-pname col-xs-1'><input id='checkbox1' type='checkbox' checked='checked' value='".$row[9]."' onChange='setStatus(0,$row[0])'/></td>";
 			else
 				
-				echo "<td class='edit-pname col-xs-2'><input id='checkbox1' class='$row[0]' type='checkbox' value='".$row[9]."'  onChange='setStatus(1,$row[0])'/></td>";
+				echo "<td class='edit-pname col-xs-1'><input id='checkbox1' class='$row[0]' type='checkbox' value='".$row[9]."'  onChange='setStatus(1,$row[0])'/></td>";
 				echo
-				"<td class='edit-date col-xs-2'>".$row[8]."</td>";
+				"<td class='edit-date col-xs-2'>".date('d-m-Y', strtotime($row[8]))."</td>";
 				
 				
 				echo"

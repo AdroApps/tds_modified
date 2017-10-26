@@ -129,7 +129,7 @@ while($row=mysqli_fetch_array($sres))
 				
 				echo "<td class='edit-pname col-xs-1'><input id='checkbox1' class='$row[0]' type='checkbox' value='".$row[9]."'  onChange='setStatus(1,$row[0])'/></td>";
 				echo
-				"<td class='edit-date col-xs-1'>".$row[8]."</td>";
+				"<td class='edit-date col-xs-1'>".date('d-m-Y', strtotime($row[8]))."</td>";
 				
 				
 				echo"

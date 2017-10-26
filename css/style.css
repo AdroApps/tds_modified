@@ -87,8 +87,10 @@ table.responsive-table th {
 }
 .newtable{min-height: 460px!important;overflow-y: scroll;overflow-x: hidden!important;}
 .noscroll{overflow-x: hidden!important;}
-.newpanel{margin: 4px 2%;margin: 4px 2%;
+.newpanel{margin: 4px 2%;
     margin-top: 5%;}
+	.tbpanel{margin: 4px 2%;
+    margin-top: 2%;}
 .newpanel h3{padding-top:1%}
 .btncls,.btncls:hover{
        background-color: #273246!important;
@@ -129,7 +131,8 @@ display: none!important;
 }
 #user_data th{
 padding-left: 0px!important;
-    padding-right: 0px!important;    
+    padding-right: 0px!important;  
+	
 }
 .sorting, .sorting_asc, .sorting_desc {
     background : none;
@@ -162,7 +165,7 @@ table.dataTable thead .sorting_desc:after {
     margin-top: 5%;
 }
 th{text-transform:uppercase;color: #273246!important;padding:12px 8px!important;text-align:center!important;}
-#user_data tr{text-align:center!important;padding:0px!important;}
+#user_data tr{text-align:center!important;padding:0px!important;    height: 58px;}
 .newt{
 padding:0px!important;
 }
@@ -455,4 +458,45 @@ code {
 
 code span {
 	color:green;
+}
+
+/*dashboard*/
+
+
+#exTab1 .tab-content {
+  color : white;
+  background-color: #428bca;
+  padding : 5px 15px;
+}
+
+#exTab2 h3 {
+  color : white;
+  background-color: #428bca;
+  padding : 5px 15px;
+}
+
+/* remove border radius for the tab */
+
+#exTab1 .nav-pills > li > a {
+  border-radius: 0;
+}
+
+/* change border radius for the tab , apply corners on top*/
+
+#exTab3 .nav-pills > li > a {
+  border-radius: 4px 4px 0 0 ;
+}
+
+#exTab3 .tab-content {
+  color : white;
+  background-color: #428bca;
+  padding : 5px 15px;
+}
+.btnupload{
+	margin: 0;
+    padding: 0;
+    float: right;
+    margin-bottom: 0;
+    margin-right: 36px;
+    top: -24px;
 }

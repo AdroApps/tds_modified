@@ -7,7 +7,7 @@ if($_POST['type']=='insert'){
 	$password = $_POST['password'];
 	$password = hash('sha256', $password);
 	$pname = $_POST['name'];
-	$number  = $_POST['phonenumber'];
+	$number  = $_POST['number'];
 	$userid = $_SESSION['user_id'];
 	$roleid=2;
 	$status=1;

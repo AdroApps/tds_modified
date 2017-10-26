@@ -1,7 +1,9 @@
 <?php
 include_once "conn.php";
 include_once "header.php";
-
+if($_GET['auditor_id'])
+	$sql1 = "SELECT * FROM `user_info` where role_id='".AUTHOR."' and created_by=".$_GET['auditor_id'];
+else
   $sql1 = "SELECT * FROM `user_info` where role_id='".AUTHOR."' and created_by=".$_SESSION['user_id'];
   echo $sql1;
   $data1 = mysqli_query($conn, $sql1);
@@ -16,7 +18,8 @@ include_once "header.php";
 	}
   
 ?>
-		
+		<input type="hidden" id="roleid" value="<?php echo $_SESSION['role_id'];?>"/>
+	  
 <!-- Modal -->
 <div id="myuserModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -38,7 +41,9 @@ include_once "header.php";
 			<div class="form-group">
 				<input type="text" class ="form-control" id="password" name="password" Placeholder="Enter Password">
 			</div>
-		
+		<div class="form-group">
+				<input type="text" class ="form-control" id="pnumber" name="pnumber" Placeholder="Enter Phone Number">
+			</div>
 		<input type="button" value="submit" id="add-submit"  class="btn btn-md btnbg newbtn btn-primary">
 	</form>
 	</div>
@@ -52,16 +57,17 @@ include_once "header.php";
 <div class="panel panel-flat newpanel">
 <div class="table-responsive pre-scrollable" style="min-height:506px">
 			
- <div class="panel-heading">Users Information<div id="buttonplace" class="pull-right col-xs-6"></div></div>		
-	<table class="table table-hover table-condensed">
+ <div class="panel-heading">Users Information  <div id="buttonplace" class="pull-right col-xs-6"></div></div>		
+	<table class="table table-fixed">
 		<thead>
 			<tr>
 				
 
 				<th class="col-xs-3">Employee Name</th>
 				<th class="col-xs-3">Email</th>
-				<th class="col-xs-3">Edit</th>
-				<th class="col-xs-3">Delete</th>
+				<th class="col-xs-2">Phone Number</th>
+				<th class="col-xs-2">Edit</th>
+				<th class="col-xs-2">Delete</th>
 			</tr>
 		</thead>
 		<tbody>	<?php if( mysqli_num_rows($data1)<=0){
@@ -72,19 +78,18 @@ include_once "header.php";
 			<?php
 				
 				while($row = mysqli_fetch_array($data1)){
-					
 					echo "<tr  align='center' id=".$row[0].">
 					<td class='col-xs-3 edit-name'>".$row[5]."</td>";
 					echo
 					"<td class='col-xs-3 edit-email'>".$row[3]."</td>";
 					echo"
-					
-				<td class='col-xs-3'>
+					<td class='col-xs-2 edit-pnumber'>".$row[4]."</td>
+				<td class='col-xs-2'>
 						<a  data-toggle='modal' data-target='#myInternalUserModal' class='edit_addUser btn btn-xs btnbg'>
 							<span class='glyphicon glyphicon-edit'></span>
 						</a>
 					</td>
-					<td>
+					<td class='col-xs-2'>
 						<a id='$row[0]' class='btn btn-xs btnbg remove-item'>
 							<span class='glyphicon glyphicon-trash'></span>
 						</a>
@@ -127,7 +132,9 @@ include_once "header.php";
 			<div class="form-group">
 				<input type="text" class ="form-control" id="edit-password" name="num" Placeholder="Enter Password">
 			</div>
-			
+			<div class="form-group">
+				<input type="text" class ="form-control" id="edit-pnumber" name="pnumber" Placeholder="Enter Phone Number">
+			</div>
 		<input type="submit" value="submit"  id="edit-submit" class="btn btn-md btnbg newbtn btn-primary">
 	</form>
 	</div>
@@ -138,6 +145,8 @@ include_once "header.php";
 <!---modal--->
 <script>
 $( document ).ready(function() {
+	var roleid=$('#roleid').val();
+	if(roleid!=1)
 		$('#buttonplace').html('<i class="icon-user-plus position-left" data-toggle="modal" data-target="#myuserModal"></i>');
 });
 $("body").on("click","#edit-submit",function(e){
@@ -146,12 +155,12 @@ $("body").on("click","#edit-submit",function(e){
 		var name=$('#edit-name').val();
        var email= $('#edit-email').val();
 		 var password=$('#edit-password').val();
-       
+        var pnumber=$('#edit-pnumber').val();
 		$.ajax({
         dataType: 'json',
         type:'POST',
         url: url+'getInternalUserData.php',
-        data:{id:id,name:name,email:email,password:password,type:'edit'}
+        data:{id:id,name:name,email:email,password:password,pno:pnumber,type:'edit'}
     }).done(function(data){       
         alert('Record Updated Successfully.');
 		$('#myUserModal').modal('hide');
@@ -166,20 +175,23 @@ $("body").on("click","#edit-submit",function(e){
 	   var name =  $('.edit-name', $tr).text();
 	   var email = $('.edit-email' , $tr).text();
 	   var password =  $('.edit-password', $tr).text();
+	   var pno =  $('.edit-pnumber', $tr).text();
 		$('#edit-id').val(id);
         $('#edit-name').val(name);
         $('#edit-email').val(email);
 		 $('#edit-password').val(password);
+		 $('#edit-pnumber').val(pno);
         });
 	$("body").on("click","#add-submit",function(){
 	var name=$('#name').val();
    var email= $('#email').val();
 	 var password=$('#password').val();
+	  var pno=$('#pnumber').val();
 	$.ajax({
 	dataType: 'json',
 	type:'POST',
 	url: url+'getInternalUserData.php',
-	data:{name:name,email:email,password:password,type:'insert'}
+	data:{name:name,email:email,password:password,pno:pno,type:'insert'}
 }).done(function(data){       
 	alert('Inserted Successfully.');
 	$('#myUserModal').modal('hide');

@@ -1,5 +1,8 @@
 <?php
 include_once "conn.php";
+if(!isset($_SESSION['user_id']) ){
+			   header('Location:index.php');exit();
+}
 define ('SUPERADMIN' , '1');
 define ('AUDITOR' , '2');
 define ('CLIENT' , '3');
@@ -27,6 +30,8 @@ var url = "http://localhost/tds_modified/api/";
 
 </style>
 <title>TDS MANAGEMENT SYSTEM</title>
+<meta name="viewport" content="width=device-width">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
 <!-- Global stylesheets -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
@@ -51,7 +56,7 @@ var url = "http://localhost/tds_modified/api/";
 
   
   </head><body><div class="navbar navbar-inverse navbar-fixed-top" style="top:0;position:fixed;" role="navigation">	
-	<div class="navbar-header col-md-10 col-sm-10 col-xs-12">
+	<div class="navbar-header col-md-6 col-sm-10 col-xs-12">
         <div class="navbar-header col-md-8 col-xs-6"><a class="navbar-brand" href="#">ADRO</a></div>
 		<button type="button" class="pull-right col-xs-4 navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 		<span class="sr-only">Toggle navigation</span>
@@ -60,15 +65,17 @@ var url = "http://localhost/tds_modified/api/";
 		<span class="icon-bar"></span>
 		</button>
 	</div>
-	<div class="col-md-2 col-xs-2 col-xs-12">
+	<div class="col-md-6 col-xs-2 col-xs-12">
 	
-        <div class="navbar-header"><a class="navbar-brand" href="#">Welcome <?php echo $_SESSION['name'];?></a></div>
+        <div class="navbar-header pull-right"><a class="navbar-brand" href="#">Welcome <?php echo $_SESSION['name'];?></a></div>
 	
 	</div>
 	
 </div>
 <div class="navbar navbar-inverse navbar-static-top" style="position:fixed;width:100%;" role="navigation">	
 
+	<div class="collapse navbar-collapse">
+		
 	<ul class="nav navbar-nav navbar-nav-material">
 				<?php if($_SESSION['role_id']==SUPERADMIN){?>
 					<li class="<?php active('users.php');?>"><a href="users.php"><i class="icon-users position-left"></i> USERS</a></li>
@@ -85,9 +92,18 @@ var url = "http://localhost/tds_modified/api/";
 				<?php if($_SESSION['role_id']==AUTHOR){?>
 					<li class="<?php active('clients.php');?>"><a href="clients.php"><i class="icon-user-tie position-left"></i>Clients</a></li>
 				<?php }?>
+				<li class="dropdown hidden-md hidden-lg">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+               <li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>
+						<li><a href="#"><span class="badge badge-warning pull-right"></span> <i class="icon-comment-discussion"></i> Notifications</a></li>
+						<li class="divider"></li>
+						<li><a href="change_password.php"><i class="icon-key"></i> Change Password</a></li>
+						<li><a href="logout.php"><i class="icon-switch2"></i> Logout</a></li>
+              </ul>
+            </li>
 			</ul>
-	<div class="collapse navbar-collapse">
-		<ul class="nav navbar-nav pull-right">
+			<ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
 			
 			<li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu <b class="caret"></b></a>
@@ -105,7 +121,7 @@ var url = "http://localhost/tds_modified/api/";
 </div>
 
 
-<script>
+<script>/*
 
 var ALERT_TITLE = "Info!";
 var ALERT_BUTTON_TEXT = "Ok";
@@ -146,6 +162,7 @@ function createCustomAlert(txt) {
 	btn.onclick = function() { removeCustomAlert();location.reload();return false; }
 
 	alertObj.style.display = "block";
+	return false;
 	
 }
 
@@ -154,7 +171,7 @@ function removeCustomAlert() {
 }
 function ful(){
 alert('Alert this pages');
-}</script>
+}*/</script>
 </body>
 </html>
 	 

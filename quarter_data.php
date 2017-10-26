@@ -56,41 +56,41 @@ else
 			<?php	while($row = mysqli_fetch_array($data1)){
 					echo "<tr style='min-height: 45px;' align='center' id=".$row[10].">";
 					if($_SESSION['role_id']==AUTHOR || $_SESSION['role_id']==AUDITOR){
-						echo "<td class='edit-orgname col-xs-2'><a href='tds_data.php?qid=$row[10]'>".$row[4]."</a></td>
-					<td class='edit-tan col-xs-2'>".$row[3]."</td>
-					<td class='edit-year col-xs-2'>".$row[12]."</td>
+						echo "<td data-th='Organisation Name' class='edit-orgname col-xs-2'><a href='tds_data.php?qid=$row[10]'>".$row[4]."</a></td>
+					<td  data-th='Tan' class='edit-tan col-xs-2'>".$row[3]."</td>
+					<td  data-th='Financial Year' class='edit-year col-xs-2'>".$row[12]."</td>
 					";
 					echo
-					"<td class='edit-quarter col-xs-1'>".$row[13]."</td>
-					<td class='edit-apname col-xs-1'>".$row[14]."</td>";
+					"<td  data-th='Quarter' class='edit-quarter col-xs-1'>".$row[13]."</td>
+					<td  data-th='Authorised' class='edit-apname col-xs-1'>".$row[14]."</td>";
 					echo
-					"<td class='edit-status col-xs-2'>".$row[15]."</td>";
+					"<td  data-th='Status' class='edit-status col-xs-2'>".$row[15]."</td>";
 					echo
-					"<td class='edit-date col-xs-2'>".$row[17]."</td>";
+					"<td  data-th='Date' class='edit-date col-xs-2'>".date('d-m-Y', strtotime($row[17]))."</td>";
 									
 					}
 					else{
-					echo "<td class='edit-orgname col-xs-2'><a href='tds_data.php?qid=$row[10]'>".$row[4]."</a></td>
-					<td class='edit-tan col-xs-1'>".$row[3]."</td>
-					<td class='edit-year col-xs-2'>".$row[12]."</td>
+					echo "<td  data-th='Organisation Name' class='edit-orgname col-xs-2'><a href='tds_data.php?qid=$row[10]'>".$row[4]."</a></td>
+					<td  data-th='Tan' class='edit-tan col-xs-1'>".$row[3]."</td>
+					<td  data-th='Financial Year' class='edit-year col-xs-2'>".$row[12]."</td>
 					";
 					echo
-					"<td class='edit-quarter col-xs-1'>".$row[13]."</td>
-					<td class='edit-apname col-xs-1'>".$row[14]."</td>";
+					"<td data-th='Quarter' class='edit-quarter col-xs-1'>".$row[13]."</td>
+					<td  data-th='Authorised' class='edit-apname col-xs-1'>".$row[14]."</td>";
 					echo
-					"<td class='edit-status col-xs-1'>".$row[15]."</td>";
+					"<td data-th='Status' class='edit-status col-xs-1'>".$row[15]."</td>";
 					echo
-					"<td class='edit-date col-xs-2'>".$row[17]."</td>";
+					"<td data-th='Date' class='edit-date col-xs-2'>".date('d-m-Y', strtotime($row[17]))."</td>";
 					
 					
 						
 					echo"
-					<td class='col-xs-1'>
+					<td data-th='Edit' class='col-xs-1'>
 						<a  data-toggle='modal' data-target='#myEditModal' class='edit_category btn btn-xs btnbg'>
 							<span class='glyphicon glyphicon-edit'></span>
 						</a>
 					</td>
-					<td class='col-xs-1'>
+					<td data-th='Delete' class='col-xs-1'>
 						<a id='$row[10]' class='btn btn-xs btnbg remove-item'>
 							<span class='glyphicon glyphicon-trash'></span>
 						</a>

@@ -14,7 +14,7 @@ $sql1 = "SELECT * FROM `client_employees` WHERE client_id='".$_GET['client_id'].
 
 		<input type="hidden" id="roleid" value="<?php echo $_SESSION['role_id']; ?>"/>
 <div class="panel panel-flat panelflat newpanel">
- <div class="panel-heading">Employee Information<div id="buttonplace" class="pull-right col-xs-6"></div>
+ <div class="panel-heading">Employee Information<div id="buttonplace" style='height:10px;' class="pull-right col-xs-6"></div>
  </div>
 <div class="table-responsive" >
 	<table class="table table-fixed">
@@ -38,7 +38,11 @@ $sql1 = "SELECT * FROM `client_employees` WHERE client_id='".$_GET['client_id'].
 			</tr>
 		</thead>
 	
-		<tbody>
+		<tbody><?php if( mysqli_num_rows($data1)<=0){
+	
+	echo "<tr align='center' ><td class='nores'>No Results Found</td></tr>";
+}
+				?>
 			<?php
 					while($row = mysqli_fetch_array($data1)){
 						
@@ -71,7 +75,7 @@ $sql1 = "SELECT * FROM `client_employees` WHERE client_id='".$_GET['client_id'].
 			        else 				
 			         	echo "<td class='edit-pname col-xs-2'><input id='checkbox1'  class='$row[0]' type='checkbox' value='".$row[5]."'  onChange='setStatus(1,$row[0])'/></td>";
 					echo
-					"<td class='edit-date col-xs-2'>".$row[6]."</td>";
+					"<td class='edit-date col-xs-2'>".date('d-m-Y', strtotime($row[6]))."</td>";
 					echo"
 					 <td class=' col-xs-1 $style'>
 						<a data-toggle='modal' data-target='#myEmployeeModal' class='edit_addemployee btn btn-xs btnbg'>
@@ -173,7 +177,7 @@ var cid=$('#clientid').val();
 upload();
 };}
 else{
-$('#buttonplace').html('<form action="'+url+'ClientEmployeeExport.php?client_id='+cid+'"  id="export" method="post" name="export_excel"><div class="control-group"><div class="controls"><button style="margin-top: -8px;" type="submit"  name="export" class="btn btn-primary button-loading newbtn" data-loading-text="Loading..."><i  class="icon-download position-left" ></i></button>	</div>	</div></form>');
+$('#buttonplace').html('<form action="" method="post" id="file-upload" name="file-upload" enctype="multipart/form-data"><input type="file" id="file" name="file_url" style="height:0;width:0;"/> </form> <i style="margin-right: 45px;" class="icon-user-plus position-left" data-toggle="modal" data-target="#myModal"></i> <i id="upload" class="icon-folder-upload position-left" ></i><form action="'+url+'ClientEmployeeExport.php?client_id='+cid+'"  id="export" method="post" name="export_excel"><button type="submit"  name="export" class="btn btn-primary button-loading newbtn btnupload" data-loading-text="Loading..."><i  class="icon-download position-left" ></i></button></form>');
 }
  $("#upload").click(function(){
    $('#file').click();
@@ -187,48 +191,51 @@ $('#buttonplace').html('<form action="'+url+'ClientEmployeeExport.php?client_id=
 function chkDetails(name,panno,addhar,id){
 	var msg=false;
 	
-	
-	 $.post(url+'getClientEmployeeData.php',
-    {
-       type:'verify',name:name,panno:panno,addhar:addhar,id:id
-    },
-    function(data, status){
-       console.log(data);
-	   console.log(status);
-	    if(data[0]=='success')
-		    msg=true;
-       else
+	$.ajaxSetup({async: false});
+	$.ajax({
+        dataType: 'json',
+        type:'POST',
+        url: url+'getClientEmployeeData.php',
+        data:{type:'verify',name:name,panno:panno,addhar:addhar,id:id}
+    }).done(function(data){       
+console.log(data);
+ if(data[0]>0)
 		    msg=false;
+       else
+		    msg=true;
 		sessionStorage.cmsg = msg;
     });
-	
 	var umsg=sessionStorage.getItem("cmsg")
 	return umsg;
 }
-$( "#client_employees" ).submit(function( event ) {
+$( "#client_employees" ).submit(function() {
+	
 event.preventDefault();
 		var name= $('#ename').val();
 		var panno=$('#panno').val();
 		 var addhar=$('#addhar').val();
 		 var chkStatus=chkDetails(name,panno,addhar);
-		 console.log('ckjj'+chkStatus);
+		
 if(panno.length<10){
 	alert('Invalid Pan card Number');
 }
 else if(addhar.length<12){
 	alert('Invalid Aadhar Number');
 }
-else if(!chkStatus){
-alert('Pan/Aadhar/Name already exits');
+else if(chkStatus=='false'){
+alert('Pan/Aadhar/Name already exits');return false;
+//console.log('sdfsdfs');
 }
 else{
+	var cid=$('#clientid').val();
 	$.ajax({
         dataType: 'json',
         type:'POST',
         url: url+'getClientEmployeeData.php',
-        data:{panno:panno,addhar:addhar,name:name,type:'insert'}
+        data:{panno:panno,addhar:addhar,name:name,type:'insert',cid:cid}
     }).done(function(data){       
         alert('Record Added Successfully.');
+		location.reload();
 		$('#myEmployeeModal').modal('hide');
     });
 

@@ -2,7 +2,7 @@
 include_once "conn.php";
 include_once "header.php";
 
-$user_sql = "SELECT * FROM `user_info` WHERE `created_by` = '".$_GET['auditor']."' ";
+$user_sql = "SELECT * FROM `user_info` WHERE  role_id='".CLIENT."' and `created_by` = '".$_GET['auditor']."' ";
 $user_data = mysqli_query($conn , $user_sql);
 
 
@@ -32,14 +32,14 @@ $user_data = mysqli_query($conn , $user_sql);
 		<tbody>
 			<?php 
 			if( mysqli_num_rows($user_data)<=0)
-	           echo "<tr align='center'><td class='nores'>No Results Found</td></tr>";
+	           echo "<tr align='center' ><td class='nores'>No Results Found</td></tr>";
 	          
 				?>
 			<?php
 			
 			while($row=mysqli_fetch_array($user_data)){
 
-				echo "<tr id=".$row[0]." align='center'>
+				echo "<tr style='height:50px' id=".$row[0]." align='center'>
 				<td class='edit-orgname col-xs-2'>".$row[1]."</a></td>";
 				echo
 				"<td class='edit-mail col-xs-2'>".$row[3]."</td>";
@@ -52,7 +52,7 @@ $user_data = mysqli_query($conn , $user_sql);
 				
 				echo "<td class='edit-pname col-xs-2'><input id='checkbox1' disabled class='$row[0]' type='checkbox' value='".$row[9]."' /></td>";
 				echo
-				"<td class='edit-date col-xs-3'>".$row[8]."</td>";
+				"<td class='edit-date col-xs-3'>".date('d-m-Y', strtotime($row[8]))."</td>";
 				
 				
 				echo"

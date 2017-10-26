@@ -106,8 +106,7 @@ if($_SESSION['role_id']==AUTHOR || $_SESSION['role_id']==AUDITOR){
 								<td><?php echo "$year";?></td>
 								<td><?php echo "$quarter";?></td>
 								<td>
-								
-										<?php if($_SESSION['role_id']!=CLIENT){?>
+									<?php if($_SESSION['role_id']!=CLIENT){?>
 								<div class="form-group">
 				<select  id="status" name="status" class="form-control statuschange">
 				        <option <?php echo ($status == '') ? "selected='selected'" : ''; ?>>Select Status</option>
@@ -119,6 +118,7 @@ if($_SESSION['role_id']==AUTHOR || $_SESSION['role_id']==AUDITOR){
 				</select>
 			</div>
 										<?php }else { echo $status; } ?>
+									
 								</td>
 								<td><?php echo "$pname";?></td>
 								<td><?php echo "$mail";?></td>
@@ -129,7 +129,7 @@ if($_SESSION['role_id']==AUTHOR || $_SESSION['role_id']==AUDITOR){
 	</div>
 </div>
 
-				<div class="panel panel-default newpanel">
+				<div class="panel panel-default tbpanel">
 				<div class="panel-heading">Quarter - <?php echo "$quarter";?></div>
 				<div class="panel-body">
 			<table class= "table table condensed quarteri" border="0">
@@ -160,14 +160,14 @@ if($_SESSION['role_id']==AUTHOR || $_SESSION['role_id']==AUDITOR){
 			
 	</div>
 </div>
-<div class="panel panel-flat panelflat newpanel" >
+<div class="panel panel-flat panelflat tbpanel" >
  <div class="panel-heading">Employee Information<div id="tdsemplace" style="text-align: right;" class="pull-right col-xs-6"></div></div>
 <div class="table-responsive" >
 	<table class="table table-fixed table-fixed1" id="user_data">
  <thead>
              <tr align="center">
 			 <?php  if($_SESSION['role_id']!=CLIENT){
-echo '  <th class="col-xs-2">Employee name</th>';
+//echo '  <th class="col-xs-2">Employee name</th>';
 			 }else{
 				 ?>
 			 <th class="col-xs-1">Employee name</th>
@@ -181,10 +181,11 @@ echo '  <th class="col-xs-2">Employee name</th>';
 				<th class="col-xs-1">TDS amt</th>
 				<th class="col-xs-1">Month</th>
 				<th class="col-xs-1">salary</th>
-				<th class="col-xs-1">TDS amt</th>		
+				<th class="col-xs-1">TDS amt</th>
+	<th class="col-xs-1">Total amt</th>						
 <?php if($_SESSION['role_id']==3){
-echo '<th class="col-xs-1">Delete</th>
-             </tr>';}?>               
+//echo '<th class="col-xs-1">Delete</th>  </tr>';
+}?>               
 			  
      </thead>
 
@@ -196,8 +197,7 @@ echo '<th class="col-xs-1">Delete</th>
 <input type="hidden" id="pannos" value='<?php echo json_encode($panos);?>'/>
 
 <!-----Attach File form and Table--->
-	<div class="col-lg-12">
-<div class="panel panel-flat panelflat newpanel" >
+<div class="panel panel-flat panelflat tbpanel" >
 
  <div class="panel-heading">File Information<div style="display:<?php echo $style;?>" id="buttonplace" class="pull-right col-xs-6"><form action="" method="post" id="file-upload" name="file-upload" enctype="multipart/form-data"><input type="file" id="file" name="file_url" style="height:0;width:0;"/> </form> <i id="upload" class="icon-upload position-left" ></i></div></div>
 <div class="table-responsive" >
@@ -205,13 +205,13 @@ echo '<th class="col-xs-1">Delete</th>
 	<thead>
 
 		  <tr align="center">	<?php if($_SESSION['role_id']!=CLIENT){?>
-						<th class="col-xs-3">Name</th>
+						<th class="col-xs-3">File Name</th>
 						<th class="col-xs-3">View</th>
 						<th class="col-xs-3">Download</th>
 						<th class="col-xs-3">Date</th>
 	<?php }else{ ?>
 	           
-						<th class="col-xs-2">Name</th>
+						<th class="col-xs-2">File Name</th>
 						<th class="col-xs-3">View</th>
 						<th class="col-xs-3">Download</th>
 						<th class="col-xs-2">Date</th>
@@ -257,7 +257,7 @@ if( mysqli_num_rows($filedata)<=0){
 				 
 				 <td class="col-xs-3"><a href="<?php echo $url.$roww[1];?>" download>Download</a></td>
 				 <?php echo
-				 "<td class='col-xs-2'>".$roww[3]."</td>";
+				 "<td class='col-xs-2'>".date('d-m-Y', strtotime($roww[3]))."</td>";
 				 echo "<td  class='col-xs-2'>
 						<a class='btn btn-xs btnbg remove-image' id='$roww[0],$roww[2]' >
 							<span class='glyphicon glyphicon-trash'></span>
@@ -271,7 +271,7 @@ if( mysqli_num_rows($filedata)<=0){
 			
 			</table>
 </div>
-</div>
+
 <!-----/Attach File form and Table--->
 
 <input type="hidden" id="qid" value="<?php echo $_GET['qid'];?>"/>

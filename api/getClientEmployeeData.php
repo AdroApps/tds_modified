@@ -6,8 +6,11 @@ if($_POST['type']=='insert') {
 	$pan = $_POST['panno'];
 	$adhar = $_POST['addhar'];
 	$date = date("Y/m/d h:i:s");
-
-	$sql = "INSERT INTO `client_employees`(`emp_id`,`client_id`,`pan` , `aadhar` ,`emp_name`,`created_date`) VALUES ('','".$_SESSION['user_id']."','".$pan."' , '".$adhar."' , '".$ename."','".$date."')";  
+ if($_POST['cid'])
+	 $client_id=$_POST['cid'];
+ else
+	 $client_id=$_SESSION['user_id'];
+	$sql = "INSERT INTO `client_employees`(`emp_id`,`client_id`,`pan` , `aadhar` ,`emp_name`,`created_date`,`status`) VALUES ('','". $client_id."','".$pan."' , '".$adhar."' , '".$ename."','".$date."','1')";  
 	$data  = mysqli_query($conn,$sql);
 	
 		  if($data) {
@@ -25,15 +28,7 @@ else if($_POST['type']=='verify'){
 		$chkquery="SELECT emp_id from client_employees where emp_name='".$_POST['name']."' OR pan='".$_POST['panno']."' OR  aadhar='".$_POST['addhar']."'" ;
 
 	$checkdata = mysqli_query($conn,$chkquery);
-  if (mysqli_num_rows($checkdata) != 0)
-  {
-     $status='failure';
-  }
-
-  else
-  {
-   $status='success';
-  }
+  $status=mysqli_num_rows($checkdata);
 }
 else if($_POST['type']=='update'){
 	$id = $_POST['id'];
