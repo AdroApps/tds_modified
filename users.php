@@ -55,9 +55,9 @@ $user_data = mysqli_query($conn , $user_sql);
 <!---modal-->
 <div class="panel panel-flat panelflat newpanel">
 
- <div class="panel-heading">Users Information <input id="myInput" type="text" placeholder="Search.."><div id="buttonplace" class="pull-right col-xs-6"></div></div>
+ <div class="panel-heading"><div class="col-md-6 col-xs-8"> Users Information</div><div id="buttonplace" class="pull-right col-xs-4"></div></div>
 <div class="table-responsive" >
-	<table class="table table-fixed" id="myTable">
+	<table class="table table-fixed" >
 		<thead>
 			<tr>
 				
@@ -72,7 +72,7 @@ $user_data = mysqli_query($conn , $user_sql);
 			</tr>
 			
 		</thead>
-		<tbody>
+		<tbody id="myTable">
 		<?php if( mysqli_num_rows($user_data)<=0){
 	
 	echo "<tr align='center' ><td class='nores'>No Results Found</td></tr>";
@@ -165,16 +165,11 @@ $user_data = mysqli_query($conn , $user_sql);
 </div>
 </div>
 <!---modal-->
-
-
+<?php 
+include_once "footer.php";?>
 <script>
 $( document ).ready(function() {
-	 $("#myInput").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#myTable tr").each(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });
-  });
+	
 	$('#buttonplace').html('<i class="icon-user-plus position-left" data-toggle="modal" data-target="#myModal"></i>');
 
 });
@@ -237,7 +232,7 @@ $( "#userinfo" ).submit(function( event ) {
     }).done(function(data){       
         alert('Record Updated Successfully.');
 		$('#myModal').modal('hide');
-		location.reload();
+		//location.reload();
 	
 
        });
@@ -260,7 +255,7 @@ $("body").on("click","#edit-submit",function(){
     }).done(function(data){       
         alert('Record Updated Successfully.');
 		$('#myUserModal').modal('hide');
-		location.reload();
+		//location.reload();
        
     });
 	

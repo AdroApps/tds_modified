@@ -7,12 +7,12 @@ $query="select c.pan,c.aadhar,c.emp_name,c.emp_id,t.tds_id,t.month1,t.month2,t.m
 
 if(isset($_POST["order"]))
 {
- $query .= 'ORDER BY '.$columns[$_POST['order']['0']['column']].' '.$_POST['order']['0']['dir'].' 
+ $query .= ' ORDER BY '.$columns[$_POST['order']['0']['column']].' '.$_POST['order']['0']['dir'].' 
  ';
 }
 else
 {
- $query .= 'ORDER BY emp_id DESC ';
+ $query .= ' ORDER BY emp_id DESC ';
 }
 
 $query1 = '';
@@ -22,7 +22,7 @@ if($_POST["length"] != -1)
  $query1 = 'LIMIT ' . $_POST['start'] . ', ' . $_POST['length'];
 }
 $number_filter_row = mysqli_num_rows(mysqli_query($conn, $query));
-//echo $query.$query1;
+//echo $query.''.$query1;
 $result = mysqli_query($conn, $query . $query1);
 
 
@@ -31,7 +31,7 @@ $data = array();
 
 while($row = mysqli_fetch_array($result))
 {
-	
+	//print_r($row);
 	if($_SESSION['role_id']==AUTHOR || $_SESSION['role_id']==AUDITOR){
 		$sub_array = array();
  $sub_array[] = '<div  width="5%" data-id="'.$row["tds_id"].'" data-column="employeename">' . $row["emp_name"] . '</div>';
@@ -44,7 +44,8 @@ while($row = mysqli_fetch_array($result))
  $sub_array[] = '<div  width="5%" class="update" data-id="'.$row["tds_id"].'" data-column="tdsamount2">' . $row["tdsamount2"] . '</div>';
  $sub_array[] = '<div  width="5%" class="update" data-id="'.$row["tds_id"].'" data-column="month3">' . $row["month3"] . '</div>';
  $sub_array[] = '<div  width="5%" class="update" data-id="'.$row["tds_id"].'" data-column="salary3">' . $row["salary3"] . '</div>';
- $sub_array[] = '<div  width="5%" class="update" data-id="'.$row["tds_id"].'" data-column="tdsamount3">' . $row["tdsamount3"] . '</div>';
+ $sub_array[] = '<div  width="5%" class="update" data-id="'.$row["tds_id"].'" data-column="tdsamount3">' . $row["tdsamount3"] . '</div>'; 
+ $sub_array[] = '<div  width="5%" class="update" data-id="'.$row["tds_id"].'" data-column="total_amount">' . $row["total_amount"] . '</div>';
 	}
 	else{
  $sub_array = array();
@@ -58,18 +59,17 @@ while($row = mysqli_fetch_array($result))
  $sub_array[] = '<div contenteditable width="5%" class="update" data-id="'.$row["tds_id"].'" data-column="tdsamount2">' . $row["tdsamount2"] . '</div>';
  $sub_array[] = '<div  width="5%" class="update" data-id="'.$row["tds_id"].'" data-column="month3">' . $row["month3"] . '</div>';
  $sub_array[] = '<div contenteditable width="5%" class="update" data-id="'.$row["tds_id"].'" data-column="salary3">' . $row["salary3"] . '</div>';
- $sub_array[] = '<div contenteditable width="5%" class="update" data-id="'.$row["tds_id"].'" data-column="tdsamount3">' . $row["tdsamount3"] . '</div>';
- 
- $sub_array[] = '<div contenteditable width="5%" class="update" data-id="'.$row["tds_id"].'" data-column="tdsamount3">' . $row["total_amount"] . '</div>';
+ $sub_array[] = '<div contenteditable width="5%" class="update" data-id="'.$row["tds_id"].'" data-column="tdsamount3">' . $row["tdsamount3"] . '</div>'; 
+ $sub_array[] = '<div contenteditable width="5%" class="update" data-id="'.$row["tds_id"].'" data-column="total_amount">' . $row["total_amount"] . '</div>';
 	}
-  if($_SESSION['role_id']==3)
+ // if($_SESSION['role_id']==3)
  //$sub_array[] = '<a  class=" btn btn-xs btnbg"><span class="glyphicon glyphicon-trash delete" id="'.$row["tds_id"].'"></span> </a>';
  $data[] = $sub_array;
 }
 
 function get_all_data($conn)
 {
- $query = "select c.pan,c.aadhar,c.emp_name,c.emp_id,t.month1,t.month2,t.month3,t.salary1,t.salary2,t.salary3,t.tdsamount1,t.tdsamount2,t.tdsamount3,t.total_amount from client_employees c,tds_info t where t.emp_id=c.emp_id and c.client_id=".$_SESSION['user_id']." and t.quarter_id='".$_GET['qid']."' ORDER BY emp_id DESC";
+ $query = "select c.pan,c.aadhar,c.emp_name,c.emp_id,t.month1,t.month2,t.month3,t.salary1,t.salary2,t.salary3,t.tdsamount1,t.tdsamount2,t.tdsamount3,t.total_amount from client_employees c,tds_info t where t.emp_id=c.emp_id and t.quarter_id='".$_GET['qid']."' ORDER BY emp_id DESC";
 
  $result = mysqli_query($conn, $query);
  return mysqli_num_rows($result);

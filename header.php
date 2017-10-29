@@ -24,11 +24,7 @@ function active($currect_page){
 <script>
 var url = "http://localhost/tds_modified/api/";
 </script>
-<style>body {
-  padding-top: 50px;
-}
 
-</style>
 <title>TDS MANAGEMENT SYSTEM</title>
 <meta name="viewport" content="width=device-width">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -55,29 +51,29 @@ var url = "http://localhost/tds_modified/api/";
 
 
   
-  </head><body><div class="navbar navbar-inverse navbar-fixed-top" style="top:0;position:fixed;" role="navigation">	
-	<div class="navbar-header col-md-6 col-sm-10 col-xs-12">
-        <div class="navbar-header col-md-8 col-xs-6"><a class="navbar-brand" href="#">ADRO</a></div>
-		<button type="button" class="pull-right col-xs-4 navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-		<span class="sr-only">Toggle navigation</span>
-		<span class="icon-bar"></span>
-		<span class="icon-bar"></span>
-		<span class="icon-bar"></span>
-		</button>
-	</div>
-	<div class="col-md-6 col-xs-2 col-xs-12">
-	
-        <div class="navbar-header pull-right"><a class="navbar-brand" href="#">Welcome <?php echo $_SESSION['name'];?></a></div>
-	
-	</div>
-	
-</div>
-<div class="navbar navbar-inverse navbar-static-top" style="position:fixed;width:100%;" role="navigation">	
+  </head><body>
+  
+  <nav class="navbar navbar-default navbar-fixed-top">
 
-	<div class="collapse navbar-collapse">
-		
-	<ul class="nav navbar-nav navbar-nav-material">
-				<?php if($_SESSION['role_id']==SUPERADMIN){?>
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Adro</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+		<div class="col-sm-3 col-md-3">
+       
+        <div class="input-group inpt">
+            <input id="myInput" type="text" class="form-control" placeholder="Search" name="q">
+           
+        </div>
+        </div>
+          <ul class="nav navbar-nav">
+            <?php if($_SESSION['role_id']==SUPERADMIN){?>
 					<li class="<?php active('users.php');?>"><a href="users.php"><i class="icon-users position-left"></i> USERS</a></li>
 				<?php }?>
 					<?php if($_SESSION['role_id']==AUDITOR){?>
@@ -92,36 +88,28 @@ var url = "http://localhost/tds_modified/api/";
 				<?php if($_SESSION['role_id']==AUTHOR){?>
 					<li class="<?php active('clients.php');?>"><a href="clients.php"><i class="icon-user-tie position-left"></i>Clients</a></li>
 				<?php }?>
-				<li class="dropdown hidden-md hidden-lg">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu <b class="caret"></b></a>
+           
+          </ul>
+          
+		  <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome <?php echo $_SESSION['name'];?> <b class="caret"></b></a>
               <ul class="dropdown-menu">
-               <li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>
-						<li><a href="#"><span class="badge badge-warning pull-right"></span> <i class="icon-comment-discussion"></i> Notifications</a></li>
+               <li><a href="edit_profile.php"><i class="icon-user-plus"></i> My profile</a></li>
+						<li><a href="notifications.php"><span class="badge badge-warning pull-right"></span> <i class="icon-comment-discussion"></i> Notifications</a></li>
 						<li class="divider"></li>
 						<li><a href="change_password.php"><i class="icon-key"></i> Change Password</a></li>
 						<li><a href="logout.php"><i class="icon-switch2"></i> Logout</a></li>
               </ul>
             </li>
-			</ul>
-			<ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
-			
-			<li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-               <li><a href="#"><i class="icon-user-plus"></i> My profile</a></li>
-						<li><a href="#"><span class="badge badge-warning pull-right"></span> <i class="icon-comment-discussion"></i> Notifications</a></li>
-						<li class="divider"></li>
-						<li><a href="change_password.php"><i class="icon-key"></i> Change Password</a></li>
-						<li><a href="logout.php"><i class="icon-switch2"></i> Logout</a></li>
-              </ul>
-            </li>
-		</ul>
-		
-	</div>
-</div>
+          </ul>
+		  
+        </div><!--/.nav-collapse -->
+     
+    </nav>
 
 
-<script>/*
+<script>
 
 var ALERT_TITLE = "Info!";
 var ALERT_BUTTON_TEXT = "Ok";
@@ -171,7 +159,79 @@ function removeCustomAlert() {
 }
 function ful(){
 alert('Alert this pages');
-}*/</script>
+}/*
+	<table class="table table-fixed" >
+		<thead>
+			<tr>
+				
+				<th  class="col-xs-1"> Name</th>
+				<th  class="col-xs-2">Email</th>
+				<th  class="col-xs-2">Phone Number</th>
+				<th  class="col-xs-2">Internal Users</th>
+				<th  class="col-xs-1">Status</th>				
+				<th  class="col-xs-2">Date</th>
+				<th class="col-xs-1">Edit</th>
+				<th class="col-xs-1">Delete</th>
+			</tr>
+			
+		</thead>
+		<tbody id="myTable">
+		<?php if( mysqli_num_rows($user_data)<=0){
+	
+	echo "<tr align='center' ><td class='nores'>No Results Found</td></tr>";
+}
+				?>
+			<?php
+			
+			while($row=mysqli_fetch_array($user_data)){
+
+				echo "<tr id=".$row[0]." align='center'>
+				<td class='edit-orgname col-xs-1'><a href='auditor_users.php?auditor=$row[0]'>".$row[1]."</a></td>";
+				echo
+				"<td class='edit-mail col-xs-2'>".$row[3]."</td>";
+				echo "<input type='hidden' value='$row[1]' class='edit-uname$row[0]'/>";
+				echo
+				"<td class='edit-number col-xs-2'>".$row[4]."</td>";
+				
+						echo "<td class='col-xs-2'>	<a href='internal_users.php?auditor_id=$row[0]' class='btn btn-xs btnbg '>
+							<span class='glyphicon glyphicon-briefcase'></span>
+						</a></td>";
+				if($row[9]=='1')
+				echo "<td class='edit-pname col-xs-1'><input id='checkbox1' type='checkbox' checked='checked' value='".$row[9]."' onChange='setStatus(0,$row[0])'/></td>";
+			else
+				
+				echo "<td class='edit-pname col-xs-1'><input id='checkbox1' class='$row[0]' type='checkbox' value='".$row[9]."'  onChange='setStatus(1,$row[0])'/></td>";
+				echo
+				"<td class='edit-date col-xs-2'>".date('d-m-Y', strtotime($row[8]))."</td>";
+				
+				
+				echo"
+				<td class='col-xs-1'>
+						<a  data-toggle='modal' data-target='#myUserModal' class='edit_user btn btn-xs btnbg'>
+							<span class='glyphicon glyphicon-edit'></span>
+						</a>
+					</td>
+					<td class='col-xs-1'>
+						<a id='$row[0]' class='btn btn-xs btnbg remove-item'>
+							<span class='glyphicon glyphicon-trash'></span>
+						</a>
+					</td>
+				
+				</tr>";
+			}
+			
+			?>
+		</tbody>
+	</table>*/
+	$( document ).ready(function() {
+	 $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").each(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+   });
+	</script>
 </body>
 </html>
 	 

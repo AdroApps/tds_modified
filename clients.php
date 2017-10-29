@@ -103,9 +103,11 @@ while($row=mysqli_fetch_array($sres))
 			</tr>
 			
 		</thead>
-		<tbody>
+		<tbody id="myTable">
 			<?php
-			
+				if( mysqli_num_rows($user_data)<=0)
+	           echo "<tr align='center' ><td class='nores'>No Results Found</td></tr>";
+	
 			while($row=mysqli_fetch_array($user_data)){
 				echo "<tr  class='col-xs-12' id=".$row[0]." align='center'>
 				<td class='edit-orgname col-xs-2'><a href='quarter_data.php?clientid=$row[0]'>".$row[14]."</a></td>";
@@ -227,7 +229,8 @@ while($row=mysqli_fetch_array($sres))
 </div>
 </div>
 <!---modal-->
-
+<?php
+include_once "footer.php";?>
 
 <script>
 $( document ).ready(function() {

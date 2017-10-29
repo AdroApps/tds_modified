@@ -38,7 +38,7 @@ $sql1 = "SELECT * FROM `client_employees` WHERE client_id='".$_GET['client_id'].
 			</tr>
 		</thead>
 	
-		<tbody><?php if( mysqli_num_rows($data1)<=0){
+		<tbody id="myTable"><?php if( mysqli_num_rows($data1)<=0){
 	
 	echo "<tr align='center' ><td class='nores'>No Results Found</td></tr>";
 }
@@ -165,7 +165,7 @@ $sql1 = "SELECT * FROM `client_employees` WHERE client_id='".$_GET['client_id'].
 </div>
 </div>
 <!---modal--->
-
+<?php include_once "footer.php";?>
 <script>
 
 $( document ).ready(function() {
@@ -177,7 +177,7 @@ var cid=$('#clientid').val();
 upload();
 };}
 else{
-$('#buttonplace').html('<form action="" method="post" id="file-upload" name="file-upload" enctype="multipart/form-data"><input type="file" id="file" name="file_url" style="height:0;width:0;"/> </form> <i style="margin-right: 45px;" class="icon-user-plus position-left" data-toggle="modal" data-target="#myModal"></i> <i id="upload" class="icon-folder-upload position-left" ></i><form action="'+url+'ClientEmployeeExport.php?client_id='+cid+'"  id="export" method="post" name="export_excel"><button type="submit"  name="export" class="btn btn-primary button-loading newbtn btnupload" data-loading-text="Loading..."><i  class="icon-download position-left" ></i></button></form>');
+$('#buttonplace').html('<form action="" method="post" id="file-upload" name="file-upload" enctype="multipart/form-data"><input type="file" id="file" name="file_url" style="height:0;width:0;"/> </form> <i style="margin-right: 45px;" class="icon-user-plus position-left" data-toggle="modal" data-target="#myModal"></i> <i id="upload" class="icon-folder-upload position-left" ></i><form action="'+url+'ClientEmployeeExport.php?client_id='+cid+'"  id="export" method="post" name="export_excel"><button type="submit"  name="export" class="dwnldbtn btn btn-primary button-loading newbtn btnupload" data-loading-text="Loading..."><i  class="icon-download position-left" ></i></button></form>');
 }
  $("#upload").click(function(){
    $('#file').click();
@@ -235,7 +235,7 @@ else{
         data:{panno:panno,addhar:addhar,name:name,type:'insert',cid:cid}
     }).done(function(data){       
         alert('Record Added Successfully.');
-		location.reload();
+	//	location.reload();
 		$('#myEmployeeModal').modal('hide');
     });
 

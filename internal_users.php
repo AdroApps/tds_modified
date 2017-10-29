@@ -5,7 +5,7 @@ if($_GET['auditor_id'])
 	$sql1 = "SELECT * FROM `user_info` where role_id='".AUTHOR."' and created_by=".$_GET['auditor_id'];
 else
   $sql1 = "SELECT * FROM `user_info` where role_id='".AUTHOR."' and created_by=".$_SESSION['user_id'];
-  echo $sql1;
+
   $data1 = mysqli_query($conn, $sql1);
  
 	if($data1)
@@ -57,20 +57,21 @@ else
 <div class="panel panel-flat newpanel">
 <div class="table-responsive pre-scrollable" style="min-height:506px">
 			
- <div class="panel-heading">Users Information <input id="myInput" type="text" placeholder="Search.."> <div id="buttonplace" class="pull-right col-xs-6"></div></div>		
-	<table class="table table-fixed" id="myTable">
+ <div class="panel-heading">Users Information<div id="buttonplace" class="pull-right col-xs-6"></div></div>		
+	<table class="table table-fixed">
 		<thead>
 			<tr>
 				
 
-				<th class="col-xs-3">Employee Name</th>
+				<th class="col-xs-2">Employee Name</th>
 				<th class="col-xs-3">Email</th>
 				<th class="col-xs-2">Phone Number</th>
+				<th class="col-xs-1">Status</th>
 				<th class="col-xs-2">Edit</th>
 				<th class="col-xs-2">Delete</th>
 			</tr>
 		</thead>
-		<tbody>	<?php if( mysqli_num_rows($data1)<=0){
+		<tbody  id="myTable">	<?php if( mysqli_num_rows($data1)<=0){
 	
 	echo "<tr align='center' ><td class='nores'>No Results Found</td></tr>";
 }
@@ -79,11 +80,18 @@ else
 				
 				while($row = mysqli_fetch_array($data1)){
 					echo "<tr  align='center' id=".$row[0].">
-					<td class='col-xs-3 edit-name'>".$row[5]."</td>";
+					<td class='col-xs-2 edit-name'>".$row[5]."</td>";
 					echo
 					"<td class='col-xs-3 edit-email'>".$row[3]."</td>";
 					echo"
-					<td class='col-xs-2 edit-pnumber'>".$row[4]."</td>
+					<td class='col-xs-2 edit-pnumber'>".$row[4]."</td>";
+					if($row[9]=='1')
+				echo "<td class='edit-pname col-xs-1'><input id='checkbox1' type='checkbox' checked='checked' value='".$row[9]."' onChange='setStatus(0,$row[0])'/></td>";
+			else
+				
+				echo "<td class='edit-pname col-xs-1'><input id='checkbox1' class='$row[0]' type='checkbox' value='".$row[9]."'  onChange='setStatus(1,$row[0])'/></td>";
+					
+				echo "
 				<td class='col-xs-2'>
 						<a  data-toggle='modal' data-target='#myInternalUserModal' class='edit_addUser btn btn-xs btnbg'>
 							<span class='glyphicon glyphicon-edit'></span>
@@ -143,14 +151,10 @@ else
 </div>
 </div>
 <!---modal--->
+<?php include_once "footer.php";?>
 <script>
 $( document ).ready(function() {
-	 $("#myInput").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#myTable tr").each(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });
-  });
+
 	var roleid=$('#roleid').val();
 	if(roleid!=1)
 		$('#buttonplace').html('<i class="icon-user-plus position-left" data-toggle="modal" data-target="#myuserModal"></i>');
@@ -170,7 +174,7 @@ $("body").on("click","#edit-submit",function(e){
     }).done(function(data){       
         alert('Record Updated Successfully.');
 		$('#myUserModal').modal('hide');
-		location.reload();
+		//location.reload();
        
     });
 	
@@ -201,7 +205,7 @@ $("body").on("click","#edit-submit",function(e){
 }).done(function(data){       
 	alert('Inserted Successfully.');
 	$('#myUserModal').modal('hide');
-	location.reload();
+	//location.reload();
    
 });
 	

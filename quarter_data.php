@@ -51,7 +51,7 @@ else
 	
 	echo "<tr align='center'><td  class='nores'>No Results Found</td></tr>";
 }
-				?><tbody>
+				?><tbody id="myTable">
 			
 			<?php	while($row = mysqli_fetch_array($data1)){
 					echo "<tr style='min-height: 45px;' align='center' id=".$row[10].">";
@@ -223,7 +223,7 @@ else
 </div>
 </div>
 </div>
-
+<?php include_once "footer.php";?>
 <script>
 
 						
@@ -271,7 +271,7 @@ $( "#quarterdata" ).submit(function( event ) {
     }).done(function(data){       
         alert('Record Inserted Successfully.');
 		$('#myModal').modal('hide');
-		location.reload();
+	//	location.reload();
 	});
 	}
 
@@ -290,7 +290,7 @@ $("body").on("click","#edit-submit",function(){
     }).done(function(data){       
         alert('Record Updated Successfully.');
 		$('#myEditModal').modal('hide');
-		location.reload();
+		//location.reload();
        
     });
 	
@@ -342,7 +342,7 @@ $("body").on("click",".remove-item",function(){
             processData: false,
       }).done(function(data){       
         alert('Data uploaded Successfully.');
-		location.reload();
+		//location.reload();
     });
 
 	});

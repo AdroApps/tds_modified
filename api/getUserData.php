@@ -66,8 +66,24 @@ else if($_POST['type']=='delete'){
 
 	$id = $_POST['id'];
 	
+	$getcli="select GROUP_CONCAT(`user_info`.`userid`) as `userid` from user_info where created_by=".$id;
+	$getsql=mysqli_fetch_array(mysqli_query($conn,$getcli));
+	$fsql = "DELETE FROM `file_uploads_info` WHERE `user_id` IN('".$getsql[0]."')";
+	$fdata = mysqli_query($conn, $fsql);
+	$qsql = "DELETE FROM `quarter_info` WHERE `client_id` IN('".$getsql[0]."')";
+	$qdata = mysqli_query($conn, $qsql);
+	$esql = "DELETE FROM `client_employees` WHERE `client_id` IN('".$getsql[0]."')";
+	$edata = mysqli_query($conn, $esql);
+	$tdssql = "DELETE FROM `tds_info` WHERE `client_id` IN('".$getsql[0]."')";
+	$tdsdata = mysqli_query($conn, $tdssql);
+	$csql = "DELETE FROM `client_info` WHERE `auditor_id` = '".$id."'";
+	$cdata = mysqli_query($conn, $csql);
+	$usql = "DELETE FROM `user_info` WHERE `created_by` = '".$id."'";
+	$udata = mysqli_query($conn, $usql);	
 	$sql = "DELETE FROM `user_info` WHERE `userid` = '".$id."'";
 	$data = mysqli_query($conn, $sql);
+	
+	
 	if($data) {
 			$status= "success";
 	}
@@ -78,8 +94,9 @@ else if($_POST['type']=='delete'){
 else if($_POST['type']=='setstatus'){
 	$id=$_POST['id'];
 	$sql1 = "UPDATE `user_info` SET `status`='".$_POST['val']."' WHERE `userid` = '".$id."' ";
-
+$sql2 = "UPDATE `user_info` SET `status`='".$_POST['val']."' WHERE `created_by` = '".$id."' ";
    $query1 = mysqli_query($conn ,$sql1); 
+    $query1 = mysqli_query($conn ,$sql2); 
    if($query1) {
     $status='success';
    }

@@ -29,13 +29,11 @@ $user_data = mysqli_query($conn , $user_sql);
 			</tr>
 			
 		</thead>
-		<tbody>
+		<tbody id="myTable">
 			<?php 
 			if( mysqli_num_rows($user_data)<=0)
 	           echo "<tr align='center' ><td class='nores'>No Results Found</td></tr>";
-	          
-				?>
-			<?php
+	
 			
 			while($row=mysqli_fetch_array($user_data)){
 

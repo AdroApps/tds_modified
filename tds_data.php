@@ -4,7 +4,7 @@ include_once "header.php";
 $qsql = "SELECT c.client_id,c.tan,u.phone_number,c.service_charges,c.client_name,q.quarter,q.status,q.authorised_person_name,q.financial_year,c.client_id,u.emailId from user_info u,client_info c,quarter_info q where c.client_id=u.userid and c.client_id=q.client_id and q.quarter_id=".$_GET['qid'];
 $qdata= mysqli_query($conn,$qsql);
 	$SQL = "select c.emp_name,c.pan,c.aadhar,t.month1,t.salary1,t.tdsamount1,t.month2,t.salary2,t.tdsamount2,t.month3,t.salary3,t.tdsamount3 from client_employees c,tds_info t,quarter_info q where c.emp_id=t.emp_id and t.quarter_id=q.quarter_id and q.quarter_id=".$_GET['qid'];
-	echo $SQL;
+
 while($row = mysqli_fetch_assoc($qdata)) {
 	//print_r($row);
 	$id = $row['client_id'];
@@ -166,12 +166,8 @@ if($_SESSION['role_id']==AUTHOR || $_SESSION['role_id']==AUDITOR){
 	<table class="table table-fixed table-fixed1" id="user_data">
  <thead>
              <tr align="center">
-			 <?php  if($_SESSION['role_id']!=CLIENT){
-//echo '  <th class="col-xs-2">Employee name</th>';
-			 }else{
-				 ?>
+			
 			 <th class="col-xs-1">Employee name</th>
-			 <?php }?>
 				<th class="col-xs-1">Pan </th>
 				<th class="col-xs-1">Month</th>
 				<th class="col-xs-1">salary</th>
@@ -275,7 +271,7 @@ if( mysqli_num_rows($filedata)<=0){
 <!-----/Attach File form and Table--->
 
 <input type="hidden" id="qid" value="<?php echo $_GET['qid'];?>"/>
-
+<?php include_once "footer.php";?>
 <script type="text/javascript" language="javascript" >
  $(document).ready(function(){
 	 var load=0;
@@ -283,7 +279,7 @@ if( mysqli_num_rows($filedata)<=0){
 	  var qid=$('#quarter_id').val(); var quarter=$('#quarter').val();
 	  var org=$('#org').text();
 	  if(roleid!=3){
-	  $('#tdsemplace').html('<form action="'+url+'tdsEmployeeExport.php?qid='+qid+'&quarter='+quarter+'&org='+org+'"  id="export" method="post" name="export_excel"><div class="control-group"><div class="controls"><button style="margin-top: -8px;" type="submit"  name="export" class="btn btn-primary button-loading newbtn" data-loading-text="Loading..."><i  class="icon-download position-left" ></i></button>	</div>	</div></form>');}
+	  $('#tdsemplace').html('<form action="'+url+'tdsEmployeeExport.php?qid='+qid+'&quarter='+quarter+'&org='+org+'"  id="export" method="post" name="export_excel"><div class="control-group"><div class="controls"><button style="background:white!important;color:  #243a51!important;margin-top: -8px;" type="submit"  name="export" class="btn btn-primary button-loading newbtn" data-loading-text="Loading..."><i  class="icon-download position-left" ></i></button>	</div>	</div></form>');}
 	  // Monitor your selects for change by classname
     $('.statuschange').on('change', function() { 
 
@@ -306,7 +302,7 @@ if( mysqli_num_rows($filedata)<=0){
           })
           .done(function( msg ) {
               alert( "Data Saved");
-			  location.reload();
+			 // location.reload();
           });
     });
  $("#upload").click(function(){
@@ -486,7 +482,7 @@ $(document).on('change','#panid',function(){
       $('#alert_message').html('<div class="alert alert-success">'+data+'</div>');
       $('#user_data').DataTable().destroy();
       fetch_data();
-	  location.reload();
+	  //location.reload();
      }
     });
     setInterval(function(){
@@ -533,7 +529,7 @@ $(document).on('change','#panid',function(){
     }).done(function(data){
         c_obj.remove();
         alert('File Deleted Successfully.');
-       location.reload();
+       //location.reload();
     });
  }
 
@@ -544,7 +540,7 @@ upload();
 
 var roleid=$('#roleid').val();
 if(roleid!=3){ $("th[aria-controls^='user_data']:first").removeClass('col-xs-1');
-	 $("th[aria-controls^='user_data']:first").addClass('col-xs-2');
+//	 $("th[aria-controls^='user_data']:first").addClass('col-xs-2');
 }
  });
 function upload() {
