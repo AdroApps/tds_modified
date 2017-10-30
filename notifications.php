@@ -2,7 +2,6 @@
 include_once "conn.php";
 include_once "header.php";
 
-
 ?>
 <div class="panel panel-flat panelflat newpanel">
  <div class="panel-heading">Employee Information<div id="buttonplace" style='height:10px;' class="pull-right col-xs-6"></div>

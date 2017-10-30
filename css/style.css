@@ -571,3 +571,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c0c0c0', end
 background:white!important;
 color: #243a51 !important;
 }
+
+table#user_data thead th:first-child,table#user_data tbody td:first-child {
+width:180px!important}
+table#user_data thead :nth-child(3n+5),table#user_data tbody td:nth-child(3n+5),table#user_data thead :nth-child(3n+4),table#user_data tbody td:nth-child(3n+4) {
+   
+	width:65px!important;
+}
+table#user_data thead :nth-child(2),table#user_data tbody td:nth-child(2) {
+	width:150px!important;
+}

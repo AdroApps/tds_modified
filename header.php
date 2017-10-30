@@ -65,7 +65,7 @@ var url = "http://localhost/tds_modified/api/";
           <a class="navbar-brand" href="#">Adro</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-		<div class="col-sm-3 col-md-3">
+		<div class="col-sm-3 col-md-3 search">
        
         <div class="input-group inpt">
             <input id="myInput" type="text" class="form-control" placeholder="Search" name="q">

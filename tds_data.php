@@ -83,6 +83,7 @@ if($_SESSION['role_id']==AUTHOR || $_SESSION['role_id']==AUDITOR){
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
 	
 		<!-- Client details -->
+		<div class="container">
 		<div class="panel panel-default newpanel">
     <div class="panel-heading">Organization TDS Information</div>
     <div class="panel-body">
@@ -193,23 +194,23 @@ if($_SESSION['role_id']==AUTHOR || $_SESSION['role_id']==AUDITOR){
 <input type="hidden" id="pannos" value='<?php echo json_encode($panos);?>'/>
 
 <!-----Attach File form and Table--->
-<div class="panel panel-flat panelflat tbpanel" >
+<div class="panel panel-flat panelflat tbpanel" style='    margin-bottom: 7%;' >
 
- <div class="panel-heading">File Information<div style="display:<?php echo $style;?>" id="buttonplace" class="pull-right col-xs-6"><form action="" method="post" id="file-upload" name="file-upload" enctype="multipart/form-data"><input type="file" id="file" name="file_url" style="height:0;width:0;"/> </form> <i id="upload" class="icon-upload position-left" ></i></div></div>
+ <div class="panel-heading">File Information<div  id="buttonplace" class="pull-right col-xs-6"><form action="" method="post" id="file-upload" name="file-upload" enctype="multipart/form-data"><input type="file" id="file" name="file_url" style="height:0;width:0;"/> </form> <i id="upload" class="icon-upload position-left" ></i></div></div>
 <div class="table-responsive" >
 	<table class="table table-fixed " >
 	<thead>
 
-		  <tr align="center">	<?php if($_SESSION['role_id']!=CLIENT){?>
+		  <tr align="center" >	<?php if($_SESSION['role_id']!=CLIENT){?>
 						<th class="col-xs-3">File Name</th>
 						<th class="col-xs-3">View</th>
 						<th class="col-xs-3">Download</th>
 						<th class="col-xs-3">Date</th>
 	<?php }else{ ?>
 	           
-						<th class="col-xs-2">File Name</th>
-						<th class="col-xs-3">View</th>
-						<th class="col-xs-3">Download</th>
+						<th class="col-xs-4">File Name</th>
+						<th class="col-xs-2">View</th>
+						<th class="col-xs-2">Download</th>
 						<th class="col-xs-2">Date</th>
 						<th class="col-xs-2">Delete</th>
 					
@@ -219,7 +220,7 @@ if($_SESSION['role_id']==AUTHOR || $_SESSION['role_id']==AUDITOR){
 				
 			<?php
 
-$filesql = "SELECT * FROM `file_uploads_info` WHERE user_id=".$_SESSION['user_id']." AND quarter_id=".$_GET['qid']." ORDER BY created_date DESC";
+$filesql = "SELECT * FROM `file_uploads_info` WHERE quarter_id=".$_GET['qid']." ORDER BY created_date DESC";
 $filedata = mysqli_query($conn, $filesql);
 	?>
 	
@@ -243,17 +244,17 @@ if( mysqli_num_rows($filedata)<=0){
 }
 			
 				while($roww = mysqli_fetch_array($filedata)){
-				
+
 				 ?>
 				 	
 				 <tr align="center" >
-				 <td class="col-xs-2"><?php echo $roww[1]?></td>
+				 <td class="col-xs-4"><?php echo $roww[1]?></td>
 				 
-				 <td class="col-xs-3"><a href="<?php echo $url.$roww[1];?>" target="_blank">View</a></td>
+				 <td class="col-xs-2"><a href="<?php echo $url.$roww[1];?>" target="_blank">View</a></td>
 				 
-				 <td class="col-xs-3"><a href="<?php echo $url.$roww[1];?>" download>Download</a></td>
+				 <td class="col-xs-2"><a href="<?php echo $url.$roww[1];?>" download>Download</a></td>
 				 <?php echo
-				 "<td class='col-xs-2'>".date('d-m-Y', strtotime($roww[3]))."</td>";
+				 "<td class='col-xs-2'>".date('d-m-Y', strtotime($roww[4]))."</td>";
 				 echo "<td  class='col-xs-2'>
 						<a class='btn btn-xs btnbg remove-image' id='$roww[0],$roww[2]' >
 							<span class='glyphicon glyphicon-trash'></span>
@@ -267,13 +268,14 @@ if( mysqli_num_rows($filedata)<=0){
 			
 			</table>
 </div>
-
+</div>
 <!-----/Attach File form and Table--->
 
 <input type="hidden" id="qid" value="<?php echo $_GET['qid'];?>"/>
 <?php include_once "footer.php";?>
 <script type="text/javascript" language="javascript" >
  $(document).ready(function(){
+	 $('.search').css('visibility', 'hidden');
 	 var load=0;
 	  var roleid=$('#roleid').val();
 	  var qid=$('#quarter_id').val(); var quarter=$('#quarter').val();
