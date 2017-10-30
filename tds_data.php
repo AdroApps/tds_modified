@@ -202,8 +202,8 @@ if($_SESSION['role_id']==AUTHOR || $_SESSION['role_id']==AUDITOR){
 	<thead>
 
 		  <tr align="center" >	<?php if($_SESSION['role_id']!=CLIENT){?>
-						<th class="col-xs-3">File Name</th>
-						<th class="col-xs-3">View</th>
+						<th class="col-xs-4">File Name</th>
+						<th class="col-xs-2">View</th>
 						<th class="col-xs-3">Download</th>
 						<th class="col-xs-3">Date</th>
 	<?php }else{ ?>
@@ -247,9 +247,9 @@ if( mysqli_num_rows($filedata)<=0){
 if($_SESSION['role_id']!=CLIENT){?>
 				 	
 			<tr align="center" >
-				 <td class="col-xs-3"><?php echo $roww[1]?></td>
+				 <td class="col-xs-4"><?php echo $roww[1]?></td>
 				 
-				 <td class="col-xs-3"><a href="<?php echo $url.$roww[1];?>" target="_blank">View</a></td>
+				 <td class="col-xs-2"><a href="<?php echo $url.$roww[1];?>" target="_blank">View</a></td>
 				 
 				 <td class="col-xs-3"><a href="<?php echo $url.$roww[1];?>" download>Download</a></td>
 				 <?php echo
