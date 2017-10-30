@@ -244,9 +244,19 @@ if( mysqli_num_rows($filedata)<=0){
 }
 			
 				while($roww = mysqli_fetch_array($filedata)){
-
-				 ?>
+if($_SESSION['role_id']!=CLIENT){?>
 				 	
+			<tr align="center" >
+				 <td class="col-xs-3"><?php echo $roww[1]?></td>
+				 
+				 <td class="col-xs-3"><a href="<?php echo $url.$roww[1];?>" target="_blank">View</a></td>
+				 
+				 <td class="col-xs-3"><a href="<?php echo $url.$roww[1];?>" download>Download</a></td>
+				 <?php echo
+				 "<td class='col-xs-3'>".date('d-m-Y', strtotime($roww[4]))."</td>";
+				 
+				 echo "</tr>";		
+}else{?>
 				 <tr align="center" >
 				 <td class="col-xs-4"><?php echo $roww[1]?></td>
 				 
@@ -261,6 +271,7 @@ if( mysqli_num_rows($filedata)<=0){
 						</a>
 					</td>";
 				 echo "</tr>";
+				}
 				}
 			$_SESSION['qid']=$_GET['qid'];	?>
 				
