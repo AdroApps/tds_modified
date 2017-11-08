@@ -10,6 +10,9 @@ if($_POST['type']=='insert') {
 	$date = date("Y-m-d h:i:s");
 	$status='';
 	$sql = "INSERT INTO `quarter_info` (`quarter_id`, `client_id`, `financial_year`, `quarter`,`authorised_person_name`, `status`, `total_amount`, `created_date`) VALUES ('','".$_SESSION['user_id']."','".$year."' , '".$quarter."' ,'".$apname."','".$status."' ,'".$service."', '".$date."' )";
+	$nsql="INSERT INTO `notifications` (`notification_id`, `message`, `created_by`, `created`, `created_date`) VALUES (NULL,'".QUARTER_MESSAGE."', '".$_SESSION['user_id']."', '$id', '$date')";
+
+$ndata=mysqli_query($conn,$nsql);
 	$data = mysqli_query($conn,$sql);	
 	if($quarter == "Q1") {
 		$month1 = "January";

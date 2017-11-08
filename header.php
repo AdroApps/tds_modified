@@ -10,6 +10,7 @@ define ('AUTHOR' , '4');
 define ('AGENT' , '5');
 define('STATUS_SUCCESS','1');
 define('STATUS_FAILURE','0');
+ date_default_timezone_set('Asia/Calcutta');
 function active($currect_page){
   $url_array =  explode('/', $_SERVER['REQUEST_URI']) ;
   $url = end($url_array);  

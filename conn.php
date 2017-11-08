@@ -17,6 +17,10 @@ define ('AUTHOR' , '4');
 define ('AGENT' , '5');
 define('STATUS_SUCCESS','1');
 define('STATUS_FAILURE','0');
+define('AUDITOR_MESSAGE', 'added client');
+define('INTERNAL_USER_MESSAGE', 'added internal user');
+define('QUARTER_MESSAGE', 'added quarter');
+define('EMPLOYEE_MESSAGE', 'added employee');
 $conn = mysqli_connect(DB_HOST, DB_UNAME, DB_PASSWORD, DB_NAME);
 
 $_SESSION['LAST_ACTIVITY'] = time();

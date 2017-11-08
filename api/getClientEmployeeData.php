@@ -13,6 +13,10 @@ if($_POST['type']=='insert') {
 	$sql = "INSERT INTO `client_employees`(`emp_id`,`client_id`,`pan` , `aadhar` ,`emp_name`,`created_date`,`status`) VALUES ('','". $client_id."','".$pan."' , '".$adhar."' , '".$ename."','".$date."','1')";  
 	$data  = mysqli_query($conn,$sql);
 	
+$id=  mysqli_insert_id($conn); 
+	$nsql="INSERT INTO `notifications` (`notification_id`, `message`, `created_by`, `created`, `created_date`) VALUES (NULL,'".EMPLOYEE_MESSAGE."', '".$_SESSION['user_id']."', '$id', '$date')";
+
+$ndata=mysqli_query($conn,$nsql);
 		  if($data) {
     $status='success';
    }

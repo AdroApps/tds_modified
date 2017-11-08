@@ -9,7 +9,11 @@ if($_POST['type']=='insert') {
 	$pwd = hash('sha256', $pwd); 
 	$date = date("Y-m-d h:i:s");
 	$sql = "INSERT INTO `user_info`(`userid`,`username` , `emailId` ,`password`,`created_by`,`created_date`,`status`,`role_id`,`name`,`phone_number`) VALUES ('','".$ename."' , '".$email."' , '".$pwd."','".$_SESSION['user_id']."','$date','1','4','".$ename."','".$pno."')";
+	
+$id=  mysqli_insert_id($conn); 
+	$nsql="INSERT INTO `notifications` (`notification_id`, `message`, `created_by`, `created`, `created_date`) VALUES (NULL,'".INTERNAL_USER_MESSAGE."', '".$_SESSION['user_id']."', '$id', '$date')";
 
+$ndata=mysqli_query($conn,$nsql);
 		$query1  = mysqli_query($conn,$sql);
 }
 else if($_POST['type']=='edit'){

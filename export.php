@@ -1,6 +1,4 @@
 <?php
-
-
 include_once 'conn.php';
 $SQL = "SELECT u.organization as Organization,a.employeename as EmployeeName,a.pan as PanNumber,a.adhar as AdharNumber FROM addemployee a,usercreate u WHERE u.id=a.orgid AND a.userid=".$_SESSION['user_id'];
 $header = '';
@@ -14,7 +12,7 @@ for ( $i = 0; $i < $fields; $i++ )
     //$header .= mysqli_field_name( $exportData , $i ) . "\t";
 	
 
-	 $header .=mysqli_fetch_field_direct($exportData, $i)->name. "\t";
+	 $header .="<b>".mysqli_fetch_field_direct($exportData, $i)->name. "</b>\t";
 }
  
 while( $row = mysqli_fetch_row( $exportData ) )

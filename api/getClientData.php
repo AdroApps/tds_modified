@@ -23,6 +23,14 @@ if($_POST['type']=='insert'){
 	$result = mysqli_fetch_assoc(mysqli_query($conn, "SELECT userid FROM `user_info` WHERE `emailId` = '$mail' "));
 	$client_id= $result['userid'];
 $clientsql = "INSERT INTO `client_info` ( `client_info_id` ,`client_id`,`auditor_id`, `tan` , `client_name` , `city` , `area` ,`service_charges`, `created_date` ,`assigned_to`) VALUES ('' , '".$client_id."', '".$_SESSION['user_id']."', '".$tan."','".$pname."' ,  '".$city."' , '".$area."' , '".$service."' , '".$date."','$assign' )";
+$nsql="INSERT INTO `notifications` (`notification_id`, `message`, `created_by`, `created`, `created_date`) VALUES (NULL,'".AUDITOR_MESSAGE."', '".$_SESSION['user_id']."', '$client_id', '$date')";
+
+$ndata=mysqli_query($conn,$nsql);
+
+
+
+
+
 
 	$cdata = mysqli_query($conn,$clientsql);
 	  if($cdata) {
